@@ -25,44 +25,50 @@
 /* ── LEFT IMAGE PANEL ── */
 .img-panel {
   width: 310px; flex-shrink: 0;
-  background: #1A0035;
+  background: #f7f0fb;
   position: relative;
   display: flex; flex-direction: column;
-  align-items: center; justify-content: flex-end;
-  padding-bottom: 32px; overflow: hidden;
+  align-items: stretch; justify-content: flex-end;
+  overflow: hidden;
 }
-.img-panel::before {
-  content:''; position:absolute;
-  width:280px; height:280px; border-radius:50%;
-  background:#FF0A6C; opacity:.12; top:-80px; left:-80px;
-}
-.img-panel::after {
-  content:''; position:absolute;
-  width:200px; height:200px; border-radius:50%;
-  background:#FFD700; opacity:.08; bottom:60px; right:-60px;
-}
-.img-glow3 {
-  position:absolute; width:120px; height:120px; border-radius:50%;
-  background:#7C3AED; opacity:.15; bottom:-20px; left:10px;
-}
+
 .img-panel .product-img {
-  position:absolute; inset:0;
-  width:100%; height:100%;
-  object-fit:cover; object-position:center top; display:block;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  width: 100%; height: 73%;
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+  z-index: 0;
+  padding: 1rem;
 }
+
+.img-panel .img-gradient {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 35%;
+  background: linear-gradient(to top, rgba(10,0,28,.97) 0%, rgba(10,0,28,.4) 70%, transparent 100%);
+  z-index: 1;
+}
+
+/* Brand text — sits above gradient */
 .panel-brand {
-  position:relative; z-index:2; text-align:center;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 1.2rem 1.8rem;
 }
 .panel-brand-name {
-  font-size:23px; font-weight:900; color:#fff; letter-spacing:.01em;
+  font-size: 22px; font-weight: 900; color: #fff;
+  letter-spacing: .01em; text-shadow: 0 2px 12px rgba(0,0,0,.6);
 }
-.panel-brand-name span { color:#FF0A6C; }
+.panel-brand-name span { color: #FF0A6C; }
 .panel-tagline {
-  font-size:10px; color:rgba(255,255,255,.38);
-  letter-spacing:.1em; text-transform:uppercase; margin-top:5px;
+  font-size: 10px; color: rgba(255,255,255,.65);
+  letter-spacing: .1em; text-transform: uppercase; margin-top: 5px;
+  text-shadow: 0 1px 6px rgba(0,0,0,.5);
 }
-.panel-dots { display:flex; gap:5px; justify-content:center; margin-top:12px; }
-.panel-dots .pd { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.2); }
+.panel-dots { display:flex; gap:5px; justify-content:center; margin-top:10px; }
+.panel-dots .pd { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.25); }
 .panel-dots .pd.on { background:#FF0A6C; width:20px; border-radius:3px; }
 
 /* ── RIGHT FORM PANEL ── */
@@ -125,7 +131,6 @@
 }
 .lf-signup a { color:#FF6FB0; font-weight:700; text-decoration:none; }
 
-/* Quick Login */
 .ql-divider {
   display:flex; align-items:center; gap:8px;
   margin:16px 0 11px; font-size:10px; font-weight:700;
@@ -163,7 +168,8 @@
 
 @media(max-width:640px){
   .login-card { flex-direction:column; }
-  .img-panel  { width:100%; height:210px; justify-content:center; padding-bottom:0; padding-top:20px; }
+  .img-panel  { width:100%; height:280px; }
+  .img-panel .product-img { height:65%; }
 }
 </style>
 @endpush
@@ -172,10 +178,18 @@
 <div class="auth-page-wrap">
   <div class="login-card">
 
-    {{-- LEFT: your image with brand overlay --}}
+    {{-- LEFT: logo image + gradient + brand text --}}
     <div class="img-panel">
-      <div class="img-glow3"></div>
-      <img class="product-img" src="{{ asset('images/logincards.png') }}" alt="American Beauty products">
+
+      {{-- Your AB logo — fully visible --}}
+      <img class="product-img"
+           src="{{ asset('images/american-logo.jpeg') }}"
+           alt="American Beauty Logo">
+
+      {{-- Dark fade at the bottom for text readability --}}
+      <div class="img-gradient"></div>
+
+      {{-- Brand text over gradient --}}
       <div class="panel-brand">
         <div class="panel-brand-name">American<span>Beauty</span></div>
         <div class="panel-tagline">Love the skin you're in</div>
@@ -185,7 +199,7 @@
       </div>
     </div>
 
-    {{-- RIGHT: form --}}
+    {{-- RIGHT: login form --}}
     <div class="form-panel">
       <div class="f-head">
         <h2>Sign <span>In</span></h2>
@@ -235,35 +249,46 @@
       <div class="quick-grid">
         <button type="button" class="qbtn q-admin" onclick="quickFill('admin@americanbeauty.com')">
           <span class="qi">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
           </span>
           Admin
         </button>
 
         <button type="button" class="qbtn q-customer" onclick="quickFill('customer@example.com')">
           <span class="qi">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#FF6FB0" stroke-width="2.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#FF6FB0" stroke-width="2.5">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
           </span>
           Customer
         </button>
 
         <button type="button" class="qbtn q-manager" onclick="quickFill('manager@americanbeauty.com')">
           <span class="qi">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#3D1F00" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12h6M12 9v6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#3D1F00" stroke-width="2.5">
+              <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12h6M12 9v6"/>
+            </svg>
           </span>
           Manager
         </button>
 
         <button type="button" class="qbtn q-pos" onclick="quickFill('pos@americanbeauty.com')">
           <span class="qi">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M6 6V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
+              <rect x="2" y="6" width="20" height="14" rx="2"/><path d="M6 6V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/>
+            </svg>
           </span>
           POS Operator
         </button>
 
         <button type="button" class="qbtn q-delivery" onclick="quickFill('delivery@americanbeauty.com')">
           <span class="qi">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#FF6FB0" stroke-width="2.5"><path d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="#FF6FB0" stroke-width="2.5">
+              <path d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
           </span>
           Delivery Personnel
         </button>
