@@ -1,0 +1,13 @@
+/* American Beauty — Global Styles */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --rose:    #c8847a;
+    --rose-dk: #a05e56;
+    --cream:   #faf7f4;
+    --sand:    #f0e8df;
+    --charcoal:#2c2c2c;
+    --border:  #e8ddd6;
+}
