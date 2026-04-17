@@ -41,30 +41,20 @@
             color: rgba(255,255,255,.85);
             font-weight: 500;
         }
-        .topbar-item i {
-            color: var(--pink-lt);
-            font-size: .8rem;
-        }
+        .topbar-item i { color: var(--pink-lt); font-size: .8rem; }
         .topbar-sep { color: rgba(255,10,108,.5); font-size: .9rem; }
         .topbar-cart-btn {
             display: flex; align-items: center; gap: .45rem;
             background: var(--pink);
-            border: none;
-            color: #fff;
-            padding: .28rem .9rem;
-            border-radius: 20px;
+            border: none; color: #fff;
+            padding: .28rem .9rem; border-radius: 20px;
             font-size: .76rem; font-weight: 700;
             cursor: pointer;
             transition: background .2s, transform .15s;
-            font-family: 'Poppins', inherit;
-            text-decoration: none;
-            letter-spacing: .02em;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none; letter-spacing: .02em;
         }
-        .topbar-cart-btn:hover {
-            background: var(--pink-dk);
-            transform: translateY(-1px);
-            color: #fff;
-        }
+        .topbar-cart-btn:hover { background: var(--pink-dk); transform: translateY(-1px); color: #fff; }
         .topbar-cart-icon { position: relative; display: flex; align-items: center; }
         .topbar-cart-icon i { font-size: .85rem; }
         .topbar-cart-mini-badge {
@@ -73,8 +63,7 @@
             font-size: .55rem; width: 13px; height: 13px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700;
-            border: 1.5px solid var(--pink);
+            font-weight: 700; border: 1.5px solid var(--pink);
         }
 
         /* ── NAV ── */
@@ -100,27 +89,21 @@
         .nav-actions { display: flex; align-items: center; gap: 1.2rem; }
         .nav-icon {
             color: rgba(255,255,255,.7); font-size: 1.05rem;
-            position: relative; cursor: pointer;
-            transition: color .2s;
+            position: relative; cursor: pointer; transition: color .2s;
             display: flex; align-items: center;
         }
         .nav-icon:hover { color: #fff; }
-
         .cart-icon-wrap {
             display: flex; align-items: center; justify-content: center;
             background: rgba(255,10,108,.12);
             border: 1px solid rgba(255,10,108,.3);
-            padding: 7px 11px;
-            border-radius: 12px;
-            cursor: pointer;
+            padding: 7px 11px; border-radius: 12px; cursor: pointer;
             transition: background .2s, border-color .2s;
-            color: var(--pink-lt);
-            position: relative;
+            color: var(--pink-lt); position: relative;
         }
         .cart-icon-wrap:hover {
             background: rgba(255,10,108,.25);
-            border-color: rgba(255,10,108,.6);
-            color: #fff;
+            border-color: rgba(255,10,108,.6); color: #fff;
         }
         .cart-badge {
             position: absolute; top: -7px; right: -7px;
@@ -128,10 +111,8 @@
             font-size: .6rem; width: 17px; height: 17px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700;
-            border: 2px solid var(--bg-dark);
+            font-weight: 700; border: 2px solid var(--bg-dark);
         }
-
         .btn-nav-login {
             background: var(--pink); color: #fff;
             border: none; padding: .45rem 1.1rem;
@@ -144,88 +125,39 @@
         /* ── FLASH ── */
         .flash { padding: .8rem 1.5rem; font-size: .9rem; text-align: center; }
         .flash-success { background: rgba(34,197,94,.12); color: #6ee7a0; border-bottom: 1px solid rgba(34,197,94,.2); }
-        .flash-error   { background: rgba(255,10,108,.12); color: #FF6FB0;  border-bottom: 1px solid rgba(255,10,108,.2); }
+        .flash-error   { background: rgba(255,10,108,.12); color: #FF6FB0; border-bottom: 1px solid rgba(255,10,108,.2); }
 
         /* ── FOOTER ── */
         footer {
             background: #07000F;
             border-top: 1px solid rgba(255,10,108,.2);
             color: rgba(255,255,255,.55);
-            padding: 4rem 1.5rem 0;
+            padding: 0;
             margin-top: 5rem;
             font-family: 'Poppins', sans-serif;
         }
-        .footer-grid {
+
+        /* Newsletter strip */
+        .footer-newsletter-strip {
+            border-bottom: 1px solid rgba(255,255,255,.06);
+            padding: 1.6rem 1.5rem;
+        }
+        .footer-newsletter-inner {
             max-width: 1280px; margin: auto;
-            display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem;
-            padding-bottom: 3rem;
+            display: flex; align-items: center;
+            justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;
         }
-        .footer-brand-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem; color: #fff; margin-bottom: .5rem;
-        }
-        .footer-brand-name span { color: var(--pink); }
-        .footer-tagline {
-            font-size: .75rem; color: var(--pink-lt);
-            letter-spacing: .12em; text-transform: uppercase;
-            margin-bottom: .8rem; font-weight: 600;
-        }
-        .footer-desc {
-            font-size: .85rem; line-height: 1.8;
-            color: rgba(255,255,255,.5);
-            margin-bottom: 1.2rem;
-        }
-        .footer h4 {
-            color: #fff;
-            margin-bottom: 1.2rem;
-            font-size: .75rem; letter-spacing: .14em;
-            text-transform: uppercase; font-weight: 700;
-        }
-        .footer ul { list-style: none; display: flex; flex-direction: column; gap: .6rem; }
-        .footer ul li a {
-            color: rgba(255,255,255,.5);
-            font-size: .875rem;
-            transition: color .2s, padding-left .2s;
-            display: inline-flex; align-items: center; gap: .4rem;
-        }
-        .footer ul li a:hover { color: #fff; padding-left: 4px; }
-        .footer ul li a::before {
-            content: '';
-            width: 0; height: 1px;
-            background: var(--pink);
-            transition: width .2s;
-            display: inline-block;
-        }
-        .footer ul li a:hover::before { width: 8px; }
-
-        .social-links { display: flex; gap: 8px; margin-bottom: 1.4rem; }
-        .social-links a {
-            width: 36px; height: 36px; border-radius: 10px;
-            background: rgba(255,255,255,.05);
-            border: 1px solid rgba(255,255,255,.1);
-            color: rgba(255,255,255,.5); font-size: .9rem;
-            display: flex; align-items: center; justify-content: center;
-            transition: background .2s, color .2s, border-color .2s, transform .2s;
-        }
-        .social-links a:hover {
-            background: var(--pink);
-            border-color: var(--pink);
-            color: #fff;
-            transform: translateY(-3px);
-        }
-
-        /* Newsletter */
+        .newsletter-text-group { flex: 1; min-width: 200px; }
         .newsletter-label {
-            font-size: .75rem; font-weight: 700; color: #fff;
-            text-transform: uppercase; letter-spacing: .1em;
-            margin-bottom: .5rem;
+            font-size: .72rem; font-weight: 700; color: #fff;
+            text-transform: uppercase; letter-spacing: .12em; margin-bottom: .2rem;
         }
         .newsletter-sub {
             font-size: .78rem; color: rgba(255,255,255,.4);
-            margin-bottom: .8rem; line-height: 1.5;
+            line-height: 1.4; margin: 0;
         }
         .newsletter-form {
-            display: flex; gap: 0;
+            display: flex; flex: 0 0 340px;
             border: 1px solid rgba(255,10,108,.35);
             border-radius: 10px; overflow: hidden;
             transition: border-color .2s;
@@ -235,80 +167,120 @@
             box-shadow: 0 0 0 3px rgba(255,10,108,.1);
         }
         .newsletter-form input {
-            flex: 1; padding: .65rem .9rem;
+            flex: 1; padding: .6rem .9rem;
             background: rgba(255,255,255,.05);
             border: none; outline: none;
-            font-size: .82rem; font-family: 'Poppins', sans-serif;
-            color: #fff;
+            font-size: .82rem; font-family: 'Poppins', sans-serif; color: #fff;
         }
         .newsletter-form input::placeholder { color: rgba(255,255,255,.25); }
         .newsletter-form button {
             background: var(--pink); color: #fff;
-            border: none; padding: .65rem 1.1rem;
-            font-size: .8rem; font-weight: 700;
+            border: none; padding: .6rem 1.1rem;
+            font-size: .78rem; font-weight: 700;
             font-family: 'Poppins', sans-serif;
             cursor: pointer; letter-spacing: .04em;
-            transition: background .2s;
-            white-space: nowrap;
+            transition: background .2s; white-space: nowrap;
         }
         .newsletter-form button:hover { background: var(--pink-dk); }
 
-        .pay-label {
-            margin-top: 1.2rem;
-            font-size: .7rem; color: rgba(255,255,255,.3);
-            text-transform: uppercase; letter-spacing: .1em;
-            margin-bottom: .4rem;
+        /* Main grid */
+        .footer-grid {
+            max-width: 1280px; margin: auto;
+            display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr;
+            gap: 2rem; padding: 2.2rem 1.5rem 2rem;
         }
-        .pay-methods {
-            display: flex; gap: 8px; flex-wrap: wrap;
+        .footer-brand-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.55rem; color: #fff; margin-bottom: .2rem;
+        }
+        .footer-brand-name span { color: var(--pink); }
+        .footer-tagline {
+            font-size: .68rem; color: var(--pink-lt);
+            letter-spacing: .12em; text-transform: uppercase;
+            margin-bottom: .65rem; font-weight: 600;
+        }
+        .footer-desc {
+            font-size: .8rem; line-height: 1.7;
+            color: rgba(255,255,255,.45); margin-bottom: 1rem;
+        }
+        .footer h4 {
+            color: #fff; margin-bottom: .9rem;
+            font-size: .7rem; letter-spacing: .14em;
+            text-transform: uppercase; font-weight: 700;
+        }
+        .footer ul { list-style: none; display: flex; flex-direction: column; gap: .45rem; }
+        .footer ul li a {
+            color: rgba(255,255,255,.5); font-size: .82rem;
+            transition: color .2s, padding-left .2s;
+            display: inline-flex; align-items: center; gap: .35rem;
+        }
+        .footer ul li a:hover { color: #fff; padding-left: 4px; }
+
+        /* Social */
+        .social-links { display: flex; gap: 7px; margin-bottom: .9rem; }
+        .social-links a {
+            width: 32px; height: 32px; border-radius: 8px;
+            background: rgba(255,255,255,.05);
+            border: 1px solid rgba(255,255,255,.1);
+            color: rgba(255,255,255,.5); font-size: .82rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background .2s, color .2s, border-color .2s, transform .18s;
+        }
+        .social-links a:hover {
+            background: var(--pink); border-color: var(--pink);
+            color: #fff; transform: translateY(-2px);
+        }
+
+        /* Pay pills */
+        .pay-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .pay-label-inline {
+            font-size: .68rem; color: rgba(255,255,255,.3);
+            text-transform: uppercase; letter-spacing: .1em;
+            margin-right: 2px; white-space: nowrap;
         }
         .pay-pill {
             background: rgba(255,255,255,.06);
             border: 1px solid rgba(255,255,255,.1);
-            border-radius: 6px; padding: .25rem .7rem;
-            font-size: .75rem; color: rgba(255,255,255,.7);
+            border-radius: 5px; padding: .18rem .55rem;
+            font-size: .7rem; color: rgba(255,255,255,.6);
             font-weight: 600; letter-spacing: .03em;
         }
 
         /* Footer bottom */
         .footer-bottom {
             max-width: 1280px; margin: 0 auto;
-            border-top: 1px solid rgba(255,255,255,.07);
-            padding: 1.2rem 0 1.5rem;
-            font-size: .78rem;
-            color: rgba(255,255,255,.3);
+            border-top: 1px solid rgba(255,255,255,.06);
+            padding: 1rem 1.5rem;
+            font-size: .74rem; color: rgba(255,255,255,.28);
             display: flex; justify-content: space-between;
-            align-items: center; flex-wrap: wrap; gap: .8rem;
+            align-items: center; flex-wrap: wrap; gap: .6rem;
         }
-        .footer-bottom-links { display: flex; gap: 1.5rem; }
+        .footer-bottom-links { display: flex; gap: 1.2rem; }
         .footer-bottom-links a {
-            color: rgba(255,255,255,.3);
-            transition: color .2s;
-            font-size: .78rem;
+            color: rgba(255,255,255,.28); font-size: .74rem; transition: color .2s;
         }
         .footer-bottom-links a:hover { color: var(--pink-lt); }
-
         .dev-credit {
-            display: flex; align-items: center; gap: .4rem;
-            font-size: .75rem; color: rgba(255,255,255,.25);
+            display: flex; align-items: center; gap: .35rem;
+            font-size: .72rem; color: rgba(255,255,255,.22);
         }
-        .dev-credit a {
-            color: var(--pink-lt);
-            font-weight: 600;
-            transition: color .2s;
-        }
+        .dev-credit a { color: var(--pink-lt); font-weight: 600; transition: color .2s; }
         .dev-credit a:hover { color: #fff; }
-        .dev-credit-dot {
-            width: 4px; height: 4px; border-radius: 50%;
-            background: rgba(255,10,108,.4);
-            display: inline-block;
+        .dev-dot {
+            width: 3px; height: 3px; border-radius: 50%;
+            background: rgba(255,10,108,.4); display: inline-block;
         }
 
+        @media(max-width:900px){
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.6rem; }
+            .footer-newsletter-inner { flex-direction: column; align-items: flex-start; }
+            .newsletter-form { flex: 0 0 100%; width: 100%; }
+        }
         @media(max-width:768px){
             .nav-links { display: none; }
             .topbar { gap: .5rem; font-size: .74rem; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
             .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-bottom-links { justify-content: center; }
         }
         @media(max-width:480px){
             .footer-grid { grid-template-columns: 1fr; }
@@ -346,6 +318,7 @@
         </a>
     </div>
 
+    {{-- NAV --}}
     <nav>
         <div class="nav-inner">
             <a href="{{ route('home') }}" class="brand">American<span>Beauty</span></a>
@@ -396,33 +369,40 @@
 
     @yield('content')
 
+    {{-- FOOTER --}}
     <footer>
+
+        {{-- Newsletter strip --}}
+        <div class="footer-newsletter-strip">
+            <div class="footer-newsletter-inner">
+                <div class="newsletter-text-group">
+                    <div class="newsletter-label">Stay in the glow</div>
+                    <p class="newsletter-sub">Exclusive deals, new arrivals & beauty tips — straight to your inbox.</p>
+                </div>
+                <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+                    @csrf
+                    <input type="email" name="newsletter_email" placeholder="your@email.com" required>
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        {{-- Main columns --}}
         <div class="footer-grid">
 
-            {{-- Col 1: Brand + newsletter --}}
+            {{-- Col 1: Brand --}}
             <div>
                 <div class="footer-brand-name">American<span>Beauty</span></div>
                 <div class="footer-tagline">Glow Naturally</div>
-                <p class="footer-desc">Premium skincare & beauty products sourced and delivered across Kenya. Authentic brands, real results, prices you'll love.</p>
-
+                <p class="footer-desc">Premium skincare & beauty delivered across Kenya. Authentic brands, real results.</p>
                 <div class="social-links">
                     <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
                     <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" title="TikTok"><i class="fab fa-tiktok"></i></a>
                     <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 </div>
-
-                {{-- Newsletter --}}
-                <div class="newsletter-label">Stay in the glow</div>
-                <p class="newsletter-sub">Get exclusive deals, new arrivals & beauty tips straight to your inbox.</p>
-                <form class="newsletter-form" onsubmit="handleNewsletter(event)">
-                    @csrf
-                    <input type="email" name="newsletter_email" placeholder="your@email.com" required>
-                    <button type="submit">Subscribe</button>
-                </form>
-
-                <div class="pay-label">Secure payments</div>
-                <div class="pay-methods">
+                <div class="pay-row">
+                    <span class="pay-label-inline">Pay via</span>
                     <span class="pay-pill">M-PESA</span>
                     <span class="pay-pill">Visa</span>
                     <span class="pay-pill">Mastercard</span>
@@ -461,19 +441,19 @@
                 <ul>
                     <li>
                         <a href="mailto:info@americanbeauty.com">
-                            <i class="fas fa-envelope" style="color:var(--pink-lt);font-size:.8rem;width:14px"></i>
+                            <i class="fas fa-envelope" style="color:var(--pink-lt);font-size:.75rem;width:13px"></i>
                             info@americanbeauty.com
                         </a>
                     </li>
                     <li>
                         <a href="tel:+254700000000">
-                            <i class="fas fa-phone" style="color:var(--pink-lt);font-size:.8rem;width:14px"></i>
+                            <i class="fas fa-phone" style="color:var(--pink-lt);font-size:.75rem;width:13px"></i>
                             +254 700 000 000
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <i class="fas fa-location-dot" style="color:var(--pink-lt);font-size:.8rem;width:14px"></i>
+                            <i class="fas fa-location-dot" style="color:var(--pink-lt);font-size:.75rem;width:13px"></i>
                             Nairobi, Kenya
                         </a>
                     </li>
@@ -481,25 +461,22 @@
             </div>
         </div>
 
-        {{-- Footer bottom bar --}}
+        {{-- Bottom bar --}}
         <div class="footer-bottom">
             <span>&copy; {{ date('Y') }} American Beauty. All rights reserved.</span>
-
             <div class="footer-bottom-links">
                 <a href="#">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
                 <a href="#">Cookie Policy</a>
             </div>
-
             <div class="dev-credit">
-                <span class="dev-credit-dot"></span>
+                <span class="dev-dot"></span>
                 Crafted by
-                <a href="https://ngwasidaniel.vercel.app/#contact" target="_blank" rel="noopener">
-                    Dantechdevs Developers
-                </a>
-                <span class="dev-credit-dot"></span>
+                <a href="https://ngwasidaniel.vercel.app/#contact" target="_blank" rel="noopener">DanTech Developers</a>
+                <span class="dev-dot"></span>
             </div>
         </div>
+
     </footer>
 
     <script>
