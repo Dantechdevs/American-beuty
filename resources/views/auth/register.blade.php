@@ -24,37 +24,43 @@
 /* ── LEFT IMAGE PANEL ── */
 .img-panel {
   width: 300px; flex-shrink: 0;
-  background: #1A0035;
+  background: #f7f0fb;          /* light lavender-white matches marble logo bg */
   position: relative;
   display: flex; flex-direction: column;
-  align-items: center; justify-content: flex-end;
-  padding-bottom: 32px; overflow: hidden;
+  align-items: stretch; justify-content: flex-end;
+  overflow: hidden;
 }
-.img-panel::before {
-  content:''; position:absolute;
-  width:280px; height:280px; border-radius:50%;
-  background:#FF0A6C; opacity:.12; top:-80px; left:-80px;
-}
-.img-panel::after {
-  content:''; position:absolute;
-  width:200px; height:200px; border-radius:50%;
-  background:#FFD700; opacity:.08; bottom:60px; right:-60px;
-}
-.img-glow3 {
-  position:absolute; width:120px; height:120px; border-radius:50%;
-  background:#7C3AED; opacity:.14; bottom:-20px; left:10px;
-}
+
 .img-panel .product-img {
-  position:absolute; inset:0;
-  width:100%; height:100%;
-  object-fit:cover; object-position:center top; display:block;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  width: 100%; height: 73%;     /* leaves room for brand text below */
+  object-fit: contain;          /* no cropping — shows full logo */
+  object-position: center center;
+  display: block;
+  z-index: 0;
+  padding: 1rem;
 }
-.panel-brand { position:relative; z-index:2; text-align:center; }
+
+.img-panel .img-gradient {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 35%;
+  background: linear-gradient(to top, rgba(10,0,28,.97) 0%, rgba(10,0,28,.4) 70%, transparent 100%);
+  z-index: 1;
+}
+
+/* Brand text */
+.panel-brand {
+  position: relative; z-index: 2;
+  text-align: center;
+  padding: 0 1.2rem 1.8rem;
+}
 .panel-brand-name { font-size:22px; font-weight:900; color:#fff; }
 .panel-brand-name span { color:#FF0A6C; }
 .panel-tagline {
-  font-size:10px; color:rgba(255,255,255,.38);
+  font-size:10px; color:rgba(255,255,255,.65);
   letter-spacing:.1em; text-transform:uppercase; margin-top:5px;
+  text-shadow: 0 1px 6px rgba(0,0,0,.5);
 }
 .panel-dots { display:flex; gap:5px; justify-content:center; margin-top:12px; }
 .panel-dots .pd { width:6px; height:6px; border-radius:50%; background:rgba(255,255,255,.2); }
@@ -143,7 +149,8 @@
 
 @media(max-width:640px){
   .register-card { flex-direction:column; }
-  .img-panel { width:100%; height:200px; justify-content:center; padding-bottom:0; padding-top:20px; }
+  .img-panel { width:100%; height:280px; }
+  .img-panel .product-img { height:65%; }
   .row-2 { grid-template-columns:1fr; }
 }
 </style>
@@ -153,10 +160,18 @@
 <div class="auth-page-wrap">
   <div class="register-card">
 
-    {{-- LEFT: image + branding --}}
+    {{-- LEFT: logo image + gradient + brand text --}}
     <div class="img-panel">
-      <div class="img-glow3"></div>
-      <img class="product-img" src="{{ asset('images/logincards.png') }}" alt="American Beauty products">
+
+      {{-- Logo — fully visible, no cropping --}}
+      <img class="product-img"
+           src="{{ asset('images/logincards.png') }}"
+           alt="American Beauty products">
+
+      {{-- Dark fade at the bottom for text readability --}}
+      <div class="img-gradient"></div>
+
+      {{-- Brand text over gradient --}}
       <div class="panel-brand">
         <div class="panel-brand-name">American<span>Beauty</span></div>
         <div class="panel-tagline">Love the skin you're in</div>
