@@ -193,7 +193,7 @@
         </div>
       @endif
 
-      <form method="POST" action="{{ route('password.email') }}">
+      <form method="POST" action="">
         @csrf
 
         <label class="lf-label">Email Address</label>
