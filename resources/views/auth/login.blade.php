@@ -183,7 +183,7 @@
 
       {{-- Your AB logo — fully visible --}}
       <img class="product-img"
-           src="{{ asset('images/american-logo.jpeg') }}"
+           src="{{ asset('images/logincards.png') }}"
            alt="American Beauty Logo">
 
       {{-- Dark fade at the bottom for text readability --}}
