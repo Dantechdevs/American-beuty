@@ -36,7 +36,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   background: linear-gradient(135deg, #FAF4FF 0%, #F5E0FC 40%, #EFF8F0 100%);
 }
 
-/* marble grid overlay */
 .hero::before {
   content: '';
   position: absolute; inset: 0;
@@ -47,7 +46,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   pointer-events: none;
 }
 
-/* big decorative blobs */
 .hero::after {
   content: '';
   position: absolute;
@@ -141,27 +139,29 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   width: clamp(300px,40vw,460px);
   height: clamp(300px,40vw,460px);
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--purple-lt), var(--magenta-lt), var(--green-lt));
-  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
   position: relative;
-  box-shadow: 0 30px 80px rgba(123,47,190,.2);
-  border: 3px solid rgba(123,47,190,.12);
+  box-shadow: 0 30px 80px rgba(123,47,190,.25);
+  border: 3px solid rgba(123,47,190,.2);
 }
 
 .hero-img-ring::before {
   content: '';
-  position: absolute; inset: -12px;
+  position: absolute; inset: -14px;
   border-radius: 50%;
-  border: 2px dashed rgba(200,53,157,.25);
+  border: 2px dashed rgba(200,53,157,.3);
   animation: spin 20s linear infinite;
+  z-index: 2;
+  pointer-events: none;
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.hero-img-placeholder {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem; color: var(--purple);
-  letter-spacing: .1em; text-align: center; line-height: 1.6;
+.hero-img-ring video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
 }
 
 .hero-badge {
@@ -170,6 +170,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   border-radius: 16px; padding: .9rem 1.3rem;
   box-shadow: 0 12px 36px rgba(123,47,190,.18);
   font-size: .82rem; border: 1px solid var(--border);
+  z-index: 3;
 }
 .hero-badge strong { display: block; color: var(--purple); font-size: 1rem; margin-bottom: .1rem; }
 
@@ -179,6 +180,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   border-radius: 16px; padding: .7rem 1.1rem;
   box-shadow: 0 8px 24px rgba(61,181,74,.35);
   font-size: .78rem; color: #fff; font-weight: 600;
+  z-index: 3;
 }
 
 /* ── FEATURES ── */
@@ -295,11 +297,9 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 /* ── TABS ── */
 .tabs {
   display: flex; gap: 0; justify-content: center;
-  margin-bottom: 2.5rem;
   background: var(--purple-lt);
   border-radius: 50px; padding: .4rem;
-  width: fit-content; margin-left: auto; margin-right: auto;
-  margin-bottom: 2.5rem;
+  width: fit-content; margin: 0 auto 2.5rem;
 }
 .tab {
   padding: .6rem 1.8rem; font-size: .88rem; font-weight: 600;
@@ -387,9 +387,12 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
     </div>
   </div>
 
+  {{-- ── HERO VIDEO CIRCLE ── --}}
   <div class="hero-image">
     <div class="hero-img-ring">
-      <div class="hero-img-placeholder">✦ AMERICAN<br>BEAUTY</div>
+      <video autoplay muted loop playsinline>
+        <source src="{{ asset('videos/american.mp4') }}" type="video/mp4">
+      </video>
     </div>
     <div class="hero-badge">
       <strong>⭐ 4.9 / 5</strong>
@@ -397,6 +400,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
     </div>
     <div class="hero-badge2">🌿 100% Natural</div>
   </div>
+
 </section>
 
 <!-- FEATURES -->
