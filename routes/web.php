@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\PosController;
+
 use Illuminate\Support\Facades\Route;
 
 // ─── Frontend ────────────────────────────────────────────────
@@ -88,4 +90,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/settings',          [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings',         [SettingsController::class, 'update'])->name('settings.update');
     Route::patch('/settings/gateways/{gateway}', [SettingsController::class, 'updateGateway'])->name('settings.gateway');
+});
+// POS
+Route::get('/pos',                 [PosController::class, 'index'])        ->name('admin.pos.index');
+Route::post('/pos/sale',           [PosController::class, 'processSale'])  ->name('admin.pos.sale');
+Route::get('/pos/orders',          [PosController::class, 'orders'])       ->name('admin.pos.orders');
+Route::get('/pos/receipt/{order}', [PosController::class, 'receipt'])      ->name('admin.pos.receipt');
+Route::get('/pos/products/search', [PosController::class, 'searchProducts'])->name('admin.pos.products.search');
 });
