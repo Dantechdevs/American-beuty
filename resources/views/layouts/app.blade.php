@@ -479,7 +479,7 @@
             <div class="dev-credit">
                 <span class="dev-dot"></span>
                 Crafted by
-                <a href="https://ngwasidaniel.vercel.app/#contact" target="_blank" rel="noopener">DanTech Developers</a>
+                <a href="https://ngwasidaniel.vercel.app/#contact" target="_blank" rel="noopener">Dantechdevs Developers</a>
                 <span class="dev-dot"></span>
             </div>
         </div>
