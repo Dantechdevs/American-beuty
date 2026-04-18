@@ -47,8 +47,6 @@
             <div class="stat-label">Low Stock Items</div>
         </div>
     </div>
-
-    {{-- ── POS Stats ──────────────────────────────────────────── --}}
     <div class="stat-card">
         <div class="stat-icon green"><i class="fas fa-cash-register"></i></div>
         <div>
@@ -239,7 +237,7 @@
                     <td><strong>{{ $product->name }}</strong></td>
                     <td style="color:#888">{{ $product->sku }}</td>
                     <td>
-                        <span class="badge badge-danger">{{ $product->stock }} left</span>
+                        <span class="badge badge-danger">{{ $product->stock_quantity }} left</span>
                     </td>
                     <td>
                         <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-outline btn-sm">
