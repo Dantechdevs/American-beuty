@@ -33,8 +33,23 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   overflow: hidden;
 }
 
+<<<<<<< HEAD
 /* Background video — sharp, no blur */
 .hero-video-bg {
+=======
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(123,47,190,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(123,47,190,.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+>>>>>>> 427d5ae (feat(home): add circular autoplay video in hero section from public/videos/american.mp4)
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -129,7 +144,62 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   font-size: 1.8rem; font-weight: 700; color: #d89ef8;
   display: block;
 }
+<<<<<<< HEAD
 .hero-stat span { font-size: .78rem; color: rgba(255,255,255,.80); margin-top: .1rem; }
+=======
+.hero-stat span { font-size: .78rem; color: var(--gray); margin-top: .1rem; }
+
+/* Hero image side */
+.hero-image { position: relative; display: flex; justify-content: center; align-items: center; }
+
+.hero-img-ring {
+  width: clamp(300px,40vw,460px);
+  height: clamp(300px,40vw,460px);
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(123,47,190,.25);
+  border: 3px solid rgba(123,47,190,.2);
+}
+
+.hero-img-ring::before {
+  content: '';
+  position: absolute; inset: -14px;
+  border-radius: 50%;
+  border: 2px dashed rgba(200,53,157,.3);
+  animation: spin 20s linear infinite;
+  z-index: 2;
+  pointer-events: none;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.hero-img-ring video {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.hero-badge {
+  position: absolute; bottom: 30px; left: -10px;
+  background: #fff;
+  border-radius: 16px; padding: .9rem 1.3rem;
+  box-shadow: 0 12px 36px rgba(123,47,190,.18);
+  font-size: .82rem; border: 1px solid var(--border);
+  z-index: 3;
+}
+.hero-badge strong { display: block; color: var(--purple); font-size: 1rem; margin-bottom: .1rem; }
+
+.hero-badge2 {
+  position: absolute; top: 20px; right: -10px;
+  background: linear-gradient(135deg, var(--green), #28a035);
+  border-radius: 16px; padding: .7rem 1.1rem;
+  box-shadow: 0 8px 24px rgba(61,181,74,.35);
+  font-size: .78rem; color: #fff; font-weight: 600;
+  z-index: 3;
+}
+>>>>>>> 427d5ae (feat(home): add circular autoplay video in hero section from public/videos/american.mp4)
 
 /* ── FEATURES ── */
 .features {
@@ -338,6 +408,23 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
     </div>
   </div>
 
+<<<<<<< HEAD
+=======
+  {{-- ── HERO VIDEO CIRCLE ── --}}
+  <div class="hero-image">
+    <div class="hero-img-ring">
+      <video autoplay muted loop playsinline>
+        <source src="{{ asset('videos/american.mp4') }}" type="video/mp4">
+      </video>
+    </div>
+    <div class="hero-badge">
+      <strong>⭐ 4.9 / 5</strong>
+      <span>Trusted by thousands</span>
+    </div>
+    <div class="hero-badge2">🌿 100% Natural</div>
+  </div>
+
+>>>>>>> 427d5ae (feat(home): add circular autoplay video in hero section from public/videos/american.mp4)
 </section>
 
 <!-- FEATURES -->
