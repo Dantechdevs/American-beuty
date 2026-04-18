@@ -2,7 +2,12 @@
     "name": "americanbeauty/store",
     "type": "project",
     "description": "American Beauty - Premium Skincare & Beauty E-Commerce Platform",
-    "keywords": ["laravel", "beauty", "ecommerce", "skincare"],
+    "keywords": [
+        "laravel",
+        "beauty",
+        "ecommerce",
+        "skincare"
+    ],
     "license": "MIT",
     "require": {
         "php": "^8.2",
@@ -30,7 +35,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
