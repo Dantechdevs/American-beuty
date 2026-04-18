@@ -3,6 +3,57 @@
 
 @section('content')
 
+{{-- ── Greeting ─────────────────────────────────────────────── --}}
+<div style="
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:1rem;
+    margin-bottom:1.75rem;
+    padding:1.5rem 1.75rem;
+    background:linear-gradient(135deg,#f0fdf4 0%,#eff6ff 100%);
+    border-radius:16px;
+    border:1px solid #e2e8f0;
+    box-shadow:0 2px 8px rgba(0,0,0,.04);
+">
+    <div>
+        <h2 style="font-size:1.6rem;font-weight:800;margin:0;color:#1e293b;letter-spacing:-.5px">
+            Good
+            @php
+                $hour = now()->hour;
+                if ($hour < 12)       $greeting = 'Morning';
+                elseif ($hour < 17)   $greeting = 'Afternoon';
+                else                  $greeting = 'Evening';
+            @endphp
+            {{ $greeting }},
+            <span style="color:var(--primary)">{{ auth()->user()->name }}</span>! 👋
+        </h2>
+        <p style="color:#64748b;margin:.35rem 0 0;font-size:.93rem">
+            <i class="fas fa-calendar-alt" style="margin-right:.35rem;color:var(--primary);opacity:.75"></i>
+            {{ now()->format('l, d F Y') }}
+            &nbsp;·&nbsp;
+            <i class="fas fa-clock" style="margin-right:.35rem;color:var(--primary);opacity:.75"></i>
+            {{ now()->format('h:i A') }}
+        </p>
+    </div>
+    <div style="display:flex;align-items:center;gap:.65rem">
+        <div style="
+            width:48px;height:48px;border-radius:50%;
+            background:linear-gradient(135deg,var(--primary),#3b82f6);
+            display:flex;align-items:center;justify-content:center;
+            color:#fff;font-size:1.2rem;font-weight:700;
+            box-shadow:0 4px 12px rgba(0,0,0,.15);
+        ">
+            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+        </div>
+        <div>
+            <div style="font-weight:700;font-size:.9rem;color:#1e293b">{{ auth()->user()->name }}</div>
+            <div style="font-size:.78rem;color:#94a3b8">{{ auth()->user()->email }}</div>
+        </div>
+    </div>
+</div>
+
 {{-- ── Stats Grid ──────────────────────────────────────────── --}}
 <div class="stats-grid">
     <div class="stat-card">
