@@ -9,11 +9,13 @@ class Order extends Model
 {
     protected $fillable = [
         'order_number','user_id','coupon_id','status',
+        'source','served_by',
         'first_name','last_name','email','phone',
         'address_line_1','address_line_2','city','county','country',
         'subtotal','shipping','discount','tax','total',
         'payment_method','payment_status','notes','paid_at',
     ];
+
     protected $casts = [
         'subtotal'  => 'decimal:2',
         'shipping'  => 'decimal:2',
@@ -28,6 +30,7 @@ class Order extends Model
     public function coupon()       { return $this->belongsTo(Coupon::class); }
     public function mpesa()        { return $this->hasOne(MpesaTransaction::class); }
     public function transactions() { return $this->hasMany(Transaction::class); }
+    public function servedBy()     { return $this->belongsTo(User::class, 'served_by'); }
 
     public function getFullNameAttribute(): string
     {
