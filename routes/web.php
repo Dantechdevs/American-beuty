@@ -92,11 +92,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/settings',                   [SettingsController::class, 'update'])->name('settings.update');
     Route::patch('/settings/gateways/{gateway}', [SettingsController::class, 'updateGateway'])->name('settings.gateway');
 
-    // ─── POS ─────────────────────────────────────────────────
-    Route::get('/pos',                         [PosController::class, 'index'])->name('pos.index');
-    Route::post('/pos/sale',                   [PosController::class, 'processSale'])->name('pos.sale');
-    Route::get('/pos/orders',                  [PosController::class, 'orders'])->name('pos.orders');
-    Route::get('/pos/receipt/{order}',         [PosController::class, 'receipt'])->name('pos.receipt');
-    Route::get('/pos/products/search',         [PosController::class, 'searchProducts'])->name('pos.products.search');
+   // ─── POS ─────────────────────────────────────────────────
+Route::get('/pos',                         [PosController::class, 'index'])->name('pos.index');
+Route::post('/pos/sale',                   [PosController::class, 'processSale'])->name('pos.sale');
+Route::get('/pos/orders',                  [PosController::class, 'orders'])->name('pos.orders');
+Route::get('/pos/receipt/{order}',         [PosController::class, 'receipt'])->name('pos.receipt');
+Route::get('/pos/products/search',         [PosController::class, 'searchProducts'])->name('pos.products.search');
+Route::get('/pos/customer/lookup',         [PosController::class, 'lookupCustomer'])->name('pos.customer.lookup');
 
 });
