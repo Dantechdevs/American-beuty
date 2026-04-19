@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -20,9 +21,9 @@ class PosController extends Controller
      */
     public function index()
     {
-        $categories = \App\Models\Category::orderBy('name')->get();
-        $products   = Product::where('status', 'active')
-                             ->where('stock', '>', 0)
+        $categories = Category::orderBy('name')->get();
+        $products   = Product::where('is_active', true)
+                             ->where('stock_quantity', '>', 0)
                              ->with('category')
                              ->orderBy('name')
                              ->get();
@@ -35,16 +36,16 @@ class PosController extends Controller
      */
     public function searchProducts(Request $request)
     {
-        $q = $request->get('q', '');
+        $q          = $request->get('q', '');
         $categoryId = $request->get('category_id');
 
-        $query = Product::where('status', 'active')->where('stock', '>', 0);
+        $query = Product::where('is_active', true)
+                        ->where('stock_quantity', '>', 0);
 
         if ($q) {
             $query->where(function ($qb) use ($q) {
                 $qb->where('name', 'like', "%$q%")
-                   ->orWhere('sku', 'like', "%$q%")
-                   ->orWhere('barcode', 'like', "%$q%");
+                   ->orWhere('sku',  'like', "%$q%");
             });
         }
 
@@ -52,7 +53,14 @@ class PosController extends Controller
             $query->where('category_id', $categoryId);
         }
 
-        $products = $query->select('id', 'name', 'sku', 'price', 'stock', 'image')->get();
+        $products = $query->with('category:id,name')
+                          ->select('id', 'name', 'sku', 'price', 'sale_price', 'stock_quantity', 'thumbnail', 'category_id')
+                          ->get()
+                          ->map(function ($p) {
+                              $p->current_price    = $p->getCurrentPrice();
+                              $p->discount_percent = $p->getDiscountPercent();
+                              return $p;
+                          });
 
         return response()->json($products);
     }
@@ -71,43 +79,58 @@ class PosController extends Controller
             'customer_phone' => 'nullable|string|max:20',
             'amount_paid'    => 'required|numeric|min:0',
             'discount'       => 'nullable|numeric|min:0',
+            'mpesa_code'     => 'required_if:payment_method,mpesa|nullable|string|max:20',
         ]);
 
         DB::beginTransaction();
+
         try {
-            $subtotal = 0;
+            $subtotal   = 0;
             $orderItems = [];
 
             foreach ($request->items as $item) {
                 $product = Product::lockForUpdate()->findOrFail($item['id']);
 
-                if ($product->stock < $item['qty']) {
+                if ($product->stock_quantity < $item['qty']) {
+                    DB::rollBack();
                     return response()->json([
                         'success' => false,
                         'message' => "Insufficient stock for {$product->name}.",
                     ], 422);
                 }
 
-                $lineTotal  = $product->price * $item['qty'];
-                $subtotal  += $lineTotal;
+                $unitPrice    = $product->getCurrentPrice();
+                $lineTotal    = $unitPrice * $item['qty'];
+                $subtotal    += $lineTotal;
 
                 $orderItems[] = [
-                    'product_id' => $product->id,
-                    'product_name' => $product->name,
-                    'qty'        => $item['qty'],
-                    'price'      => $product->price,
-                    'total'      => $lineTotal,
+                    'product_id'   => $product->id,
+                    'product_name' => $product->name,   // fillable in OrderItem
+                    'price'        => $unitPrice,
+                    'quantity'     => $item['qty'],      // OrderItem uses 'quantity'
+                    'subtotal'     => $lineTotal,
                 ];
 
-                // Decrement stock
-                $product->decrement('stock', $item['qty']);
+                $product->decrement('stock_quantity', $item['qty']);
             }
 
             $discount = (float) ($request->discount ?? 0);
             $total    = max(0, $subtotal - $discount);
 
+            // Cash underpayment guard
+            if ($request->payment_method === 'cash' && $request->amount_paid < $total) {
+                DB::rollBack();
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Amount paid is less than the total.',
+                ], 422);
+            }
+
             // Find or create walk-in customer
-            $userId = null;
+            $userId    = null;
+            $firstName = 'Walk-in';
+            $lastName  = 'Customer';
+
             if ($request->customer_phone) {
                 $customer = User::firstOrCreate(
                     ['phone' => $request->customer_phone],
@@ -121,29 +144,43 @@ class PosController extends Controller
                 $userId = $customer->id;
             }
 
-            // Create order
+            if ($request->customer_name) {
+                $parts     = explode(' ', trim($request->customer_name), 2);
+                $firstName = $parts[0];
+                $lastName  = $parts[1] ?? 'Customer';
+            }
+
+            // Payment status
+            $paymentStatus = match ($request->payment_method) {
+                'cash'  => 'paid',
+                'card'  => 'paid',
+                'mpesa' => $request->mpesa_code ? 'paid' : 'pending',
+                default => 'pending',
+            };
+
+            // Create order — only fillable fields used
             $order = Order::create([
-                'order_number'    => 'POS-' . strtoupper(Str::random(8)),
-                'user_id'         => $userId,
-                'first_name'      => $request->customer_name ?? 'Walk-in',
-                'last_name'       => 'Customer',
-                'phone'           => $request->customer_phone,
-                'subtotal'        => $subtotal,
-                'discount'        => $discount,
-                'total'           => $total,
-                'payment_method'  => $request->payment_method,
-                'payment_status'  => $request->payment_method === 'cash' ? 'paid' : 'pending',
-                'status'          => 'completed',
-                'source'          => 'pos',
-                'served_by'       => Auth::id(),
-                'notes'           => 'POS Sale',
+                'user_id'        => $userId,
+                'first_name'     => $firstName,
+                'last_name'      => $lastName,
+                'phone'          => $request->customer_phone,
+                'subtotal'       => $subtotal,
+                'discount'       => $discount,
+                'shipping'       => 0,
+                'tax'            => 0,
+                'total'          => $total,
+                'payment_method' => $request->payment_method,
+                'payment_status' => $paymentStatus,
+                'status'         => 'delivered',   // POS = immediate fulfilment
+                'notes'          => 'POS Sale',
+                'paid_at'        => $paymentStatus === 'paid' ? now() : null,
             ]);
 
             foreach ($orderItems as $item) {
                 $order->items()->create($item);
             }
 
-            // Log M-PESA if needed
+            // Log M-Pesa transaction
             if ($request->payment_method === 'mpesa' && $request->mpesa_code) {
                 MpesaTransaction::create([
                     'order_id'             => $order->id,
@@ -152,7 +189,6 @@ class PosController extends Controller
                     'mpesa_receipt_number' => strtoupper($request->mpesa_code),
                     'status'               => 'success',
                 ]);
-                $order->update(['payment_status' => 'paid']);
             }
 
             DB::commit();
@@ -168,17 +204,21 @@ class PosController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
         }
     }
 
     /**
-     * POS Orders history.
+     * POS order history.
      */
     public function orders(Request $request)
     {
-        $orders = Order::where('source', 'pos')
-                       ->with('items', 'servedBy')
+        $orders = Order::whereNotNull('notes')
+                       ->where('notes', 'POS Sale')
+                       ->with(['items.product', 'user'])
                        ->latest()
                        ->paginate(20);
 
