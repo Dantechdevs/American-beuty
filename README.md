@@ -165,4 +165,4 @@ americanbeauty/
 ---
 
 ## 📞 Support
-Built by Dantechdevs developers  — American Beauty Project
+Built by Dantechdevs developers (https://ngwasidaniel.vercel.app/#contact) — American Beauty Project
