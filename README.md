@@ -165,4 +165,4 @@ americanbeauty/
 ---
 
 ## 📞 Support
-Built by Claude × You — American Beauty Project
+Built by Dantechdevs developers  — American Beauty Project
