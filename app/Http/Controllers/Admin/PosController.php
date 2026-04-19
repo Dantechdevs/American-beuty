@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Order;
-use App\Models\OrderItem;
 use App\Models\User;
 use App\Models\MpesaTransaction;
 use Illuminate\Http\Request;
@@ -27,8 +26,9 @@ class PosController extends Controller
                              ->with('category')
                              ->orderBy('name')
                              ->get();
+        $cashier    = Auth::user();
 
-        return view('admin.pos.index', compact('categories', 'products'));
+        return view('admin.pos.index', compact('categories', 'products', 'cashier'));
     }
 
     /**
@@ -63,6 +63,32 @@ class PosController extends Controller
                           });
 
         return response()->json($products);
+    }
+
+    /**
+     * Look up customer by phone (AJAX) — for welcome back.
+     */
+    public function lookupCustomer(Request $request)
+    {
+        $request->validate(['phone' => 'required|string|max:20']);
+
+        $customer = User::where('phone', $request->phone)->first();
+
+        if (!$customer) {
+            return response()->json(['found' => false]);
+        }
+
+        $orderCount = Order::where('user_id', $customer->id)->count();
+
+        return response()->json([
+            'found'       => true,
+            'name'        => $customer->name,
+            'order_count' => $orderCount,
+            'returning'   => $orderCount > 0,
+            'message'     => $orderCount > 0
+                                ? "Welcome back, {$customer->name}! 👋 ({$orderCount} previous orders)"
+                                : "New customer: {$customer->name}",
+        ]);
     }
 
     /**
@@ -105,9 +131,9 @@ class PosController extends Controller
 
                 $orderItems[] = [
                     'product_id'   => $product->id,
-                    'product_name' => $product->name,   // fillable in OrderItem
+                    'product_name' => $product->name,
                     'price'        => $unitPrice,
-                    'quantity'     => $item['qty'],      // OrderItem uses 'quantity'
+                    'quantity'     => $item['qty'],
                     'subtotal'     => $lineTotal,
                 ];
 
@@ -130,6 +156,7 @@ class PosController extends Controller
             $userId    = null;
             $firstName = 'Walk-in';
             $lastName  = 'Customer';
+            $returning = false;
 
             if ($request->customer_phone) {
                 $customer = User::firstOrCreate(
@@ -141,7 +168,8 @@ class PosController extends Controller
                         'role'     => 'customer',
                     ]
                 );
-                $userId = $customer->id;
+                $userId    = $customer->id;
+                $returning = Order::where('user_id', $customer->id)->exists();
             }
 
             if ($request->customer_name) {
@@ -158,12 +186,17 @@ class PosController extends Controller
                 default => 'pending',
             };
 
-            // Create order — only fillable fields used
+            // Create order
             $order = Order::create([
                 'user_id'        => $userId,
+                'source'         => 'pos',
+                'served_by'      => Auth::id(),
                 'first_name'     => $firstName,
                 'last_name'      => $lastName,
                 'phone'          => $request->customer_phone,
+                'email'          => $userId
+                                        ? User::find($userId)->email
+                                        : 'walkin@pos.local',
                 'subtotal'       => $subtotal,
                 'discount'       => $discount,
                 'shipping'       => 0,
@@ -171,7 +204,7 @@ class PosController extends Controller
                 'total'          => $total,
                 'payment_method' => $request->payment_method,
                 'payment_status' => $paymentStatus,
-                'status'         => 'delivered',   // POS = immediate fulfilment
+                'status'         => 'delivered',
                 'notes'          => 'POS Sale',
                 'paid_at'        => $paymentStatus === 'paid' ? now() : null,
             ]);
@@ -200,6 +233,10 @@ class PosController extends Controller
                 'total'        => $total,
                 'change'       => max(0, $request->amount_paid - $total),
                 'order_id'     => $order->id,
+                'cashier'      => Auth::user()->name,
+                'time'         => now()->format('D, d M Y  H:i'),
+                'returning'    => $returning,
+                'customer'     => $firstName . ' ' . $lastName,
             ]);
 
         } catch (\Exception $e) {
@@ -216,9 +253,8 @@ class PosController extends Controller
      */
     public function orders(Request $request)
     {
-        $orders = Order::whereNotNull('notes')
-                       ->where('notes', 'POS Sale')
-                       ->with(['items.product', 'user'])
+        $orders = Order::where('source', 'pos')
+                       ->with(['items.product', 'user', 'servedBy'])
                        ->latest()
                        ->paginate(20);
 
@@ -230,7 +266,7 @@ class PosController extends Controller
      */
     public function receipt(Order $order)
     {
-        $order->load('items.product');
+        $order->load(['items.product', 'servedBy']);
         return view('admin.pos.receipt', compact('order'));
     }
 }
