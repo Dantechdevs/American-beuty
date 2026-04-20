@@ -1,0 +1,29 @@
+
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    public function up(): void {
+        Schema::create('purchases', function (Blueprint $table) {
+            $table->id();
+            $table->string('invoice_no')->unique();
+            $table->foreignId('supplier_id')->constrained()->restrictOnDelete();
+            $table->foreignId('created_by')->constrained('users')->restrictOnDelete();
+            $table->dateTime('purchase_date');
+            $table->dateTime('payment_time')->nullable();
+            $table->enum('payment_status', ['paid', 'partial', 'unpaid'])->default('unpaid');
+            $table->decimal('total_amount', 12, 2)->default(0);
+            $table->decimal('paid_amount', 12, 2)->default(0);
+            $table->text('notes')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    public function down(): void {
+        Schema::dropIfExists('purchases');
+    }
+};
