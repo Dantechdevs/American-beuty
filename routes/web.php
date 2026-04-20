@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\PosController;
+use App\Http\Controllers\Admin\PurchaseController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -99,5 +100,17 @@ Route::get('/pos/orders',                  [PosController::class, 'orders'])->na
 Route::get('/pos/receipt/{order}',         [PosController::class, 'receipt'])->name('pos.receipt');
 Route::get('/pos/products/search',         [PosController::class, 'searchProducts'])->name('pos.products.search');
 Route::get('/pos/customer/lookup',         [PosController::class, 'lookupCustomer'])->name('pos.customer.lookup');
+
+ // ─── Purchases ────────────────────────────────────────────
+    Route::get('/purchases',                   [PurchaseController::class, 'index'])       ->name('purchase.index');
+    Route::get('/purchases/create',            [PurchaseController::class, 'create'])      ->name('purchase.create');
+    Route::post('/purchases',                  [PurchaseController::class, 'store'])       ->name('purchase.store');
+    Route::get('/purchases/{id}',              [PurchaseController::class, 'show'])        ->name('purchase.show');
+    Route::get('/purchases/{id}/edit',         [PurchaseController::class, 'edit'])        ->name('purchase.edit');
+    Route::put('/purchases/{id}',              [PurchaseController::class, 'update'])      ->name('purchase.update');
+    Route::delete('/purchases/{id}',           [PurchaseController::class, 'destroy'])     ->name('purchase.destroy');
+    Route::get('/purchases/{id}/return',       [PurchaseController::class, 'returnForm'])  ->name('purchase.return.form');
+    Route::post('/purchases/{id}/return',      [PurchaseController::class, 'returnStore']) ->name('purchase.return.store');
+
 
 });
