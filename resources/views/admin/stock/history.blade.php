@@ -8,7 +8,6 @@
    STOCK — HISTORY
    ═══════════════════════════════════════════════════════════ */
 
-/* Stat cards */
 .hist-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -18,7 +17,6 @@
 @media (max-width: 900px) { .hist-stats { grid-template-columns: repeat(2,1fr); } }
 @media (max-width: 500px) { .hist-stats { grid-template-columns: 1fr; } }
 
-/* Filters */
 .hist-filters {
     background: #fff;
     border: 1.5px solid var(--border);
@@ -53,7 +51,6 @@
     box-shadow: 0 0 0 3px rgba(247,37,133,.08);
 }
 
-/* Table card */
 .hist-card {
     background: #fff;
     border: 1.5px solid var(--border);
@@ -75,7 +72,6 @@
 }
 .hist-card-header h3 i { color: var(--pink); }
 
-/* Table */
 .hist-table { width: 100%; border-collapse: collapse; font-size: .84rem; }
 .hist-table thead tr { background: var(--pink-soft); border-bottom: 1.5px solid var(--border); }
 .hist-table thead th {
@@ -89,7 +85,6 @@
 .hist-table tbody tr:hover { background: #fff8fc; }
 .hist-table td { padding: .82rem 1rem; vertical-align: middle; }
 
-/* Direction pill */
 .dir-pill {
     display: inline-flex; align-items: center; gap: .3rem;
     padding: .22rem .65rem; border-radius: 20px;
@@ -99,22 +94,6 @@
 .dir-pill.in  { background: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
 .dir-pill.out { background: #fff1f2; color: var(--tango); border-color: #fecdd3; }
 
-/* Type badge */
-.type-badge {
-    display: inline-flex; align-items: center; gap: .28rem;
-    padding: .2rem .55rem; border-radius: 20px;
-    font-size: .69rem; font-weight: 700;
-    border: 1px solid transparent; white-space: nowrap;
-}
-.type-purchase     { background: #eff6ff; color: #2563eb; border-color: #bfdbfe; }
-.type-pos_sale     { background: var(--pink-soft); color: var(--pink); border-color: var(--pink-mid); }
-.type-online_sale  { background: #f5f3ff; color: #7c3aed; border-color: #ddd6fe; }
-.type-manual_add   { background: #f0fdf4; color: #16a34a; border-color: #bbf7d0; }
-.type-manual_deduct{ background: #fffbeb; color: #d97706; border-color: #fde68a; }
-.type-damaged      { background: var(--tango-soft); color: var(--tango); border-color: #fecdd3; }
-.type-expired      { background: #f9f9f9; color: #888; border-color: #e5e5e5; }
-
-/* Product cell */
 .prod-cell { display: flex; align-items: center; gap: .6rem; }
 .prod-thumb {
     width: 34px; height: 34px; border-radius: 8px;
@@ -129,32 +108,25 @@
 .prod-name { font-weight: 600; font-size: .82rem; color: var(--text); line-height: 1.3; }
 .prod-sku  { font-size: .69rem; color: var(--text-muted); }
 
-/* Stock before/after */
 .stock-flow {
     display: flex; align-items: center; gap: .4rem;
     font-size: .8rem; font-variant-numeric: tabular-nums;
 }
 .stock-flow .before { color: var(--text-muted); }
 .stock-flow .arrow  { color: var(--border); font-size: .7rem; }
-.stock-flow .after  { font-weight: 700; color: var(--text); }
+.stock-flow .after  { font-weight: 700; }
 .stock-flow .after.up   { color: #16a34a; }
 .stock-flow .after.down { color: var(--tango); }
 
-/* Qty badge */
-.qty-badge {
-    font-size: .82rem; font-weight: 700;
-    font-variant-numeric: tabular-nums;
-}
+.qty-badge { font-size: .82rem; font-weight: 700; font-variant-numeric: tabular-nums; }
 .qty-badge.in  { color: #16a34a; }
 .qty-badge.out { color: var(--tango); }
 
-/* Empty */
 .hist-empty {
     padding: 3.5rem 1rem; text-align: center; color: var(--text-muted);
 }
 .hist-empty i { font-size: 2.5rem; opacity: .15; display: block; margin-bottom: .75rem; color: var(--pink); }
 
-/* Pagination */
 .hist-pagination {
     padding: .85rem 1.25rem;
     border-top: 1.5px solid var(--border);
@@ -234,7 +206,7 @@
             @endforeach
         </select>
     </div>
-    <div class="fg" style="max-width:150px">
+    <div class="fg" style="max-width:155px">
         <label>Type</label>
         <select name="type">
             <option value="">All Types</option>
@@ -305,11 +277,13 @@
                 @forelse($adjustments as $adj)
                 <tr>
                     {{-- Date --}}
-                    <td style="white-space:nowrap;color:var(--text-muted);font-size:.8rem">
+                    <td style="white-space:nowrap;font-size:.8rem">
                         <div style="font-weight:600;color:var(--text)">
                             {{ $adj->created_at->format('d M Y') }}
                         </div>
-                        <div>{{ $adj->created_at->format('H:i:s') }}</div>
+                        <div style="color:var(--text-muted)">
+                            {{ $adj->created_at->format('H:i:s') }}
+                        </div>
                     </td>
 
                     {{-- Product --}}
@@ -330,23 +304,11 @@
                         </div>
                     </td>
 
-                    {{-- Type --}}
+                    {{-- Type — uses model helpers --}}
                     <td>
-                        @php
-                            $typeLabels = [
-                                'purchase'      => ['Purchase',      'fa-cart-flatbed',       'type-purchase'],
-                                'pos_sale'      => ['POS Sale',      'fa-cash-register',      'type-pos_sale'],
-                                'online_sale'   => ['Online Sale',   'fa-globe',              'type-online_sale'],
-                                'manual_add'    => ['Manual Add',    'fa-plus-circle',        'type-manual_add'],
-                                'manual_deduct' => ['Manual Deduct', 'fa-minus-circle',       'type-manual_deduct'],
-                                'damaged'       => ['Damaged',       'fa-box-archive',        'type-damaged'],
-                                'expired'       => ['Expired',       'fa-clock',              'type-expired'],
-                            ];
-                            $tl = $typeLabels[$adj->type] ?? [$adj->type, 'fa-circle', ''];
-                        @endphp
-                        <span class="type-badge {{ $tl[2] }}">
-                            <i class="fas {{ $tl[1] }}"></i>
-                            {{ $tl[0] }}
+                        <span class="badge {{ $adj->getTypeBadgeClass() }}">
+                            <i class="fas {{ $adj->getTypeIconClass() }}"></i>
+                            {{ $adj->getTypeLabel() }}
                         </span>
                     </td>
 
