@@ -88,8 +88,11 @@ class PurchaseController extends Controller
                 ]);
 
                 // Update product stock
-                Product::find($item['product_id'])->increment('stock', $item['quantity']);
-            }
+                \App\Services\StockService::addFromPurchase(
+                 $item['product_id'],
+                 $item['quantity'],
+                 $purchase
+                }
         });
 
         return redirect()->route('admin.purchase.index')
