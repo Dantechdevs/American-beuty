@@ -92,8 +92,9 @@ class PurchaseController extends Controller
                  $item['product_id'],
                  $item['quantity'],
                  $purchase
-                }
-        });
+                );
+            }   
+                });
 
         return redirect()->route('admin.purchase.index')
             ->with('success', 'Purchase recorded successfully.');

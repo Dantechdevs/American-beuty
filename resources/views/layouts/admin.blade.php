@@ -57,34 +57,10 @@
         ::-webkit-scrollbar-thumb{background:rgba(124,58,237,.2);border-radius:4px;}
 
         /* ════ SIDEBAR ════ */
-        .sidebar{
-            width:var(--sb-w);background:var(--sb);
-            position:fixed;top:0;left:0;height:100vh;
-            display:flex;flex-direction:column;z-index:200;
-            overflow-y:auto;overflow-x:hidden;
-            border-right:1.5px solid var(--sb-border);
-            box-shadow:2px 0 20px rgba(124,58,237,.07);
-        }
-        .sb-brand{
-            padding:1.4rem 1.3rem 1.2rem;
-            display:flex;flex-direction:column;gap:.28rem;
-            border-bottom:1.5px solid var(--sb-border);flex-shrink:0;
-            position:relative;overflow:hidden;
-            background:linear-gradient(135deg,#f8f5ff 0%,#fdf0ff 100%);
-        }
-        .sb-brand::before{
-            content:'';position:absolute;width:140px;height:140px;border-radius:50%;
-            background:radial-gradient(circle,rgba(124,58,237,.1) 0%,transparent 70%);
-            top:-50px;right:-40px;pointer-events:none;
-        }
-        .sb-logo-icon{
-            width:44px;height:44px;border-radius:13px;flex-shrink:0;
-            background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 100%);
-            display:flex;align-items:center;justify-content:center;
-            font-size:1.15rem;color:#fff;
-            box-shadow:0 5px 18px rgba(124,58,237,.4);
-            position:relative;z-index:1;margin-bottom:.45rem;
-        }
+        .sidebar{width:var(--sb-w);background:var(--sb);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:200;overflow-y:auto;overflow-x:hidden;border-right:1.5px solid var(--sb-border);box-shadow:2px 0 20px rgba(124,58,237,.07);}
+        .sb-brand{padding:1.4rem 1.3rem 1.2rem;display:flex;flex-direction:column;gap:.28rem;border-bottom:1.5px solid var(--sb-border);flex-shrink:0;position:relative;overflow:hidden;background:linear-gradient(135deg,#f8f5ff 0%,#fdf0ff 100%);}
+        .sb-brand::before{content:'';position:absolute;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.1) 0%,transparent 70%);top:-50px;right:-40px;pointer-events:none;}
+        .sb-logo-icon{width:44px;height:44px;border-radius:13px;flex-shrink:0;background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 100%);display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:#fff;box-shadow:0 5px 18px rgba(124,58,237,.4);position:relative;z-index:1;margin-bottom:.45rem;}
         .sb-brand-american{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;line-height:1;letter-spacing:-.02em;color:#1a0a2e;position:relative;z-index:1;}
         .sb-brand-beauty{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;font-style:italic;line-height:1;background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;z-index:1;}
         .sb-brand-sub{font-size:.62rem;color:var(--sb-muted);letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-top:.2rem;position:relative;z-index:1;}
@@ -118,233 +94,57 @@
         /* ════ MAIN ════ */
         .main{margin-left:var(--sb-w);flex:1;display:flex;flex-direction:column;min-height:100vh;min-width:0;}
 
-        /* ════════════════════════════════════════
-           TOPBAR — MODERN REDESIGN
-           ════════════════════════════════════════ */
-        .topbar{
-            height:var(--bar-h);
-            background:rgba(255,255,255,0.85);
-            backdrop-filter:blur(20px);
-            -webkit-backdrop-filter:blur(20px);
-            border-bottom:1px solid rgba(237,232,245,0.8);
-            display:flex;align-items:center;
-            padding:0 1.75rem;gap:1rem;
-            position:sticky;top:0;z-index:100;
-            box-shadow:0 1px 0 rgba(237,232,245,0.6), 0 4px 24px rgba(124,58,237,.05);
-        }
-
-        /* Left: breadcrumb-style title */
-        .topbar-left{
-            flex:1;
-            display:flex;align-items:center;gap:.65rem;
-        }
-        .topbar-page-icon{
-            width:36px;height:36px;border-radius:10px;flex-shrink:0;
-            background:linear-gradient(135deg,var(--purple),var(--pink));
-            display:flex;align-items:center;justify-content:center;
-            color:#fff;font-size:.8rem;
-            box-shadow:0 3px 12px rgba(124,58,237,.28);
-        }
+        /* ════ TOPBAR ════ */
+        .topbar{height:var(--bar-h);background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(237,232,245,0.8);display:flex;align-items:center;padding:0 1.75rem;gap:1rem;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 rgba(237,232,245,0.6),0 4px 24px rgba(124,58,237,.05);}
+        .topbar-left{flex:1;display:flex;align-items:center;gap:.65rem;}
+        .topbar-page-icon{width:36px;height:36px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;box-shadow:0 3px 12px rgba(124,58,237,.28);}
         .topbar-breadcrumb{display:flex;flex-direction:column;gap:.05rem;}
-        .topbar-title{
-            font-family:'Playfair Display',serif;
-            font-size:1.05rem;font-weight:700;
-            color:var(--text);line-height:1.1;
-            letter-spacing:-.01em;
-        }
-        .topbar-sub{
-            display:flex;align-items:center;gap:.3rem;
-            font-size:.68rem;color:var(--muted);font-weight:400;
-        }
-        .topbar-sub .sub-sep{
-            color:var(--border);font-size:.75rem;
-        }
-        .topbar-sub .sub-live{
-            display:inline-flex;align-items:center;gap:.28rem;
-            color:var(--green);font-weight:600;font-size:.65rem;
-        }
-        .topbar-sub .sub-live::before{
-            content:'';width:5px;height:5px;border-radius:50%;
-            background:var(--green);
-            box-shadow:0 0 0 2px rgba(45,198,83,.25);
-            animation:pulse 2s infinite;
-        }
+        .topbar-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);line-height:1.1;letter-spacing:-.01em;}
+        .topbar-sub{display:flex;align-items:center;gap:.3rem;font-size:.68rem;color:var(--muted);font-weight:400;}
+        .topbar-sub .sub-sep{color:var(--border);font-size:.75rem;}
+        .topbar-sub .sub-live{display:inline-flex;align-items:center;gap:.28rem;color:var(--green);font-weight:600;font-size:.65rem;}
+        .topbar-sub .sub-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 0 2px rgba(45,198,83,.25);animation:pulse 2s infinite;}
         @keyframes pulse{0%,100%{box-shadow:0 0 0 2px rgba(45,198,83,.25);}50%{box-shadow:0 0 0 5px rgba(45,198,83,.08);}}
-
-        /* Right actions */
         .topbar-right{display:flex;align-items:center;gap:.4rem;}
-
-        /* Search bar */
-        .tb-search{
-            display:flex;align-items:center;gap:.5rem;
-            background:#f8f5ff;border:1.5px solid var(--border);
-            border-radius:10px;padding:.38rem .75rem;
-            transition:all .2s;cursor:text;
-            min-width:160px;
-        }
-        .tb-search:focus-within{
-            background:#fff;border-color:rgba(124,58,237,.4);
-            box-shadow:0 0 0 3px rgba(124,58,237,.08);
-            min-width:200px;
-        }
+        .tb-search{display:flex;align-items:center;gap:.5rem;background:#f8f5ff;border:1.5px solid var(--border);border-radius:10px;padding:.38rem .75rem;transition:all .2s;cursor:text;min-width:160px;}
+        .tb-search:focus-within{background:#fff;border-color:rgba(124,58,237,.4);box-shadow:0 0 0 3px rgba(124,58,237,.08);min-width:200px;}
         .tb-search i{font-size:.75rem;color:var(--muted);flex-shrink:0;}
-        .tb-search input{
-            background:none;border:none;outline:none;
-            font-family:'DM Sans',sans-serif;font-size:.8rem;
-            color:var(--text);width:100%;
-        }
+        .tb-search input{background:none;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--text);width:100%;}
         .tb-search input::placeholder{color:var(--muted);}
-
         .tb-divider{width:1px;height:24px;background:var(--border);margin:0 .2rem;}
-
-        /* Icon buttons */
-        .tb-icon{
-            width:38px;height:38px;border-radius:11px;
-            border:1.5px solid var(--border);
-            background:rgba(255,255,255,0.9);
-            display:flex;align-items:center;justify-content:center;
-            color:var(--muted);font-size:.85rem;cursor:pointer;
-            transition:all .18s;text-decoration:none;position:relative;
-            box-shadow:0 1px 4px rgba(124,58,237,.04);
-        }
-        .tb-icon:hover{
-            background:var(--purple-soft);
-            border-color:rgba(124,58,237,.3);
-            color:var(--purple);
-            transform:translateY(-1px);
-            box-shadow:0 4px 14px rgba(124,58,237,.12);
-        }
-        .tb-icon-label{
-            position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);
-            white-space:nowrap;font-size:.6rem;font-weight:600;
-            background:#1a0a2e;color:#fff;padding:.18rem .45rem;
-            border-radius:5px;opacity:0;pointer-events:none;transition:opacity .15s;
-            letter-spacing:.03em;
-        }
+        .tb-icon{width:38px;height:38px;border-radius:11px;border:1.5px solid var(--border);background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;cursor:pointer;transition:all .18s;text-decoration:none;position:relative;box-shadow:0 1px 4px rgba(124,58,237,.04);}
+        .tb-icon:hover{background:var(--purple-soft);border-color:rgba(124,58,237,.3);color:var(--purple);transform:translateY(-1px);box-shadow:0 4px 14px rgba(124,58,237,.12);}
+        .tb-icon-label{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6rem;font-weight:600;background:#1a0a2e;color:#fff;padding:.18rem .45rem;border-radius:5px;opacity:0;pointer-events:none;transition:opacity .15s;letter-spacing:.03em;}
         .tb-icon:hover .tb-icon-label{opacity:1;}
-        .tb-dot{
-            position:absolute;top:6px;right:6px;
-            width:8px;height:8px;
-            background:linear-gradient(135deg,var(--tango),var(--pink));
-            border-radius:50%;border:2px solid #fff;
-            animation:notifPulse 2.5s ease-in-out infinite;
-        }
+        .tb-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:linear-gradient(135deg,var(--tango),var(--pink));border-radius:50%;border:2px solid #fff;animation:notifPulse 2.5s ease-in-out infinite;}
         @keyframes notifPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
-
-        /* POS quick action — special gradient button */
-        .tb-pos{
-            display:flex;align-items:center;gap:.45rem;
-            padding:.38rem .9rem;border-radius:10px;
-            background:linear-gradient(135deg,var(--purple),var(--pink));
-            color:#fff;font-size:.78rem;font-weight:700;
-            border:none;cursor:pointer;text-decoration:none;
-            box-shadow:0 3px 14px rgba(124,58,237,.3);
-            transition:all .18s;white-space:nowrap;
-            letter-spacing:.01em;
-        }
-        .tb-pos:hover{
-            box-shadow:0 6px 22px rgba(124,58,237,.4);
-            transform:translateY(-1px);
-            color:#fff;
-        }
+        .tb-pos{display:flex;align-items:center;gap:.45rem;padding:.38rem .9rem;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;font-size:.78rem;font-weight:700;border:none;cursor:pointer;text-decoration:none;box-shadow:0 3px 14px rgba(124,58,237,.3);transition:all .18s;white-space:nowrap;letter-spacing:.01em;}
+        .tb-pos:hover{box-shadow:0 6px 22px rgba(124,58,237,.4);transform:translateY(-1px);color:#fff;}
         .tb-pos i{font-size:.78rem;}
-
-        /* User dropdown pill */
         .tb-user-wrap{position:relative;}
-        .tb-user{
-            display:flex;align-items:center;gap:.5rem;
-            padding:.3rem .65rem .3rem .3rem;
-            border-radius:50px;
-            border:1.5px solid var(--border);
-            background:rgba(255,255,255,0.9);
-            cursor:pointer;transition:all .18s;
-            user-select:none;
-            box-shadow:0 1px 6px rgba(124,58,237,.06);
-        }
-        .tb-user:hover{
-            background:var(--purple-soft);
-            border-color:rgba(124,58,237,.3);
-            box-shadow:0 4px 16px rgba(124,58,237,.1);
-        }
-        .tb-av{
-            width:32px;height:32px;border-radius:50%;
-            background:linear-gradient(135deg,var(--purple),var(--pink));
-            display:flex;align-items:center;justify-content:center;
-            color:#fff;font-size:.76rem;font-weight:700;
-            box-shadow:0 2px 8px rgba(124,58,237,.3);
-            flex-shrink:0;
-        }
+        .tb-user{display:flex;align-items:center;gap:.5rem;padding:.3rem .65rem .3rem .3rem;border-radius:50px;border:1.5px solid var(--border);background:rgba(255,255,255,0.9);cursor:pointer;transition:all .18s;user-select:none;box-shadow:0 1px 6px rgba(124,58,237,.06);}
+        .tb-user:hover{background:var(--purple-soft);border-color:rgba(124,58,237,.3);box-shadow:0 4px 16px rgba(124,58,237,.1);}
+        .tb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.76rem;font-weight:700;box-shadow:0 2px 8px rgba(124,58,237,.3);flex-shrink:0;}
         .tb-user-info{display:flex;flex-direction:column;gap:.02rem;}
         .tb-uname{font-size:.82rem;font-weight:700;color:var(--text);line-height:1.1;}
         .tb-urole{font-size:.62rem;color:var(--muted);font-weight:400;}
         .tb-chev{font-size:.6rem;color:var(--muted);transition:transform .22s;margin-left:.1rem;}
         .tb-user.open .tb-chev{transform:rotate(180deg);}
-
-        /* Dropdown */
-        .tb-drop{
-            display:none;position:absolute;
-            top:calc(100% + .8rem);right:0;
-            background:#fff;
-            border:1.5px solid var(--border);
-            border-radius:18px;
-            box-shadow:
-                0 0 0 1px rgba(124,58,237,.04),
-                0 10px 40px rgba(124,58,237,.15),
-                0 2px 8px rgba(0,0,0,.06);
-            min-width:240px;overflow:hidden;z-index:300;
-            animation:dropIn .2s cubic-bezier(.16,1,.3,1);
-        }
+        .tb-drop{display:none;position:absolute;top:calc(100% + .8rem);right:0;background:#fff;border:1.5px solid var(--border);border-radius:18px;box-shadow:0 0 0 1px rgba(124,58,237,.04),0 10px 40px rgba(124,58,237,.15),0 2px 8px rgba(0,0,0,.06);min-width:240px;overflow:hidden;z-index:300;animation:dropIn .2s cubic-bezier(.16,1,.3,1);}
         .tb-drop.open{display:block;}
         @keyframes dropIn{from{opacity:0;transform:translateY(-8px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
-
-        /* Drop head — gradient banner */
-        .tb-drop-head{
-            padding:1.1rem 1.2rem;
-            background:linear-gradient(135deg,#f8f5ff 0%,#fdf0ff 100%);
-            border-bottom:1px solid var(--border);
-            position:relative;overflow:hidden;
-        }
-        .tb-drop-head::before{
-            content:'';position:absolute;
-            width:80px;height:80px;border-radius:50%;
-            background:radial-gradient(circle,rgba(124,58,237,.12) 0%,transparent 70%);
-            top:-25px;right:-20px;
-        }
+        .tb-drop-head{padding:1.1rem 1.2rem;background:linear-gradient(135deg,#f8f5ff 0%,#fdf0ff 100%);border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+        .tb-drop-head::before{content:'';position:absolute;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.12) 0%,transparent 70%);top:-25px;right:-20px;}
         .tb-drop-head-inner{display:flex;align-items:center;gap:.75rem;position:relative;z-index:1;}
-        .tb-drop-av{
-            width:40px;height:40px;border-radius:12px;flex-shrink:0;
-            background:linear-gradient(135deg,var(--purple),var(--pink));
-            display:flex;align-items:center;justify-content:center;
-            color:#fff;font-size:1rem;font-weight:700;
-            box-shadow:0 4px 14px rgba(124,58,237,.35);
-        }
+        .tb-drop-av{width:40px;height:40px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;font-weight:700;box-shadow:0 4px 14px rgba(124,58,237,.35);}
         .tb-drop-name{font-size:.9rem;font-weight:700;color:var(--text);line-height:1.2;}
         .tb-drop-email{font-size:.72rem;color:var(--muted);margin-top:.1rem;}
-        .tb-drop-badge{
-            display:inline-flex;align-items:center;gap:.22rem;
-            background:rgba(124,58,237,.1);color:var(--purple);
-            border:1px solid rgba(124,58,237,.2);
-            border-radius:20px;padding:.12rem .5rem;
-            font-size:.58rem;font-weight:700;letter-spacing:.06em;
-            text-transform:uppercase;margin-top:.3rem;
-        }
+        .tb-drop-badge{display:inline-flex;align-items:center;gap:.22rem;background:rgba(124,58,237,.1);color:var(--purple);border:1px solid rgba(124,58,237,.2);border-radius:20px;padding:.12rem .5rem;font-size:.58rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:.3rem;}
         .tb-drop-badge i{font-size:.5rem;}
-
-        /* Drop menu items */
         .tb-drop-menu{padding:.4rem 0;}
-        .tb-drop-item{
-            display:flex;align-items:center;gap:.75rem;
-            padding:.65rem 1.2rem;font-size:.83rem;color:var(--text);
-            background:none;border:none;width:100%;cursor:pointer;
-            font-family:inherit;transition:background .13s;text-decoration:none;
-        }
+        .tb-drop-item{display:flex;align-items:center;gap:.75rem;padding:.65rem 1.2rem;font-size:.83rem;color:var(--text);background:none;border:none;width:100%;cursor:pointer;font-family:inherit;transition:background .13s;text-decoration:none;}
         .tb-drop-item:hover{background:#f8f5ff;color:var(--purple);}
-        .tb-drop-icon{
-            width:28px;height:28px;border-radius:8px;flex-shrink:0;
-            background:var(--purple-soft);
-            display:flex;align-items:center;justify-content:center;
-            font-size:.75rem;color:var(--purple);transition:all .15s;
-        }
+        .tb-drop-icon{width:28px;height:28px;border-radius:8px;flex-shrink:0;background:var(--purple-soft);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--purple);transition:all .15s;}
         .tb-drop-item:hover .tb-drop-icon{background:rgba(124,58,237,.15);}
         .tb-drop-item.danger{color:var(--tango);}
         .tb-drop-item.danger .tb-drop-icon{background:var(--tango-soft);color:var(--tango);}
@@ -428,6 +228,9 @@
         .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2rem;color:var(--muted);text-align:center;}
         .empty-state i{font-size:2.5rem;margin-bottom:.75rem;opacity:.2;}
         .empty-state p{font-size:.88rem;margin-bottom:1rem;}
+        .page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
+        .page-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:.55rem;margin-bottom:.2rem;}
+        .page-sub{font-size:.8rem;color:var(--muted);}
 
         @media(max-width:900px){
             .sidebar{transform:translateX(-100%);}
@@ -453,92 +256,218 @@
     </a>
 
     <nav class="sb-nav">
-        <a href="{{ route('admin.dashboard') }}" class="sb-link {{ request()->routeIs('admin.dashboard') ? 'active':'' }}">
+
+        {{-- Dashboard --}}
+        <a href="{{ route('admin.dashboard') }}"
+           class="sb-link {{ request()->routeIs('admin.dashboard') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-gauge-high"></i></span>
             <span class="sb-txt">Dashboard</span>
         </a>
 
+        {{-- ── Product & Stock ── --}}
         <div class="sb-section">Product &amp; Stock</div>
-        <a href="{{ route('admin.products.index') }}" class="sb-link {{ request()->routeIs('admin.products.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-box-open"></i></span><span class="sb-txt">Products</span>
-        </a>
-        <a href="#" class="sb-link {{ request()->routeIs('admin.purchase.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-cart-flatbed"></i></span><span class="sb-txt">Purchase</span>
-        </a>
-        <a href="#" class="sb-link {{ request()->routeIs('admin.damages.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-box-archive"></i></span><span class="sb-txt">Damages</span>
-        </a>
-        <a href="#" class="sb-link {{ request()->routeIs('admin.stock.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-warehouse"></i></span><span class="sb-txt">Stock</span>
+
+        <a href="{{ route('admin.products.index') }}"
+           class="sb-link {{ request()->routeIs('admin.products.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-box-open"></i></span>
+            <span class="sb-txt">Products</span>
         </a>
 
+        <a href="{{ route('admin.purchase.index') }}"
+           class="sb-link {{ request()->routeIs('admin.purchase.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-cart-flatbed"></i></span>
+            <span class="sb-txt">Purchases</span>
+            @php $unpaidCount = \App\Models\Purchase::where('payment_status','unpaid')->count(); @endphp
+            @if($unpaidCount > 0)
+                <span class="sb-badge">{{ $unpaidCount }}</span>
+            @endif
+        </a>
+
+        <a href="{{ route('admin.supplier.index') }}"
+           class="sb-link {{ request()->routeIs('admin.supplier.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-building"></i></span>
+            <span class="sb-txt">Suppliers</span>
+        </a>
+
+        <a href="{{ route('admin.stock.index') }}"
+           class="sb-link {{ request()->routeIs('admin.stock.index') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-warehouse"></i></span>
+            <span class="sb-txt">Stock</span>
+        </a>
+
+        <a href="{{ route('admin.stock.history') }}"
+           class="sb-link {{ request()->routeIs('admin.stock.history') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-clock-rotate-left"></i></span>
+            <span class="sb-txt">Stock History</span>
+        </a>
+
+        <a href="{{ route('admin.stock.low') }}"
+           class="sb-link {{ request()->routeIs('admin.stock.low') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-triangle-exclamation"></i></span>
+            <span class="sb-txt">Low Stock</span>
+            @php $lowCount = \App\Models\Product::where('stock_quantity','<=',10)->where('stock_quantity','>',0)->count(); @endphp
+            @if($lowCount > 0)
+                <span class="sb-badge">{{ $lowCount }}</span>
+            @endif
+        </a>
+
+        <a href="{{ route('admin.stock.damaged') }}"
+           class="sb-link {{ request()->routeIs('admin.stock.damaged') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-box-archive"></i></span>
+            <span class="sb-txt">Damaged / Expired</span>
+        </a>
+
+        {{-- ── POS & Orders ── --}}
         <div class="sb-section">POS &amp; Orders</div>
-        <a href="{{ route('admin.pos.index') }}" class="sb-link {{ request()->routeIs('admin.pos.index') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-cash-register"></i></span><span class="sb-txt">POS Terminal</span>
+
+        <a href="{{ route('admin.pos.index') }}"
+           class="sb-link {{ request()->routeIs('admin.pos.index') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-cash-register"></i></span>
+            <span class="sb-txt">POS Terminal</span>
         </a>
-        <a href="{{ route('admin.pos.orders') }}" class="sb-link {{ request()->routeIs('admin.pos.orders') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-receipt"></i></span><span class="sb-txt">POS Orders</span>
+
+        <a href="{{ route('admin.pos.orders') }}"
+           class="sb-link {{ request()->routeIs('admin.pos.orders') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-receipt"></i></span>
+            <span class="sb-txt">POS Orders</span>
         </a>
-        <a href="{{ route('admin.orders.index') }}" class="sb-link {{ request()->routeIs('admin.orders.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-globe"></i></span><span class="sb-txt">Online Orders</span>
+
+        <a href="{{ route('admin.orders.index') }}"
+           class="sb-link {{ request()->routeIs('admin.orders.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-globe"></i></span>
+            <span class="sb-txt">Online Orders</span>
         </a>
+
         <a href="#" class="sb-link {{ request()->routeIs('admin.return-orders.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-rotate-left"></i></span><span class="sb-txt">Return Orders</span>
+            <span class="sb-ico"><i class="fas fa-rotate-left"></i></span>
+            <span class="sb-txt">Return Orders</span>
         </a>
 
+        {{-- ── Promo ── --}}
         <div class="sb-section">Promo</div>
-        <a href="#" class="sb-link"><span class="sb-ico"><i class="fas fa-ticket"></i></span><span class="sb-txt">Coupons</span></a>
-        <a href="#" class="sb-link"><span class="sb-ico"><i class="fas fa-percent"></i></span><span class="sb-txt">Promotions</span></a>
-        <a href="{{ route('admin.categories.index') }}" class="sb-link {{ request()->routeIs('admin.categories.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-layer-group"></i></span><span class="sb-txt">Product Sections</span>
+
+        <a href="#" class="sb-link">
+            <span class="sb-ico"><i class="fas fa-ticket"></i></span>
+            <span class="sb-txt">Coupons</span>
         </a>
 
+        <a href="#" class="sb-link">
+            <span class="sb-ico"><i class="fas fa-percent"></i></span>
+            <span class="sb-txt">Promotions</span>
+        </a>
+
+        <a href="{{ route('admin.categories.index') }}"
+           class="sb-link {{ request()->routeIs('admin.categories.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-layer-group"></i></span>
+            <span class="sb-txt">Product Sections</span>
+        </a>
+
+        {{-- ── Logs ── --}}
         <div class="sb-section">Logs</div>
-        <a href="{{ route_exists('admin.logs.mpesa') ? route('admin.logs.mpesa') : '#' }}" class="sb-link {{ request()->routeIs('admin.logs.mpesa') ? 'active':'' }}">
+
+        <a href="#" class="sb-link soon">
             <span class="sb-ico"><i class="fas fa-mobile-screen-button"></i></span>
             <span class="sb-txt">M-Pesa Logs</span>
-            @unless(route_exists('admin.logs.mpesa'))<span class="sb-soon-pill">Soon</span>@endunless
+            <span class="sb-soon-pill">Soon</span>
         </a>
-        <a href="{{ route_exists('admin.logs.customers') ? route('admin.logs.customers') : '#' }}" class="sb-link {{ request()->routeIs('admin.logs.customers') ? 'active':'' }}">
+
+        <a href="#" class="sb-link soon">
             <span class="sb-ico"><i class="fas fa-users-viewfinder"></i></span>
             <span class="sb-txt">Customer Logs</span>
-            @unless(route_exists('admin.logs.customers'))<span class="sb-soon-pill">Soon</span>@endunless
+            <span class="sb-soon-pill">Soon</span>
         </a>
-        <a href="{{ route_exists('admin.logs.managers') ? route('admin.logs.managers') : '#' }}" class="sb-link {{ request()->routeIs('admin.logs.managers') ? 'active':'' }}">
+
+        <a href="#" class="sb-link soon">
             <span class="sb-ico"><i class="fas fa-user-tie"></i></span>
             <span class="sb-txt">Manager Logs</span>
-            @unless(route_exists('admin.logs.managers'))<span class="sb-soon-pill">Soon</span>@endunless
+            <span class="sb-soon-pill">Soon</span>
         </a>
-        <a href="{{ route_exists('admin.logs.pos') ? route('admin.logs.pos') : '#' }}" class="sb-link {{ request()->routeIs('admin.logs.pos') ? 'active':'' }}">
+
+        <a href="#" class="sb-link soon">
             <span class="sb-ico"><i class="fas fa-computer"></i></span>
             <span class="sb-txt">POS Operator Logs</span>
-            @unless(route_exists('admin.logs.pos'))<span class="sb-soon-pill">Soon</span>@endunless
+            <span class="sb-soon-pill">Soon</span>
         </a>
 
+        {{-- ── Communications ── --}}
         <div class="sb-section">Communications</div>
-        <a href="#" class="sb-link"><span class="sb-ico"><i class="fas fa-bell"></i></span><span class="sb-txt">Push Notifications</span></a>
-        <a href="#" class="sb-link"><span class="sb-ico"><i class="fas fa-envelope-open-text"></i></span><span class="sb-txt">Subscribers</span></a>
 
+        <a href="#" class="sb-link">
+            <span class="sb-ico"><i class="fas fa-bell"></i></span>
+            <span class="sb-txt">Push Notifications</span>
+        </a>
+
+        <a href="#" class="sb-link">
+            <span class="sb-ico"><i class="fas fa-envelope-open-text"></i></span>
+            <span class="sb-txt">Subscribers</span>
+        </a>
+
+        {{-- ── Users ── --}}
         <div class="sb-section">Users</div>
-        <a href="#" class="sb-link"><span class="sb-ico"><i class="fas fa-user-shield"></i></span><span class="sb-txt">Administrators</span></a>
-        <a href="#" class="sb-link"><span class="sb-ico"><i class="fas fa-motorcycle"></i></span><span class="sb-txt">Delivery Boys</span></a>
-        <a href="{{ route('admin.users.index') }}" class="sb-link {{ request()->routeIs('admin.users.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-users"></i></span><span class="sb-txt">Customers</span>
-        </a>
-        <a href="#" class="sb-link"><span class="sb-ico"><i class="fas fa-id-badge"></i></span><span class="sb-txt">Employees</span></a>
 
+        <a href="#" class="sb-link">
+            <span class="sb-ico"><i class="fas fa-user-shield"></i></span>
+            <span class="sb-txt">Administrators</span>
+        </a>
+
+        <a href="#" class="sb-link">
+            <span class="sb-ico"><i class="fas fa-motorcycle"></i></span>
+            <span class="sb-txt">Delivery Boys</span>
+        </a>
+
+        <a href="{{ route('admin.users.index') }}"
+           class="sb-link {{ request()->routeIs('admin.users.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-users"></i></span>
+            <span class="sb-txt">Customers</span>
+        </a>
+
+        <a href="#" class="sb-link">
+            <span class="sb-ico"><i class="fas fa-id-badge"></i></span>
+            <span class="sb-txt">Employees</span>
+        </a>
+
+        {{-- ── Accounts ── --}}
         <div class="sb-section">Accounts</div>
-        <a href="#" class="sb-link"><span class="sb-ico"><i class="fas fa-arrow-right-arrow-left"></i></span><span class="sb-txt">Transactions</span></a>
 
-        <div class="sb-section">Reports</div>
-        <a href="#" class="sb-link"><span class="sb-ico"><i class="fas fa-chart-line"></i></span><span class="sb-txt">Sales Report</span></a>
-        <a href="#" class="sb-link"><span class="sb-ico"><i class="fas fa-chart-bar"></i></span><span class="sb-txt">Products Report</span></a>
-        <a href="#" class="sb-link"><span class="sb-ico"><i class="fas fa-file-invoice-dollar"></i></span><span class="sb-txt">Credit Balance Report</span></a>
-
-        <div class="sb-section">Setup</div>
-        <a href="{{ route('admin.settings.index') }}" class="sb-link {{ request()->routeIs('admin.settings.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-sliders"></i></span><span class="sb-txt">Settings</span>
+        <a href="#" class="sb-link">
+            <span class="sb-ico"><i class="fas fa-arrow-right-arrow-left"></i></span>
+            <span class="sb-txt">Transactions</span>
         </a>
+
+        {{-- ── Reports ── --}}
+        <div class="sb-section">Reports</div>
+
+        <a href="#" class="sb-link">
+            <span class="sb-ico"><i class="fas fa-chart-line"></i></span>
+            <span class="sb-txt">Sales Report</span>
+        </a>
+
+        <a href="#" class="sb-link">
+            <span class="sb-ico"><i class="fas fa-chart-bar"></i></span>
+            <span class="sb-txt">Products Report</span>
+        </a>
+
+        <a href="#" class="sb-link">
+            <span class="sb-ico"><i class="fas fa-file-invoice-dollar"></i></span>
+            <span class="sb-txt">Credit Balance Report</span>
+        </a>
+
+        {{-- ── Setup ── --}}
+        <div class="sb-section">Setup</div>
+
+        <a href="#"
+           class="sb-link soon {{ request()->routeIs('admin.attendance.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-user-clock"></i></span>
+            <span class="sb-txt">Attendance</span>
+            <span class="sb-soon-pill">Soon</span>
+        </a>
+
+        <a href="{{ route('admin.settings.index') }}"
+           class="sb-link {{ request()->routeIs('admin.settings.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-sliders"></i></span>
+            <span class="sb-txt">Settings</span>
+        </a>
+
     </nav>
 
     <div class="sb-foot">
@@ -561,14 +490,9 @@
 {{-- ══════════════════════════════════ MAIN ══════════════════════════════════ --}}
 <div class="main">
 
-    {{-- ══ TOPBAR ══ --}}
     <div class="topbar">
-
-        {{-- Left: page icon + breadcrumb --}}
         <div class="topbar-left">
-            <div class="topbar-page-icon">
-                <i class="fas fa-gauge-high"></i>
-            </div>
+            <div class="topbar-page-icon"><i class="fas fa-gauge-high"></i></div>
             <div class="topbar-breadcrumb">
                 <div class="topbar-title">@yield('title','Dashboard')</div>
                 <div class="topbar-sub">
@@ -580,39 +504,25 @@
                 </div>
             </div>
         </div>
-
-        {{-- Right: search + actions + user --}}
         <div class="topbar-right">
-
-            {{-- Search --}}
             <div class="tb-search">
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Quick search…">
             </div>
-
-            {{-- POS quick launch --}}
             <a href="{{ route('admin.pos.index') }}" class="tb-pos">
                 <i class="fas fa-cash-register"></i> POS
             </a>
-
             <div class="tb-divider"></div>
-
-            {{-- Store preview --}}
             <a href="{{ route('home') }}" class="tb-icon" target="_blank" rel="noopener">
                 <i class="fas fa-store"></i>
                 <span class="tb-icon-label">View Store</span>
             </a>
-
-            {{-- Notifications --}}
             <a href="#" class="tb-icon" title="Notifications">
                 <i class="fas fa-bell"></i>
                 <span class="tb-dot"></span>
                 <span class="tb-icon-label">Notifications</span>
             </a>
-
             <div class="tb-divider"></div>
-
-            {{-- User dropdown --}}
             <div class="tb-user-wrap">
                 <div class="tb-user" id="tbUser" onclick="toggleDrop()">
                     <div class="tb-av">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</div>
@@ -622,54 +532,40 @@
                     </div>
                     <i class="fas fa-chevron-down tb-chev"></i>
                 </div>
-
                 <div class="tb-drop" id="tbDrop">
-
-                    {{-- Head --}}
                     <div class="tb-drop-head">
                         <div class="tb-drop-head-inner">
                             <div class="tb-drop-av">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</div>
                             <div>
                                 <div class="tb-drop-name">{{ auth()->user()->name ?? 'Admin' }}</div>
                                 <div class="tb-drop-email">{{ auth()->user()->email ?? 'admin@americanbeauty.com' }}</div>
-                                <div class="tb-drop-badge">
-                                    <i class="fas fa-crown"></i> Administrator
-                                </div>
+                                <div class="tb-drop-badge"><i class="fas fa-crown"></i> Administrator</div>
                             </div>
                         </div>
                     </div>
-
-                    {{-- Menu --}}
                     <div class="tb-drop-menu">
                         <a href="#" class="tb-drop-item">
-                            <span class="tb-drop-icon"><i class="fas fa-user-pen"></i></span>
-                            Edit Profile
+                            <span class="tb-drop-icon"><i class="fas fa-user-pen"></i></span> Edit Profile
                         </a>
                         <a href="#" class="tb-drop-item">
-                            <span class="tb-drop-icon"><i class="fas fa-lock"></i></span>
-                            Change Password
+                            <span class="tb-drop-icon"><i class="fas fa-lock"></i></span> Change Password
                         </a>
                         <a href="#" class="tb-drop-item">
-                            <span class="tb-drop-icon"><i class="fas fa-clock-rotate-left"></i></span>
-                            Activity Log
+                            <span class="tb-drop-icon"><i class="fas fa-clock-rotate-left"></i></span> Activity Log
                         </a>
                         <a href="{{ route('admin.settings.index') }}" class="tb-drop-item">
-                            <span class="tb-drop-icon"><i class="fas fa-sliders"></i></span>
-                            Settings
+                            <span class="tb-drop-icon"><i class="fas fa-sliders"></i></span> Settings
                         </a>
                         <div class="tb-drop-sep"></div>
                         <form method="POST" action="{{ route('logout') }}" style="margin:0">
                             @csrf
                             <button type="submit" class="tb-drop-item danger">
-                                <span class="tb-drop-icon"><i class="fas fa-right-from-bracket"></i></span>
-                                Sign Out
+                                <span class="tb-drop-icon"><i class="fas fa-right-from-bracket"></i></span> Sign Out
                             </button>
                         </form>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -689,7 +585,6 @@
         @endif
     </div>
 
-    {{-- Page content --}}
     <div class="content">
         @yield('content')
     </div>
