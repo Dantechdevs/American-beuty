@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\StockAlert;
 
 class Product extends Model
 {
@@ -23,11 +24,12 @@ class Product extends Model
         'sale_price'     => 'decimal:2',
     ];
 
-    public function category()  { return $this->belongsTo(Category::class); }
-    public function brand()     { return $this->belongsTo(Brand::class); }
-    public function images()    { return $this->hasMany(ProductImage::class)->orderBy('sort_order'); }
-    public function reviews()   { return $this->hasMany(ProductReview::class)->where('is_approved', true); }
-    public function wishlists() { return $this->hasMany(Wishlist::class); }
+    public function category()   { return $this->belongsTo(Category::class); }
+    public function brand()      { return $this->belongsTo(Brand::class); }
+    public function images()     { return $this->hasMany(ProductImage::class)->orderBy('sort_order'); }
+    public function reviews()    { return $this->hasMany(ProductReview::class)->where('is_approved', true); }
+    public function wishlists()  { return $this->hasMany(Wishlist::class); }
+    public function stockAlert() { return $this->hasOne(StockAlert::class); }
 
     public function getCurrentPrice(): float
     {

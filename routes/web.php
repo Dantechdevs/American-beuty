@@ -14,7 +14,8 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\PurchaseController;
-use App\Http\Controllers\Admin\SupplierController; // ← added
+use App\Http\Controllers\Admin\SupplierController; 
+use App\Http\Controllers\Admin\StockController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -122,4 +123,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/suppliers/{id}',        [SupplierController::class, 'destroy'])->name('supplier.destroy');
     Route::patch('/suppliers/{id}/toggle',  [SupplierController::class, 'toggle']) ->name('supplier.toggle');
 
+    // ─── Stock ────────────────────────────────────────────────
+    Route::get('/stock',                        [StockController::class, 'index'])    ->name('stock.index');
+    Route::get('/stock/history',                [StockController::class, 'history'])  ->name('stock.history');
+    Route::get('/stock/low-stock',              [StockController::class, 'lowStock']) ->name('stock.low');
+    Route::get('/stock/damaged',                [StockController::class, 'damaged'])  ->name('stock.damaged');
+    Route::get('/stock/{product}/adjust',       [StockController::class, 'adjust'])   ->name('stock.adjust');
+    Route::post('/stock/{product}/adjust',      [StockController::class, 'store'])    ->name('stock.store');
+Route::post('/stock/{product}/alert',       [StockController::class, 'setAlert']) ->name('stock.alert');
+    
 });
