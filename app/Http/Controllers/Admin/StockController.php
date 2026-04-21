@@ -1,9 +1,9 @@
-
 <?php
 
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\StockAdjustment;
 use App\Models\StockAlert;
@@ -38,19 +38,19 @@ class StockController extends Controller
             ->paginate(20);
 
         $stats = [
-            'total_products'  => Product::count(),
-            'out_of_stock'    => Product::where('stock_quantity', '<=', 0)->count(),
-            'low_stock'       => Product::where('stock_quantity', '>', 0)
-                                        ->where('stock_quantity', '<=', 10)->count(),
-            'total_units'     => Product::sum('stock_quantity'),
+            'total_products' => Product::count(),
+            'out_of_stock'   => Product::where('stock_quantity', '<=', 0)->count(),
+            'low_stock'      => Product::where('stock_quantity', '>', 0)
+                                       ->where('stock_quantity', '<=', 10)->count(),
+            'total_units'    => Product::sum('stock_quantity'),
         ];
 
-        $categories = \App\Models\Category::orderBy('name')->get();
+        $categories = Category::orderBy('name')->get();
 
         return view('admin.stock.index', compact('products', 'stats', 'categories'));
     }
 
-    // ── Adjust Stock Form + Store ──────────────────────────────
+    // ── Adjust Stock Form ──────────────────────────────────────
     public function adjust(Product $product)
     {
         $history = StockAdjustment::where('product_id', $product->id)
@@ -62,6 +62,7 @@ class StockController extends Controller
         return view('admin.stock.adjust', compact('product', 'history'));
     }
 
+    // ── Store Adjustment ───────────────────────────────────────
     public function store(Request $request, Product $product)
     {
         $request->validate([
@@ -70,9 +71,7 @@ class StockController extends Controller
             'note'     => 'nullable|string|max:500',
         ]);
 
-        $direction = in_array($request->type, ['manual_add'])
-            ? 'in'
-            : 'out';
+        $direction = $request->type === 'manual_add' ? 'in' : 'out';
 
         StockService::adjust(
             $product->id,
@@ -85,28 +84,18 @@ class StockController extends Controller
         );
 
         return redirect()->route('admin.stock.index')
-            ->with('success', 'Stock updated for '.$product->name.'.');
+            ->with('success', 'Stock updated for ' . $product->name . '.');
     }
 
     // ── Stock History / Audit Log ──────────────────────────────
     public function history(Request $request)
     {
         $adjustments = StockAdjustment::with(['product', 'createdBy'])
-            ->when($request->type, fn($q) =>
-                $q->where('type', $request->type)
-            )
-            ->when($request->product_id, fn($q) =>
-                $q->where('product_id', $request->product_id)
-            )
-            ->when($request->direction, fn($q) =>
-                $q->where('direction', $request->direction)
-            )
-            ->when($request->date_from, fn($q) =>
-                $q->whereDate('created_at', '>=', $request->date_from)
-            )
-            ->when($request->date_to, fn($q) =>
-                $q->whereDate('created_at', '<=', $request->date_to)
-            )
+            ->when($request->type,       fn($q) => $q->where('type',       $request->type))
+            ->when($request->product_id, fn($q) => $q->where('product_id', $request->product_id))
+            ->when($request->direction,  fn($q) => $q->where('direction',  $request->direction))
+            ->when($request->date_from,  fn($q) => $q->whereDate('created_at', '>=', $request->date_from))
+            ->when($request->date_to,    fn($q) => $q->whereDate('created_at', '<=', $request->date_to))
             ->latest()
             ->paginate(25);
 
@@ -140,29 +129,23 @@ class StockController extends Controller
     {
         $adjustments = StockAdjustment::with(['product', 'createdBy'])
             ->whereIn('type', ['damaged', 'expired'])
-            ->when($request->type, fn($q) =>
-                $q->where('type', $request->type)
-            )
-            ->when($request->date_from, fn($q) =>
-                $q->whereDate('created_at', '>=', $request->date_from)
-            )
-            ->when($request->date_to, fn($q) =>
-                $q->whereDate('created_at', '<=', $request->date_to)
-            )
+            ->when($request->type,      fn($q) => $q->where('type', $request->type))
+            ->when($request->date_from, fn($q) => $q->whereDate('created_at', '>=', $request->date_from))
+            ->when($request->date_to,   fn($q) => $q->whereDate('created_at', '<=', $request->date_to))
             ->latest()
             ->paginate(20);
 
         $stats = [
-            'damaged_qty'  => StockAdjustment::where('type', 'damaged')->sum('quantity'),
-            'expired_qty'  => StockAdjustment::where('type', 'expired')->sum('quantity'),
-            'damaged_count'=> StockAdjustment::where('type', 'damaged')->count(),
-            'expired_count'=> StockAdjustment::where('type', 'expired')->count(),
+            'damaged_qty'   => StockAdjustment::where('type', 'damaged')->sum('quantity'),
+            'expired_qty'   => StockAdjustment::where('type', 'expired')->sum('quantity'),
+            'damaged_count' => StockAdjustment::where('type', 'damaged')->count(),
+            'expired_count' => StockAdjustment::where('type', 'expired')->count(),
         ];
 
         return view('admin.stock.damaged', compact('adjustments', 'stats'));
     }
 
-    // ── Set Low Stock Alert threshold ──────────────────────────
+    // ── Set Low Stock Alert Threshold ──────────────────────────
     public function setAlert(Request $request, Product $product)
     {
         $request->validate([
@@ -177,6 +160,6 @@ class StockController extends Controller
             ]
         );
 
-        return back()->with('success', 'Alert threshold updated for '.$product->name.'.');
+        return back()->with('success', 'Alert threshold updated for ' . $product->name . '.');
     }
 }
