@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\PurchaseController;
+use App\Http\Controllers\Admin\SupplierController; // ← added
 
 use Illuminate\Support\Facades\Route;
 
@@ -21,15 +22,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Products
-Route::get('/products',          [ProductController::class, 'index'])->name('products.index');
-Route::get('/products/{slug}',   [ProductController::class, 'show'])->name('products.show');
+Route::get('/products',        [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/{slug}', [ProductController::class, 'show'])->name('products.show');
 
 // Cart
-Route::get('/cart',              [CartController::class, 'index'])->name('cart');
-Route::post('/cart/add',         [CartController::class, 'add'])->name('cart.add');
-Route::patch('/cart/{id}',       [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/{id}',      [CartController::class, 'remove'])->name('cart.remove');
-Route::get('/cart/count',        [CartController::class, 'count'])->name('cart.count');
+Route::get('/cart',            [CartController::class, 'index'])->name('cart');
+Route::post('/cart/add',       [CartController::class, 'add'])->name('cart.add');
+Route::patch('/cart/{id}',     [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/{id}',    [CartController::class, 'remove'])->name('cart.remove');
+Route::get('/cart/count',      [CartController::class, 'count'])->name('cart.count');
 
 // Checkout (auth required)
 Route::middleware('auth')->group(function () {
@@ -62,7 +63,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Products
+    // ─── Products ─────────────────────────────────────────────
     Route::get('/products',                    [AdminProductController::class, 'index'])->name('products.index');
     Route::get('/products/create',             [AdminProductController::class, 'create'])->name('products.create');
     Route::post('/products',                   [AdminProductController::class, 'store'])->name('products.store');
@@ -71,46 +72,54 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/products/{product}',       [AdminProductController::class, 'destroy'])->name('products.destroy');
     Route::patch('/products/{product}/toggle', [AdminProductController::class, 'toggleStatus'])->name('products.toggle');
 
-    // Orders
-    Route::get('/orders',                      [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/{order}',              [OrderController::class, 'show'])->name('orders.show');
-    Route::patch('/orders/{order}/status',     [OrderController::class, 'updateStatus'])->name('orders.status');
+    // ─── Orders ───────────────────────────────────────────────
+    Route::get('/orders',                  [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}',          [OrderController::class, 'show'])->name('orders.show');
+    Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
 
-    // Categories
-    Route::get('/categories',                  [CategoryController::class, 'index'])->name('categories.index');
-    Route::get('/categories/create',           [CategoryController::class, 'create'])->name('categories.create');
-    Route::post('/categories',                 [CategoryController::class, 'store'])->name('categories.store');
-    Route::get('/categories/{category}/edit',  [CategoryController::class, 'edit'])->name('categories.edit');
-    Route::put('/categories/{category}',       [CategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/categories/{category}',    [CategoryController::class, 'destroy'])->name('categories.destroy');
+    // ─── Categories ───────────────────────────────────────────
+    Route::get('/categories',                 [CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/categories/create',          [CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/categories',                [CategoryController::class, 'store'])->name('categories.store');
+    Route::get('/categories/{category}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('/categories/{category}',      [CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{category}',   [CategoryController::class, 'destroy'])->name('categories.destroy');
 
-    // Users
-    Route::get('/users',                       [UserController::class, 'index'])->name('users.index');
-    Route::patch('/users/{user}/toggle',       [UserController::class, 'toggleStatus'])->name('users.toggle');
+    // ─── Users ────────────────────────────────────────────────
+    Route::get('/users',                 [UserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}/toggle', [UserController::class, 'toggleStatus'])->name('users.toggle');
 
-    // Settings
-    Route::get('/settings',                    [SettingsController::class, 'index'])->name('settings.index');
-    Route::post('/settings',                   [SettingsController::class, 'update'])->name('settings.update');
-    Route::patch('/settings/gateways/{gateway}', [SettingsController::class, 'updateGateway'])->name('settings.gateway');
+    // ─── Settings ─────────────────────────────────────────────
+    Route::get('/settings',                          [SettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings',                         [SettingsController::class, 'update'])->name('settings.update');
+    Route::patch('/settings/gateways/{gateway}',     [SettingsController::class, 'updateGateway'])->name('settings.gateway');
 
-   // ─── POS ─────────────────────────────────────────────────
-Route::get('/pos',                         [PosController::class, 'index'])->name('pos.index');
-Route::post('/pos/sale',                   [PosController::class, 'processSale'])->name('pos.sale');
-Route::get('/pos/orders',                  [PosController::class, 'orders'])->name('pos.orders');
-Route::get('/pos/receipt/{order}',         [PosController::class, 'receipt'])->name('pos.receipt');
-Route::get('/pos/products/search',         [PosController::class, 'searchProducts'])->name('pos.products.search');
-Route::get('/pos/customer/lookup',         [PosController::class, 'lookupCustomer'])->name('pos.customer.lookup');
+    // ─── POS ──────────────────────────────────────────────────
+    Route::get('/pos',                  [PosController::class, 'index'])->name('pos.index');
+    Route::post('/pos/sale',            [PosController::class, 'processSale'])->name('pos.sale');
+    Route::get('/pos/orders',           [PosController::class, 'orders'])->name('pos.orders');
+    Route::get('/pos/receipt/{order}',  [PosController::class, 'receipt'])->name('pos.receipt');
+    Route::get('/pos/products/search',  [PosController::class, 'searchProducts'])->name('pos.products.search');
+    Route::get('/pos/customer/lookup',  [PosController::class, 'lookupCustomer'])->name('pos.customer.lookup');
 
- // ─── Purchases ────────────────────────────────────────────
-    Route::get('/purchases',                   [PurchaseController::class, 'index'])       ->name('purchase.index');
-    Route::get('/purchases/create',            [PurchaseController::class, 'create'])      ->name('purchase.create');
-    Route::post('/purchases',                  [PurchaseController::class, 'store'])       ->name('purchase.store');
-    Route::get('/purchases/{id}',              [PurchaseController::class, 'show'])        ->name('purchase.show');
-    Route::get('/purchases/{id}/edit',         [PurchaseController::class, 'edit'])        ->name('purchase.edit');
-    Route::put('/purchases/{id}',              [PurchaseController::class, 'update'])      ->name('purchase.update');
-    Route::delete('/purchases/{id}',           [PurchaseController::class, 'destroy'])     ->name('purchase.destroy');
-    Route::get('/purchases/{id}/return',       [PurchaseController::class, 'returnForm'])  ->name('purchase.return.form');
-    Route::post('/purchases/{id}/return',      [PurchaseController::class, 'returnStore']) ->name('purchase.return.store');
+    // ─── Purchases ────────────────────────────────────────────
+    Route::get('/purchases',                [PurchaseController::class, 'index'])       ->name('purchase.index');
+    Route::get('/purchases/create',         [PurchaseController::class, 'create'])      ->name('purchase.create');
+    Route::post('/purchases',               [PurchaseController::class, 'store'])       ->name('purchase.store');
+    Route::get('/purchases/{id}',           [PurchaseController::class, 'show'])        ->name('purchase.show');
+    Route::get('/purchases/{id}/edit',      [PurchaseController::class, 'edit'])        ->name('purchase.edit');
+    Route::put('/purchases/{id}',           [PurchaseController::class, 'update'])      ->name('purchase.update');
+    Route::delete('/purchases/{id}',        [PurchaseController::class, 'destroy'])     ->name('purchase.destroy');
+    Route::get('/purchases/{id}/return',    [PurchaseController::class, 'returnForm'])  ->name('purchase.return.form');
+    Route::post('/purchases/{id}/return',   [PurchaseController::class, 'returnStore']) ->name('purchase.return.store');
 
+    // ─── Suppliers ────────────────────────────────────────────
+    Route::get('/suppliers',                [SupplierController::class, 'index'])  ->name('supplier.index');
+    Route::get('/suppliers/create',         [SupplierController::class, 'create']) ->name('supplier.create');
+    Route::post('/suppliers',               [SupplierController::class, 'store'])  ->name('supplier.store');
+    Route::get('/suppliers/{id}/edit',      [SupplierController::class, 'edit'])   ->name('supplier.edit');
+    Route::put('/suppliers/{id}',           [SupplierController::class, 'update']) ->name('supplier.update');
+    Route::delete('/suppliers/{id}',        [SupplierController::class, 'destroy'])->name('supplier.destroy');
+    Route::patch('/suppliers/{id}/toggle',  [SupplierController::class, 'toggle']) ->name('supplier.toggle');
 
 });
