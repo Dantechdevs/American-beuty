@@ -57,34 +57,10 @@
         ::-webkit-scrollbar-thumb{background:rgba(124,58,237,.2);border-radius:4px;}
 
         /* ════ SIDEBAR ════ */
-        .sidebar{
-            width:var(--sb-w);background:var(--sb);
-            position:fixed;top:0;left:0;height:100vh;
-            display:flex;flex-direction:column;z-index:200;
-            overflow-y:auto;overflow-x:hidden;
-            border-right:1.5px solid var(--sb-border);
-            box-shadow:2px 0 20px rgba(124,58,237,.07);
-        }
-        .sb-brand{
-            padding:1.4rem 1.3rem 1.2rem;
-            display:flex;flex-direction:column;gap:.28rem;
-            border-bottom:1.5px solid var(--sb-border);flex-shrink:0;
-            position:relative;overflow:hidden;
-            background:linear-gradient(135deg,#f8f5ff 0%,#fdf0ff 100%);
-        }
-        .sb-brand::before{
-            content:'';position:absolute;width:140px;height:140px;border-radius:50%;
-            background:radial-gradient(circle,rgba(124,58,237,.1) 0%,transparent 70%);
-            top:-50px;right:-40px;pointer-events:none;
-        }
-        .sb-logo-icon{
-            width:44px;height:44px;border-radius:13px;flex-shrink:0;
-            background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 100%);
-            display:flex;align-items:center;justify-content:center;
-            font-size:1.15rem;color:#fff;
-            box-shadow:0 5px 18px rgba(124,58,237,.4);
-            position:relative;z-index:1;margin-bottom:.45rem;
-        }
+        .sidebar{width:var(--sb-w);background:var(--sb);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:200;overflow-y:auto;overflow-x:hidden;border-right:1.5px solid var(--sb-border);box-shadow:2px 0 20px rgba(124,58,237,.07);}
+        .sb-brand{padding:1.4rem 1.3rem 1.2rem;display:flex;flex-direction:column;gap:.28rem;border-bottom:1.5px solid var(--sb-border);flex-shrink:0;position:relative;overflow:hidden;background:linear-gradient(135deg,#f8f5ff 0%,#fdf0ff 100%);}
+        .sb-brand::before{content:'';position:absolute;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.1) 0%,transparent 70%);top:-50px;right:-40px;pointer-events:none;}
+        .sb-logo-icon{width:44px;height:44px;border-radius:13px;flex-shrink:0;background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 100%);display:flex;align-items:center;justify-content:center;font-size:1.15rem;color:#fff;box-shadow:0 5px 18px rgba(124,58,237,.4);position:relative;z-index:1;margin-bottom:.45rem;}
         .sb-brand-american{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;line-height:1;letter-spacing:-.02em;color:#1a0a2e;position:relative;z-index:1;}
         .sb-brand-beauty{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;font-style:italic;line-height:1;background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;z-index:1;}
         .sb-brand-sub{font-size:.62rem;color:var(--sb-muted);letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-top:.2rem;position:relative;z-index:1;}
@@ -119,25 +95,9 @@
         .main{margin-left:var(--sb-w);flex:1;display:flex;flex-direction:column;min-height:100vh;min-width:0;}
 
         /* ════ TOPBAR ════ */
-        .topbar{
-            height:var(--bar-h);
-            background:rgba(255,255,255,0.85);
-            backdrop-filter:blur(20px);
-            -webkit-backdrop-filter:blur(20px);
-            border-bottom:1px solid rgba(237,232,245,0.8);
-            display:flex;align-items:center;
-            padding:0 1.75rem;gap:1rem;
-            position:sticky;top:0;z-index:100;
-            box-shadow:0 1px 0 rgba(237,232,245,0.6), 0 4px 24px rgba(124,58,237,.05);
-        }
+        .topbar{height:var(--bar-h);background:rgba(255,255,255,0.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(237,232,245,0.8);display:flex;align-items:center;padding:0 1.75rem;gap:1rem;position:sticky;top:0;z-index:100;box-shadow:0 1px 0 rgba(237,232,245,0.6),0 4px 24px rgba(124,58,237,.05);}
         .topbar-left{flex:1;display:flex;align-items:center;gap:.65rem;}
-        .topbar-page-icon{
-            width:36px;height:36px;border-radius:10px;flex-shrink:0;
-            background:linear-gradient(135deg,var(--purple),var(--pink));
-            display:flex;align-items:center;justify-content:center;
-            color:#fff;font-size:.8rem;
-            box-shadow:0 3px 12px rgba(124,58,237,.28);
-        }
+        .topbar-page-icon{width:36px;height:36px;border-radius:10px;flex-shrink:0;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;box-shadow:0 3px 12px rgba(124,58,237,.28);}
         .topbar-breadcrumb{display:flex;flex-direction:column;gap:.05rem;}
         .topbar-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);line-height:1.1;letter-spacing:-.01em;}
         .topbar-sub{display:flex;align-items:center;gap:.3rem;font-size:.68rem;color:var(--muted);font-weight:400;}
@@ -268,8 +228,6 @@
         .empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem 2rem;color:var(--muted);text-align:center;}
         .empty-state i{font-size:2.5rem;margin-bottom:.75rem;opacity:.2;}
         .empty-state p{font-size:.88rem;margin-bottom:1rem;}
-
-        /* ════ PAGE HEADER ════ */
         .page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
         .page-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:.55rem;margin-bottom:.2rem;}
         .page-sub{font-size:.8rem;color:var(--muted);}
@@ -315,20 +273,16 @@
             <span class="sb-txt">Products</span>
         </a>
 
-        {{-- Purchase — now wired up with unpaid badge --}}
         <a href="{{ route('admin.purchase.index') }}"
            class="sb-link {{ request()->routeIs('admin.purchase.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-cart-flatbed"></i></span>
             <span class="sb-txt">Purchases</span>
-            @php
-                $unpaidCount = \App\Models\Purchase::where('payment_status','unpaid')->count();
-            @endphp
+            @php $unpaidCount = \App\Models\Purchase::where('payment_status','unpaid')->count(); @endphp
             @if($unpaidCount > 0)
                 <span class="sb-badge">{{ $unpaidCount }}</span>
             @endif
         </a>
 
-        {{-- Suppliers — new --}}
         <a href="{{ route('admin.supplier.index') }}"
            class="sb-link {{ request()->routeIs('admin.supplier.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-building"></i></span>
@@ -340,9 +294,33 @@
             <span class="sb-txt">Damages</span>
         </a>
 
-        <a href="#" class="sb-link {{ request()->routeIs('admin.stock.*') ? 'active':'' }}">
+        {{-- Stock with sub-links --}}
+        <a href="{{ route('admin.stock.index') }}"
+           class="sb-link {{ request()->routeIs('admin.stock.index') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-warehouse"></i></span>
             <span class="sb-txt">Stock</span>
+        </a>
+
+        <a href="{{ route('admin.stock.history') }}"
+           class="sb-link {{ request()->routeIs('admin.stock.history') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-clock-rotate-left"></i></span>
+            <span class="sb-txt">Stock History</span>
+        </a>
+
+        <a href="{{ route('admin.stock.low') }}"
+           class="sb-link {{ request()->routeIs('admin.stock.low') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-triangle-exclamation"></i></span>
+            <span class="sb-txt">Low Stock</span>
+            @php $lowCount = \App\Models\Product::where('stock_quantity','<=',10)->where('stock_quantity','>',0)->count(); @endphp
+            @if($lowCount > 0)
+                <span class="sb-badge">{{ $lowCount }}</span>
+            @endif
+        </a>
+
+        <a href="{{ route('admin.stock.damaged') }}"
+           class="sb-link {{ request()->routeIs('admin.stock.damaged') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-box-archive"></i></span>
+            <span class="sb-txt">Damaged / Expired</span>
         </a>
 
         {{-- ── POS & Orders ── --}}
@@ -391,29 +369,25 @@
         {{-- ── Logs ── --}}
         <div class="sb-section">Logs</div>
 
-        <a href="{{ route_exists('admin.logs.mpesa') ? route('admin.logs.mpesa') : '#' }}"
-           class="sb-link {{ request()->routeIs('admin.logs.mpesa') ? 'active':'' }}">
+        <a href="#" class="sb-link soon">
             <span class="sb-ico"><i class="fas fa-mobile-screen-button"></i></span>
             <span class="sb-txt">M-Pesa Logs</span>
-            @unless(route_exists('admin.logs.mpesa'))<span class="sb-soon-pill">Soon</span>@endunless
+            <span class="sb-soon-pill">Soon</span>
         </a>
-        <a href="{{ route_exists('admin.logs.customers') ? route('admin.logs.customers') : '#' }}"
-           class="sb-link {{ request()->routeIs('admin.logs.customers') ? 'active':'' }}">
+        <a href="#" class="sb-link soon">
             <span class="sb-ico"><i class="fas fa-users-viewfinder"></i></span>
             <span class="sb-txt">Customer Logs</span>
-            @unless(route_exists('admin.logs.customers'))<span class="sb-soon-pill">Soon</span>@endunless
+            <span class="sb-soon-pill">Soon</span>
         </a>
-        <a href="{{ route_exists('admin.logs.managers') ? route('admin.logs.managers') : '#' }}"
-           class="sb-link {{ request()->routeIs('admin.logs.managers') ? 'active':'' }}">
+        <a href="#" class="sb-link soon">
             <span class="sb-ico"><i class="fas fa-user-tie"></i></span>
             <span class="sb-txt">Manager Logs</span>
-            @unless(route_exists('admin.logs.managers'))<span class="sb-soon-pill">Soon</span>@endunless
+            <span class="sb-soon-pill">Soon</span>
         </a>
-        <a href="{{ route_exists('admin.logs.pos') ? route('admin.logs.pos') : '#' }}"
-           class="sb-link {{ request()->routeIs('admin.logs.pos') ? 'active':'' }}">
+        <a href="#" class="sb-link soon">
             <span class="sb-ico"><i class="fas fa-computer"></i></span>
             <span class="sb-txt">POS Operator Logs</span>
-            @unless(route_exists('admin.logs.pos'))<span class="sb-soon-pill">Soon</span>@endunless
+            <span class="sb-soon-pill">Soon</span>
         </a>
 
         {{-- ── Communications ── --}}

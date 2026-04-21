@@ -116,12 +116,18 @@ class StockController extends Controller
     {
         $threshold = $request->threshold ?? 10;
 
-        $products = Product::with(['category', 'stockAlert'])
+        $outOfStock = Product::with(['category', 'stockAlert'])
+            ->where('stock_quantity', '<=', 0)
+            ->orderBy('name')
+            ->get();
+
+        $lowStock = Product::with(['category', 'stockAlert'])
+            ->where('stock_quantity', '>', 0)
             ->where('stock_quantity', '<=', $threshold)
             ->orderBy('stock_quantity', 'asc')
-            ->paginate(20);
+            ->get();
 
-        return view('admin.stock.low-stock', compact('products', 'threshold'));
+        return view('admin.stock.low-stock', compact('outOfStock', 'lowStock', 'threshold'));
     }
 
     // ── Damaged / Expired ──────────────────────────────────────

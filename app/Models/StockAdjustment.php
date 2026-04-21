@@ -1,8 +1,6 @@
-
 <?php
 
-namespace App\Models;   
-
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,8 +21,6 @@ class StockAdjustment extends Model
         'reference_id',
     ];
 
-    // ── Relationships ──────────────────────────────────────────
-
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
@@ -39,8 +35,6 @@ class StockAdjustment extends Model
     {
         return $this->morphTo();
     }
-
-    // ── Helpers ────────────────────────────────────────────────
 
     public function getTypeLabel(): string
     {
@@ -83,8 +77,6 @@ class StockAdjustment extends Model
             default         => 'fa-circle',
         };
     }
-
-    // ── Scopes ─────────────────────────────────────────────────
 
     public function scopeIn($query)
     {
