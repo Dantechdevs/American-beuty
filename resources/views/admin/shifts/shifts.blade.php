@@ -17,11 +17,7 @@
 @media (max-width: 960px) { .shifts-grid { grid-template-columns: 1fr; } }
 
 /* Shift cards */
-.shift-cards {
-    display: flex;
-    flex-direction: column;
-    gap: .85rem;
-}
+.shift-cards { display: flex; flex-direction: column; gap: .85rem; }
 .shift-card {
     background: #fff;
     border: 1.5px solid var(--border);
@@ -32,13 +28,9 @@
 }
 .shift-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
 .shift-card.inactive { opacity: .6; }
-
 .shift-card-body {
     padding: 1.1rem 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
 }
 .shift-icon {
     width: 50px; height: 50px; border-radius: 13px; flex-shrink: 0;
@@ -47,71 +39,52 @@
     color: #fff; font-size: 1.1rem;
     box-shadow: 0 4px 14px rgba(124,58,237,.25);
 }
-.shift-icon.inactive {
-    background: linear-gradient(135deg, #ccc, #aaa);
-    box-shadow: none;
-}
+.shift-icon.inactive { background: linear-gradient(135deg, #ccc, #aaa); box-shadow: none; }
 .shift-info { flex: 1; min-width: 0; }
 .shift-name {
     font-family: 'Playfair Display', serif;
-    font-size: 1rem; font-weight: 700;
-    color: var(--text); margin-bottom: .25rem;
+    font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: .25rem;
 }
 .shift-schedule {
     font-size: .82rem; color: var(--muted);
     display: flex; align-items: center; gap: .35rem; flex-wrap: wrap;
 }
 .shift-schedule i { font-size: .75rem; color: var(--purple); }
-
-.shift-meta {
-    display: flex; gap: .5rem; align-items: center; flex-wrap: wrap;
-    margin-top: .5rem;
-}
+.shift-meta { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; margin-top: .5rem; }
 .shift-pill {
     display: inline-flex; align-items: center; gap: .28rem;
     font-size: .7rem; font-weight: 600;
-    padding: .2rem .6rem; border-radius: 20px;
-    border: 1px solid transparent;
+    padding: .2rem .6rem; border-radius: 20px; border: 1px solid transparent;
 }
 .shift-pill.duration { background: var(--purple-soft); color: var(--purple); border-color: #ddd6fe; }
 .shift-pill.grace    { background: var(--gold-soft);   color: var(--gold);   border-color: #fde68a; }
 .shift-pill.staff    { background: var(--green-soft);  color: #15803d;       border-color: #bbf7d0; }
 .shift-pill.inactive { background: #f5f5f5; color: #888; border-color: #e5e5e5; }
-
-.shift-actions {
-    display: flex; gap: .4rem; align-items: center; flex-shrink: 0;
-}
+.shift-actions { display: flex; gap: .4rem; align-items: center; flex-shrink: 0; }
 .sh-btn {
     width: 32px; height: 32px; border-radius: 9px;
     border: 1.5px solid var(--border); background: #fff;
     cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-size: .78rem; color: var(--muted);
-    transition: all .15s; text-decoration: none;
+    font-size: .78rem; color: var(--muted); transition: all .15s; text-decoration: none;
 }
-.sh-btn:hover         { border-color: var(--purple); color: var(--purple); background: var(--purple-soft); }
-.sh-btn.danger:hover  { border-color: var(--tango);  color: var(--tango);  background: var(--pink-soft); }
+.sh-btn:hover        { border-color: var(--purple); color: var(--purple); background: var(--purple-soft); }
+.sh-btn.danger:hover { border-color: var(--tango);  color: var(--tango);  background: var(--pink-soft); }
 
 /* Empty state */
 .shifts-empty {
     background: #fff; border: 1.5px dashed var(--border);
-    border-radius: var(--r); padding: 3rem 1.5rem;
-    text-align: center; color: var(--muted);
+    border-radius: var(--r); padding: 3rem 1.5rem; text-align: center; color: var(--muted);
 }
 .shifts-empty i { font-size: 2.5rem; opacity: .15; color: var(--purple); display: block; margin-bottom: .75rem; }
 
-/* ── Form card ── */
+/* Form card */
 .form-card {
-    background: #fff;
-    border: 1.5px solid var(--border);
-    border-radius: var(--r);
-    box-shadow: var(--shadow);
-    overflow: hidden;
-    position: sticky;
-    top: 80px;
+    background: #fff; border: 1.5px solid var(--border);
+    border-radius: var(--r); box-shadow: var(--shadow);
+    overflow: hidden; position: sticky; top: 80px;
 }
 .form-card-header {
-    padding: .9rem 1.25rem;
-    border-bottom: 1.5px solid var(--border);
+    padding: .9rem 1.25rem; border-bottom: 1.5px solid var(--border);
     background: linear-gradient(120deg, #fff 55%, var(--purple-soft) 100%);
 }
 .form-card-header h3 {
@@ -129,25 +102,22 @@
     color: var(--muted); text-transform: uppercase; letter-spacing: .05em;
 }
 .sf-label span { color: var(--pink); margin-left: .1rem; }
-.sf-input, .sf-select {
+.sf-input {
     padding: .6rem .9rem;
     border: 1.5px solid var(--border); border-radius: var(--r-sm);
     font-size: .86rem; font-family: inherit;
     outline: none; background: #fff; color: var(--text);
     transition: border-color .18s; width: 100%;
 }
-.sf-input:focus, .sf-select:focus {
+.sf-input:focus {
     border-color: var(--purple);
     box-shadow: 0 0 0 3px rgba(124,58,237,.08);
 }
 .sf-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
-
-/* Toggle switch */
 .sf-toggle-wrap {
     display: flex; align-items: center; justify-content: space-between;
-    padding: .7rem .9rem;
-    border: 1.5px solid var(--border); border-radius: var(--r-sm);
-    background: #faf7ff;
+    padding: .7rem .9rem; border: 1.5px solid var(--border);
+    border-radius: var(--r-sm); background: #faf7ff;
 }
 .sf-toggle-label { font-size: .85rem; font-weight: 500; color: var(--text); }
 .sf-toggle {
@@ -161,23 +131,17 @@
     content: ''; position: absolute;
     width: 16px; height: 16px; border-radius: 50%;
     background: #fff; top: 3px; left: 3px;
-    transition: transform .2s;
-    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+    transition: transform .2s; box-shadow: 0 1px 4px rgba(0,0,0,.2);
 }
 .sf-toggle:checked::after { transform: translateX(18px); }
 
-/* Edit mode banner */
+/* Edit banner */
 .edit-banner {
-    display: none;
-    background: var(--purple-soft);
-    border: 1.5px solid #ddd6fe;
-    border-radius: var(--r-sm);
-    padding: .65rem .9rem;
-    margin-bottom: 1rem;
-    font-size: .8rem; font-weight: 600;
-    color: var(--purple);
-    align-items: center; gap: .5rem;
-    justify-content: space-between;
+    display: none; background: var(--purple-soft);
+    border: 1.5px solid #ddd6fe; border-radius: var(--r-sm);
+    padding: .65rem .9rem; margin-bottom: 1rem;
+    font-size: .8rem; font-weight: 600; color: var(--purple);
+    align-items: center; gap: .5rem; justify-content: space-between;
 }
 .edit-banner.show { display: flex; }
 </style>
@@ -308,14 +272,13 @@
     <div>
         <div class="form-card">
             <div class="form-card-header">
-                <h3 id="formTitle">
+                <h3>
                     <i class="fas fa-plus-circle"></i>
                     <span id="formTitleText">New Shift</span>
                 </h3>
             </div>
             <div class="form-card-body">
 
-                {{-- Edit mode banner --}}
                 <div class="edit-banner" id="editBanner">
                     <span><i class="fas fa-pen-to-square"></i> Editing: <strong id="editingName"></strong></span>
                     <button type="button" onclick="resetForm()"
@@ -337,21 +300,18 @@
                     <div class="sf-grid-2">
                         <div class="sf-field">
                             <label class="sf-label">Start Time <span>*</span></label>
-                            <input type="time" name="start_time" id="sfStart"
-                                   class="sf-input" required>
+                            <input type="time" name="start_time" id="sfStart" class="sf-input" required>
                         </div>
                         <div class="sf-field">
                             <label class="sf-label">End Time <span>*</span></label>
-                            <input type="time" name="end_time" id="sfEnd"
-                                   class="sf-input" required>
+                            <input type="time" name="end_time" id="sfEnd" class="sf-input" required>
                         </div>
                     </div>
 
                     <div class="sf-field">
                         <label class="sf-label">Grace Period (minutes)</label>
-                        <input type="number" name="grace_minutes" id="sfGrace"
-                               class="sf-input" value="15" min="0" max="120"
-                               placeholder="15">
+                        <input type="number" name="grace_minutes" id="sfGrace" class="sf-input"
+                               value="15" min="0" max="120" placeholder="15">
                         <span style="font-size:.72rem;color:var(--muted)">
                             Staff arriving within this window are not marked late.
                         </span>
@@ -366,8 +326,11 @@
                     </div>
 
                     {{-- Live preview --}}
-                    <div id="shiftPreview" style="display:none;background:var(--purple-soft);border:1.5px solid #ddd6fe;border-radius:var(--r-sm);padding:.75rem 1rem;margin-bottom:1rem">
-                        <div style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem">Preview</div>
+                    <div id="shiftPreview"
+                         style="display:none;background:var(--purple-soft);border:1.5px solid #ddd6fe;border-radius:var(--r-sm);padding:.75rem 1rem;margin-bottom:1rem">
+                        <div style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.35rem">
+                            Preview
+                        </div>
                         <div style="font-size:.88rem;font-weight:600;color:var(--purple)" id="previewText">—</div>
                     </div>
 
@@ -411,37 +374,34 @@ function updatePreview() {
     const endMins   = parseInt(end.split(':')[0])   * 60 + parseInt(end.split(':')[1]);
     let diff = endMins - startMins;
     if (diff < 0) diff += 1440;
-    const dh = Math.floor(diff / 60);
-    const dm = diff % 60;
+    const dh  = Math.floor(diff / 60);
+    const dm  = diff % 60;
     const dur = dm > 0 ? `${dh}h ${dm}m` : `${dh}h`;
 
-    text.textContent = `${fmt(start)} – ${fmt(end)} · ${dur} · ${grace}m grace`;
-    prev.style.display = 'block';
+    text.textContent    = `${fmt(start)} – ${fmt(end)} · ${dur} · ${grace}m grace`;
+    prev.style.display  = 'block';
 }
 
-['sfStart','sfEnd','sfGrace'].forEach(id => {
+['sfStart', 'sfEnd', 'sfGrace'].forEach(id => {
     document.getElementById(id).addEventListener('input', updatePreview);
 });
 
 /* ── Load shift into edit form ── */
 function loadEdit(id, name, start, end, grace, isActive) {
-    document.getElementById('sfName').value   = name;
-    document.getElementById('sfStart').value  = start;
-    document.getElementById('sfEnd').value    = end;
-    document.getElementById('sfGrace').value  = grace;
+    document.getElementById('sfName').value     = name;
+    document.getElementById('sfStart').value    = start;
+    document.getElementById('sfEnd').value      = end;
+    document.getElementById('sfGrace').value    = grace;
     document.getElementById('sfActive').checked = isActive;
 
-    // Swap form action to PUT
-    document.getElementById('shiftForm').action = '/admin/shifts/' + id;
-    document.getElementById('methodSpoof').innerHTML =
-        '<input type="hidden" name="_method" value="PUT">';
+    document.getElementById('shiftForm').action     = '/admin/shifts/' + id;
+    document.getElementById('methodSpoof').innerHTML = '<input type="hidden" name="_method" value="PUT">';
 
-    // UI feedback
     document.getElementById('editBanner').classList.add('show');
-    document.getElementById('editingName').textContent = name;
-    document.getElementById('submitIcon').className   = 'fas fa-floppy-disk';
-    document.getElementById('submitLabel').textContent = 'Update Shift';
-    document.getElementById('formTitleText').textContent = 'Edit Shift';
+    document.getElementById('editingName').textContent    = name;
+    document.getElementById('submitIcon').className       = 'fas fa-floppy-disk';
+    document.getElementById('submitLabel').textContent    = 'Update Shift';
+    document.getElementById('formTitleText').textContent  = 'Edit Shift';
 
     updatePreview();
     document.getElementById('sfName').focus();
@@ -451,13 +411,12 @@ function loadEdit(id, name, start, end, grace, isActive) {
 /* ── Reset to create mode ── */
 function resetForm() {
     document.getElementById('shiftForm').reset();
-    document.getElementById('shiftForm').action = STORE_URL;
-    document.getElementById('methodSpoof').innerHTML = '';
-    document.getElementById('sfGrace').value = '15';
-    document.getElementById('sfActive').checked = true;
+    document.getElementById('shiftForm').action          = STORE_URL;
+    document.getElementById('methodSpoof').innerHTML     = '';
+    document.getElementById('sfGrace').value             = '15';
+    document.getElementById('sfActive').checked          = true;
     document.getElementById('editBanner').classList.remove('show');
-    document.getElementById('submitIcon').className   = 'fas fa-floppy-disk';
-    document.getElementById('submitLabel').textContent = 'Create Shift';
+    document.getElementById('submitLabel').textContent   = 'Create Shift';
     document.getElementById('formTitleText').textContent = 'New Shift';
     document.getElementById('shiftPreview').style.display = 'none';
 }
