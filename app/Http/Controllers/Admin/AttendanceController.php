@@ -150,24 +150,29 @@ class AttendanceController extends Controller
         return view('admin.attendance.index', compact('attendances', 'employees', 'todayStats'));
     }
 
-  public function today()
+ public function today()
 {
     $attendances = Attendance::whereDate('date', today())
         ->with('employee')
         ->orderBy('clock_in', 'desc')
         ->get();
 
-    $totalStaff = Employee::where('is_active', 1)->count();
+    $employees = Employee::where('is_active', 1)
+        ->with(['attendances' => fn($q) => $q->whereDate('date', today())])
+        ->orderBy('name')
+        ->get();
+
+    $totalStaff = $employees->count();
 
     $stats = [
-    'total'       => $totalStaff,
-    'present'     => $attendances->whereIn('status', ['present', 'late', 'early_out', 'half_day'])->count(),
-    'late'        => $attendances->where('status', 'late')->count(),
-    'absent'      => $totalStaff - $attendances->whereNotNull('clock_in')->count(),
-    'clocked_out' => $attendances->whereNotNull('clock_out')->count(),
-];
+        'total'       => $totalStaff,
+        'present'     => $attendances->whereIn('status', ['present', 'late', 'early_out', 'half_day'])->count(),
+        'late'        => $attendances->where('status', 'late')->count(),
+        'absent'      => $totalStaff - $attendances->whereNotNull('clock_in')->count(),
+        'clocked_out' => $attendances->whereNotNull('clock_out')->count(),
+    ];
 
-    return view('admin.attendance.today', compact('attendances', 'stats'));
+    return view('admin.attendance.today', compact('attendances', 'employees', 'stats'));
 }
     // ── Single employee attendance ─────────────────────────────
     public function show(Employee $employee, Request $request)
