@@ -203,12 +203,13 @@ class AttendanceController extends Controller
     // ── Report ─────────────────────────────────────────────────
     public function report(Request $request)
     {
-        $from = $request->from ?? now()->startOfMonth()->toDateString();
-        $to   = $request->to   ?? now()->toDateString();
+        // Named $dateFrom/$dateTo to match blade variable names
+        $dateFrom = $request->from ?? now()->startOfMonth()->toDateString();
+        $dateTo   = $request->to   ?? now()->toDateString();
 
         $employees = Employee::where('is_active', true)
             ->with(['attendances' => fn($q) =>
-                $q->whereBetween('date', [$from, $to])
+                $q->whereBetween('date', [$dateFrom, $dateTo])
             ])
             ->orderBy('name')
             ->get();
@@ -234,7 +235,7 @@ class AttendanceController extends Controller
             'total_hrs' => $employees->sum(fn($e) => $e->summary['total_hrs']),
         ];
 
-        return view('admin.attendance.report', compact('employees', 'from', 'to', 'summary'));
+        return view('admin.attendance.report', compact('employees', 'dateFrom', 'dateTo', 'summary'));
     }
 
     // ── Export (CSV) ───────────────────────────────────────────
