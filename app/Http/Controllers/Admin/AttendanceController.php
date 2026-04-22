@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Employee;
 use App\Models\Shift;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
@@ -24,11 +24,11 @@ class AttendanceController extends Controller
         $totalEmployees = Employee::where('is_active', true)->count();
 
         $todayStats = [
-            'total'     => $totalEmployees,
             'present'   => Attendance::whereDate('date', today())->where('status', 'present')->count(),
             'late'      => Attendance::whereDate('date', today())->where('status', 'late')->count(),
             'early_out' => Attendance::whereDate('date', today())->where('status', 'early_out')->count(),
             'absent'    => $totalEmployees - Attendance::whereDate('date', today())->count(),
+            'total'     => $totalEmployees,
         ];
 
         return view('admin.attendance.terminal', compact('currentlyIn', 'totalEmployees', 'todayStats'));
@@ -152,28 +152,22 @@ class AttendanceController extends Controller
     // ── Today's attendance ─────────────────────────────────────
     public function today()
     {
-        $attendances = Attendance::with(['employee', 'shift'])
+        $attendances    = Attendance::with(['employee', 'shift'])
             ->whereDate('date', today())
             ->latest('clock_in')
             ->get();
 
         $totalEmployees = Employee::where('is_active', true)->count();
 
-        $stats = [
-            'total'       => $totalEmployees,
-            'present'     => $attendances->where('status', 'present')->count(),
-            'late'        => $attendances->where('status', 'late')->count(),
-            'early_out'   => $attendances->where('status', 'early_out')->count(),
-            'absent'      => $totalEmployees - $attendances->count(),
-            'clocked_out' => $attendances->whereNotNull('clock_out')->count(),
+        $todayStats = [
+            'total'     => $totalEmployees,
+            'present'   => $attendances->where('status', 'present')->count(),
+            'late'      => $attendances->where('status', 'late')->count(),
+            'early_out' => $attendances->where('status', 'early_out')->count(),
+            'absent'    => $totalEmployees - $attendances->count(),
         ];
 
-        $employees = Employee::where('is_active', true)
-            ->with(['todayAttendance', 'shift'])
-            ->orderBy('name')
-            ->get();
-
-        return view('admin.attendance.today', compact('attendances', 'stats', 'employees'));
+        return view('admin.attendance.today', compact('attendances', 'todayStats'));
     }
 
     // ── Single employee attendance ─────────────────────────────
@@ -203,67 +197,29 @@ class AttendanceController extends Controller
     // ── Report ─────────────────────────────────────────────────
     public function report(Request $request)
     {
-        $dateFrom = $request->from ?? now()->startOfMonth()->toDateString();
-        $dateTo   = $request->to   ?? now()->toDateString();
-
-        // Working days in range (Mon–Sat, excluding Sun)
-        $workingDays = 0;
-        $cursor = Carbon::parse($dateFrom);
-        $end    = Carbon::parse($dateTo);
-        while ($cursor->lte($end)) {
-            if (!$cursor->isSunday()) {
-                $workingDays++;
-            }
-            $cursor->addDay();
-        }
+        $from = $request->from ?? now()->startOfMonth()->toDateString();
+        $to   = $request->to   ?? now()->toDateString();
 
         $employees = Employee::where('is_active', true)
             ->with(['attendances' => fn($q) =>
-                $q->whereBetween('date', [$dateFrom, $dateTo])
+                $q->whereBetween('date', [$from, $to])
             ])
             ->orderBy('name')
             ->get();
 
-        // Build $report rows — structure the blade expects:
-        // $row['employee'], $row['percentage'], $row['present'],
-        // $row['late'], $row['absent'], $row['early_out'],
-        // $row['half_day'], $row['total_hours']
-        $report = $employees->map(function ($emp) use ($workingDays) {
-            $present   = $emp->attendances->where('status', 'present')->count();
-            $late      = $emp->attendances->where('status', 'late')->count();
-            $absent    = $emp->attendances->where('status', 'absent')->count();
-            $earlyOut  = $emp->attendances->where('status', 'early_out')->count();
-            $halfDay   = $emp->attendances->where('status', 'half_day')->count();
-            $totalMins = $emp->attendances->sum('hours_worked');
-            $attended  = $present + $late + $earlyOut + $halfDay;
-            $pct       = $workingDays > 0
-                ? round(($attended / $workingDays) * 100, 1)
-                : 0;
-
-            return [
-                'employee'    => $emp,
-                'present'     => $present,
-                'late'        => $late,
-                'absent'      => $absent,
-                'early_out'   => $earlyOut,
-                'half_day'    => $halfDay,
-                'total_hours' => round($totalMins / 60, 1),
-                'percentage'  => $pct,
+        // Summary per employee
+        $employees->each(function ($emp) {
+            $emp->summary = [
+                'present'   => $emp->attendances->where('status', 'present')->count(),
+                'late'      => $emp->attendances->where('status', 'late')->count(),
+                'absent'    => $emp->attendances->where('status', 'absent')->count(),
+                'early_out' => $emp->attendances->where('status', 'early_out')->count(),
+                'half_day'  => $emp->attendances->where('status', 'half_day')->count(),
+                'total_hrs' => $emp->attendances->sum('hours_worked'),
             ];
         });
 
-        // Global summary totals for the header stat cards
-        $summary = [
-            'present'     => $report->sum('present'),
-            'absent'      => $report->sum('absent'),
-            'late'        => $report->sum('late'),
-            'early_out'   => $report->sum('early_out'),
-            'half_day'    => $report->sum('half_day'),
-            'total_hours' => $report->sum('total_hours'),
-            'days'        => $workingDays,
-        ];
-
-        return view('admin.attendance.report', compact('report', 'summary', 'dateFrom', 'dateTo'));
+        return view('admin.attendance.report', compact('employees', 'from', 'to'));
     }
 
     // ── Export (CSV) ───────────────────────────────────────────
@@ -286,10 +242,12 @@ class AttendanceController extends Controller
 
         $callback = function () use ($attendances) {
             $file = fopen('php://output', 'w');
+
             fputcsv($file, [
                 'Employee', 'Role', 'Date', 'Shift',
                 'Clock In', 'Clock Out', 'Hours Worked', 'Status', 'Note',
             ]);
+
             foreach ($attendances as $att) {
                 fputcsv($file, [
                     $att->employee->name,
@@ -303,6 +261,7 @@ class AttendanceController extends Controller
                     $att->note ?? '',
                 ]);
             }
+
             fclose($file);
         };
 
@@ -326,6 +285,7 @@ class AttendanceController extends Controller
         $clockIn  = $request->clock_in
             ? Carbon::parse($request->date . ' ' . $request->clock_in)
             : null;
+
         $clockOut = $request->clock_out
             ? Carbon::parse($request->date . ' ' . $request->clock_out)
             : null;
@@ -396,32 +356,9 @@ class AttendanceController extends Controller
     // ── Employees manager ──────────────────────────────────────
     public function employees()
     {
-        $employees = Employee::with('shift')
-            ->when(request('search'), fn($q) =>
-                $q->where('name', 'like', '%'.request('search').'%')
-                  ->orWhere('email', 'like', '%'.request('search').'%')
-                  ->orWhere('phone', 'like', '%'.request('search').'%')
-            )
-            ->when(request('role'),     fn($q) => $q->where('role', request('role')))
-            ->when(request('shift_id'), fn($q) => $q->where('shift_id', request('shift_id')))
-            ->when(request('status') === 'active',   fn($q) => $q->where('is_active', true))
-            ->when(request('status') === 'inactive', fn($q) => $q->where('is_active', false))
-            ->latest()
-            ->paginate(20);
-
-        $shifts = Shift::where('is_active', true)->orderBy('name')->get();
-
-        $stats = [
-            'total'      => Employee::count(),
-            'active'     => Employee::where('is_active', true)->count(),
-            'inactive'   => Employee::where('is_active', false)->count(),
-            'clocked_in' => Attendance::whereDate('date', today())
-                                ->whereNotNull('clock_in')
-                                ->whereNull('clock_out')
-                                ->count(),
-        ];
-
-        return view('admin.attendance.employees', compact('employees', 'shifts', 'stats'));
+        $employees = Employee::with('shift')->latest()->paginate(20);
+        $shifts    = Shift::where('is_active', true)->get();
+        return view('admin.attendance.employees', compact('employees', 'shifts'));
     }
 
     // ── Shifts manager ─────────────────────────────────────────
