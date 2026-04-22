@@ -444,16 +444,15 @@
 
 @push('scripts')
 <script>
-const CSRF      = document.querySelector('meta[name="csrf-token"]').content;
-const ROUTES    = {
-    lookup : '{{ route("admin.attendance.pin.lookup") }}',
-    clockIn : '{{ route("admin.attendance.clock.in") }}',
-    clockOut: '{{ route("admin.attendance.clock.out") }}',
+const CSRF   = document.querySelector('meta[name="csrf-token"]').content;
+const ROUTES = {
+    lookup  : '{{ route("admin.attendance.pin.lookup") }}',
+    clockIn : '{{ route("admin.attendance.clock-in") }}',
+    clockOut: '{{ route("admin.attendance.clock-out") }}',
 };
 
-let pin         = '';
-let lookupTimer = null;
-let currentEmp  = null;
+let pin        = '';
+let currentEmp = null;
 
 /* ── Clock ── */
 function updateClock() {
@@ -487,13 +486,6 @@ function clearPin() {
 }
 
 function updatePinDisplay() {
-    const dots = pin.split('').map(() => '●').join(' ')
-        + ' _ '.repeat(Math.max(0, 4 - pin.length)).trimEnd();
-    document.getElementById('pinDots').textContent =
-        '● '.repeat(pin.length).trimEnd() +
-        (pin.length < 4 ? ' ' + '_ '.repeat(4 - pin.length).trimEnd() : '');
-
-    // cleaner display
     let display = '';
     for (let i = 0; i < 4; i++) {
         display += i < pin.length ? '●' : '_';
@@ -526,13 +518,13 @@ function showEmployee(data) {
 
     const statusEl = document.getElementById('empStatus');
     if (data.is_clocked_in) {
-        statusEl.textContent  = '● Clocked In';
-        statusEl.className    = 'emp-preview-status in';
+        statusEl.textContent = '● Clocked In';
+        statusEl.className   = 'emp-preview-status in';
         document.getElementById('btnClockIn').disabled  = true;
         document.getElementById('btnClockOut').disabled = false;
     } else {
-        statusEl.textContent  = '○ Not In';
-        statusEl.className    = 'emp-preview-status out';
+        statusEl.textContent = '○ Not In';
+        statusEl.className   = 'emp-preview-status out';
         document.getElementById('btnClockIn').disabled  = false;
         document.getElementById('btnClockOut').disabled = true;
     }
@@ -558,7 +550,7 @@ function showError() {
 function resetEmployee() {
     currentEmp = null;
     document.getElementById('empPreview').classList.remove('show');
-    document.getElementById('pinDisplay').classList.remove('error','success');
+    document.getElementById('pinDisplay').classList.remove('error', 'success');
     document.getElementById('btnClockIn').disabled  = true;
     document.getElementById('btnClockOut').disabled = true;
 }
@@ -583,7 +575,6 @@ function submitAction(action) {
         if (data.success) {
             showToast(action, data.name, data.time);
             clearPin();
-            // Reload who's in panel after 1.5s
             setTimeout(() => location.reload(), 2000);
         } else {
             showError();
@@ -594,17 +585,17 @@ function submitAction(action) {
 
 /* ── Toast ── */
 function showToast(action, name, time) {
-    const toast     = document.getElementById('attToast');
-    const icon      = document.getElementById('toastIcon');
-    const title     = document.getElementById('toastTitle');
-    const sub       = document.getElementById('toastSub');
+    const toast = document.getElementById('attToast');
+    const icon  = document.getElementById('toastIcon');
 
-    icon.className  = 'att-toast-icon ' + action;
-    icon.innerHTML  = action === 'in'
+    icon.className = 'att-toast-icon ' + action;
+    icon.innerHTML = action === 'in'
         ? '<i class="fas fa-right-to-bracket"></i>'
         : '<i class="fas fa-right-from-bracket"></i>';
-    title.textContent = action === 'in' ? '✅ Clocked In' : '👋 Clocked Out';
-    sub.textContent   = name + ' · ' + time;
+
+    document.getElementById('toastTitle').textContent =
+        action === 'in' ? '✅ Clocked In' : '👋 Clocked Out';
+    document.getElementById('toastSub').textContent = name + ' · ' + time;
 
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3000);
@@ -615,10 +606,8 @@ document.addEventListener('keydown', function(e) {
     if (e.key >= '0' && e.key <= '9') pressKey(e.key);
     if (e.key === 'Backspace') deleteLast();
     if (e.key === 'Escape') clearPin();
-    if (e.key === 'Enter') {
-        if (currentEmp) {
-            submitAction(currentEmp.is_clocked_in ? 'out' : 'in');
-        }
+    if (e.key === 'Enter' && currentEmp) {
+        submitAction(currentEmp.is_clocked_in ? 'out' : 'in');
     }
 });
 </script>
