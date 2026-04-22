@@ -203,7 +203,6 @@ class AttendanceController extends Controller
     // ── Report ─────────────────────────────────────────────────
     public function report(Request $request)
     {
-        // Named $dateFrom/$dateTo to match blade variable names
         $dateFrom = $request->from ?? now()->startOfMonth()->toDateString();
         $dateTo   = $request->to   ?? now()->toDateString();
 
@@ -216,23 +215,36 @@ class AttendanceController extends Controller
 
         $employees->each(function ($emp) {
             $emp->summary = [
-                'present'   => $emp->attendances->where('status', 'present')->count(),
-                'late'      => $emp->attendances->where('status', 'late')->count(),
-                'absent'    => $emp->attendances->where('status', 'absent')->count(),
-                'early_out' => $emp->attendances->where('status', 'early_out')->count(),
-                'half_day'  => $emp->attendances->where('status', 'half_day')->count(),
-                'total_hrs' => $emp->attendances->sum('hours_worked'),
+                'present'     => $emp->attendances->where('status', 'present')->count(),
+                'late'        => $emp->attendances->where('status', 'late')->count(),
+                'absent'      => $emp->attendances->where('status', 'absent')->count(),
+                'early_out'   => $emp->attendances->where('status', 'early_out')->count(),
+                'half_day'    => $emp->attendances->where('status', 'half_day')->count(),
+                // stored in minutes, convert to hours for display
+                'total_hours' => round($emp->attendances->sum('hours_worked') / 60, 1),
             ];
         });
 
+        // Working days in the date range (Mon–Sat, excluding Sun)
+        $workingDays = 0;
+        $cursor = Carbon::parse($dateFrom);
+        $end    = Carbon::parse($dateTo);
+        while ($cursor->lte($end)) {
+            if (!$cursor->isSunday()) {
+                $workingDays++;
+            }
+            $cursor->addDay();
+        }
+
         // Global summary totals across all employees for the report header stats
         $summary = [
-            'present'   => $employees->sum(fn($e) => $e->summary['present']),
-            'absent'    => $employees->sum(fn($e) => $e->summary['absent']),
-            'late'      => $employees->sum(fn($e) => $e->summary['late']),
-            'early_out' => $employees->sum(fn($e) => $e->summary['early_out']),
-            'half_day'  => $employees->sum(fn($e) => $e->summary['half_day']),
-            'total_hrs' => $employees->sum(fn($e) => $e->summary['total_hrs']),
+            'present'     => $employees->sum(fn($e) => $e->summary['present']),
+            'absent'      => $employees->sum(fn($e) => $e->summary['absent']),
+            'late'        => $employees->sum(fn($e) => $e->summary['late']),
+            'early_out'   => $employees->sum(fn($e) => $e->summary['early_out']),
+            'half_day'    => $employees->sum(fn($e) => $e->summary['half_day']),
+            'total_hours' => $employees->sum(fn($e) => $e->summary['total_hours']), // ← renamed from total_hrs
+            'days'        => $workingDays,                                           // ← added
         ];
 
         return view('admin.attendance.report', compact('employees', 'dateFrom', 'dateTo', 'summary'));
