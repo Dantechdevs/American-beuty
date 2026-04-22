@@ -203,13 +203,12 @@ class AttendanceController extends Controller
     // ── Report ─────────────────────────────────────────────────
     public function report(Request $request)
     {
-        // Renamed $from/$to → $dateFrom/$dateTo to match blade variables
-        $dateFrom = $request->from ?? now()->startOfMonth()->toDateString();
-        $dateTo   = $request->to   ?? now()->toDateString();
+        $from = $request->from ?? now()->startOfMonth()->toDateString();
+        $to   = $request->to   ?? now()->toDateString();
 
         $employees = Employee::where('is_active', true)
             ->with(['attendances' => fn($q) =>
-                $q->whereBetween('date', [$dateFrom, $dateTo])
+                $q->whereBetween('date', [$from, $to])
             ])
             ->orderBy('name')
             ->get();
@@ -225,7 +224,17 @@ class AttendanceController extends Controller
             ];
         });
 
-        return view('admin.attendance.report', compact('employees', 'dateFrom', 'dateTo'));
+        // Global summary totals across all employees for the report header stats
+        $summary = [
+            'present'   => $employees->sum(fn($e) => $e->summary['present']),
+            'absent'    => $employees->sum(fn($e) => $e->summary['absent']),
+            'late'      => $employees->sum(fn($e) => $e->summary['late']),
+            'early_out' => $employees->sum(fn($e) => $e->summary['early_out']),
+            'half_day'  => $employees->sum(fn($e) => $e->summary['half_day']),
+            'total_hrs' => $employees->sum(fn($e) => $e->summary['total_hrs']),
+        ];
+
+        return view('admin.attendance.report', compact('employees', 'from', 'to', 'summary'));
     }
 
     // ── Export (CSV) ───────────────────────────────────────────
