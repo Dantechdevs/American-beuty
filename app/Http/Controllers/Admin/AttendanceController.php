@@ -160,11 +160,12 @@ class AttendanceController extends Controller
     $totalStaff = Employee::where('is_active', 1)->count();
 
     $stats = [
-        'total'   => $totalStaff,
-        'present' => $attendances->whereIn('status', ['present', 'late', 'early_out', 'half_day'])->count(),
-        'late'    => $attendances->where('status', 'late')->count(),
-        'absent'  => $totalStaff - $attendances->whereNotNull('clock_in')->count(),
-    ];
+    'total'       => $totalStaff,
+    'present'     => $attendances->whereIn('status', ['present', 'late', 'early_out', 'half_day'])->count(),
+    'late'        => $attendances->where('status', 'late')->count(),
+    'absent'      => $totalStaff - $attendances->whereNotNull('clock_in')->count(),
+    'clocked_out' => $attendances->whereNotNull('clock_out')->count(),
+];
 
     return view('admin.attendance.today', compact('attendances', 'stats'));
 }
