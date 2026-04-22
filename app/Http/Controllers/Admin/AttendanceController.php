@@ -150,50 +150,26 @@ class AttendanceController extends Controller
     }
 
     // ── Today's attendance ─────────────────────────────────────
-    public function today()
-    {
-        $attendances    = Attendance::with(['employee', 'shift'])
-            ->whereDate('date', today())
-            ->latest('clock_in')
-            ->get();
+public function today()
+{
+    $attendances    = Attendance::with(['employee', 'shift'])
+        ->whereDate('date', today())
+        ->latest('clock_in')
+        ->get();
 
-        $totalEmployees = Employee::where('is_active', true)->count();
+    $totalEmployees = Employee::where('is_active', true)->count();
 
-        // Renamed from $todayStats to $stats to match what the blade expects
-        $stats = [
-            'total'     => $totalEmployees,
-            'present'   => $attendances->where('status', 'present')->count(),
-            'late'      => $attendances->where('status', 'late')->count(),
-            'early_out' => $attendances->where('status', 'early_out')->count(),
-            'absent'    => $totalEmployees - $attendances->count(),
-        ];
+    $stats = [
+        'total'       => $totalEmployees,
+        'present'     => $attendances->where('status', 'present')->count(),
+        'late'        => $attendances->where('status', 'late')->count(),
+        'early_out'   => $attendances->where('status', 'early_out')->count(),
+        'absent'      => $totalEmployees - $attendances->count(),
+        'clocked_out' => $attendances->whereNotNull('clock_out')->count(), // ← added
+    ];
 
-        return view('admin.attendance.today', compact('attendances', 'stats'));
-    }
-
-    // ── Single employee attendance ─────────────────────────────
-    public function show(Employee $employee, Request $request)
-    {
-        $from = $request->from ?? now()->startOfMonth()->toDateString();
-        $to   = $request->to   ?? now()->toDateString();
-
-        $attendances = Attendance::where('employee_id', $employee->id)
-            ->whereBetween('date', [$from, $to])
-            ->with('shift')
-            ->latest('date')
-            ->paginate(20);
-
-        $summary = [
-            'present'    => $attendances->where('status', 'present')->count(),
-            'late'       => $attendances->where('status', 'late')->count(),
-            'absent'     => $attendances->where('status', 'absent')->count(),
-            'early_out'  => $attendances->where('status', 'early_out')->count(),
-            'half_day'   => $attendances->where('status', 'half_day')->count(),
-            'total_mins' => $attendances->sum('hours_worked'),
-        ];
-
-        return view('admin.attendance.show', compact('employee', 'attendances', 'summary', 'from', 'to'));
-    }
+    return view('admin.attendance.today', compact('attendances', 'stats'));
+}
 
     // ── Report ─────────────────────────────────────────────────
     public function report(Request $request)
