@@ -206,26 +206,7 @@ class AttendanceController extends Controller
         $dateFrom = $request->from ?? now()->startOfMonth()->toDateString();
         $dateTo   = $request->to   ?? now()->toDateString();
 
-        $employees = Employee::where('is_active', true)
-            ->with(['attendances' => fn($q) =>
-                $q->whereBetween('date', [$dateFrom, $dateTo])
-            ])
-            ->orderBy('name')
-            ->get();
-
-        $employees->each(function ($emp) {
-            $emp->summary = [
-                'present'     => $emp->attendances->where('status', 'present')->count(),
-                'late'        => $emp->attendances->where('status', 'late')->count(),
-                'absent'      => $emp->attendances->where('status', 'absent')->count(),
-                'early_out'   => $emp->attendances->where('status', 'early_out')->count(),
-                'half_day'    => $emp->attendances->where('status', 'half_day')->count(),
-                // stored in minutes, convert to hours for display
-                'total_hours' => round($emp->attendances->sum('hours_worked') / 60, 1),
-            ];
-        });
-
-        // Working days in the date range (Mon–Sat, excluding Sun)
+        // Working days in range (Mon–Sat, excluding Sun)
         $workingDays = 0;
         $cursor = Carbon::parse($dateFrom);
         $end    = Carbon::parse($dateTo);
@@ -236,18 +217,53 @@ class AttendanceController extends Controller
             $cursor->addDay();
         }
 
-        // Global summary totals across all employees for the report header stats
+        $employees = Employee::where('is_active', true)
+            ->with(['attendances' => fn($q) =>
+                $q->whereBetween('date', [$dateFrom, $dateTo])
+            ])
+            ->orderBy('name')
+            ->get();
+
+        // Build $report rows — structure the blade expects:
+        // $row['employee'], $row['percentage'], $row['present'],
+        // $row['late'], $row['absent'], $row['early_out'],
+        // $row['half_day'], $row['total_hours']
+        $report = $employees->map(function ($emp) use ($workingDays) {
+            $present   = $emp->attendances->where('status', 'present')->count();
+            $late      = $emp->attendances->where('status', 'late')->count();
+            $absent    = $emp->attendances->where('status', 'absent')->count();
+            $earlyOut  = $emp->attendances->where('status', 'early_out')->count();
+            $halfDay   = $emp->attendances->where('status', 'half_day')->count();
+            $totalMins = $emp->attendances->sum('hours_worked');
+            $attended  = $present + $late + $earlyOut + $halfDay;
+            $pct       = $workingDays > 0
+                ? round(($attended / $workingDays) * 100, 1)
+                : 0;
+
+            return [
+                'employee'    => $emp,
+                'present'     => $present,
+                'late'        => $late,
+                'absent'      => $absent,
+                'early_out'   => $earlyOut,
+                'half_day'    => $halfDay,
+                'total_hours' => round($totalMins / 60, 1),
+                'percentage'  => $pct,
+            ];
+        });
+
+        // Global summary totals for the header stat cards
         $summary = [
-            'present'     => $employees->sum(fn($e) => $e->summary['present']),
-            'absent'      => $employees->sum(fn($e) => $e->summary['absent']),
-            'late'        => $employees->sum(fn($e) => $e->summary['late']),
-            'early_out'   => $employees->sum(fn($e) => $e->summary['early_out']),
-            'half_day'    => $employees->sum(fn($e) => $e->summary['half_day']),
-            'total_hours' => $employees->sum(fn($e) => $e->summary['total_hours']), // ← renamed from total_hrs
-            'days'        => $workingDays,                                           // ← added
+            'present'     => $report->sum('present'),
+            'absent'      => $report->sum('absent'),
+            'late'        => $report->sum('late'),
+            'early_out'   => $report->sum('early_out'),
+            'half_day'    => $report->sum('half_day'),
+            'total_hours' => $report->sum('total_hours'),
+            'days'        => $workingDays,
         ];
 
-        return view('admin.attendance.report', compact('employees', 'dateFrom', 'dateTo', 'summary'));
+        return view('admin.attendance.report', compact('report', 'summary', 'dateFrom', 'dateTo'));
     }
 
     // ── Export (CSV) ───────────────────────────────────────────
