@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Attendance;
 use App\Models\Employee;
 use App\Models\Shift;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,11 +24,11 @@ class AttendanceController extends Controller
         $totalEmployees = Employee::where('is_active', true)->count();
 
         $todayStats = [
+            'total'     => $totalEmployees,
             'present'   => Attendance::whereDate('date', today())->where('status', 'present')->count(),
             'late'      => Attendance::whereDate('date', today())->where('status', 'late')->count(),
             'early_out' => Attendance::whereDate('date', today())->where('status', 'early_out')->count(),
             'absent'    => $totalEmployees - Attendance::whereDate('date', today())->count(),
-            'total'     => $totalEmployees,
         ];
 
         return view('admin.attendance.terminal', compact('currentlyIn', 'totalEmployees', 'todayStats'));
@@ -206,7 +207,6 @@ class AttendanceController extends Controller
             ->orderBy('name')
             ->get();
 
-        // Summary per employee
         $employees->each(function ($emp) {
             $emp->summary = [
                 'present'   => $emp->attendances->where('status', 'present')->count(),
@@ -241,13 +241,10 @@ class AttendanceController extends Controller
 
         $callback = function () use ($attendances) {
             $file = fopen('php://output', 'w');
-
-            // CSV header row
             fputcsv($file, [
                 'Employee', 'Role', 'Date', 'Shift',
                 'Clock In', 'Clock Out', 'Hours Worked', 'Status', 'Note',
             ]);
-
             foreach ($attendances as $att) {
                 fputcsv($file, [
                     $att->employee->name,
@@ -261,7 +258,6 @@ class AttendanceController extends Controller
                     $att->note ?? '',
                 ]);
             }
-
             fclose($file);
         };
 
@@ -283,10 +279,10 @@ class AttendanceController extends Controller
         $employee = Employee::findOrFail($request->employee_id);
 
         $clockIn  = $request->clock_in
-            ? \Carbon\Carbon::parse($request->date . ' ' . $request->clock_in)
+            ? Carbon::parse($request->date . ' ' . $request->clock_in)
             : null;
         $clockOut = $request->clock_out
-            ? \Carbon\Carbon::parse($request->date . ' ' . $request->clock_out)
+            ? Carbon::parse($request->date . ' ' . $request->clock_out)
             : null;
 
         $hoursWorked = ($clockIn && $clockOut)
@@ -321,11 +317,11 @@ class AttendanceController extends Controller
         ]);
 
         $clockIn  = $request->clock_in
-            ? \Carbon\Carbon::parse($attendance->date->toDateString() . ' ' . $request->clock_in)
+            ? Carbon::parse($attendance->date->toDateString() . ' ' . $request->clock_in)
             : $attendance->clock_in;
 
         $clockOut = $request->clock_out
-            ? \Carbon\Carbon::parse($attendance->date->toDateString() . ' ' . $request->clock_out)
+            ? Carbon::parse($attendance->date->toDateString() . ' ' . $request->clock_out)
             : $attendance->clock_out;
 
         $hoursWorked = ($clockIn && $clockOut)
@@ -355,9 +351,32 @@ class AttendanceController extends Controller
     // ── Employees manager ──────────────────────────────────────
     public function employees()
     {
-        $employees = Employee::with('shift')->latest()->paginate(20);
-        $shifts    = Shift::where('is_active', true)->get();
-        return view('admin.attendance.employees', compact('employees', 'shifts'));
+        $employees = Employee::with('shift')
+            ->when(request('search'), fn($q) =>
+                $q->where('name', 'like', '%'.request('search').'%')
+                  ->orWhere('email', 'like', '%'.request('search').'%')
+                  ->orWhere('phone', 'like', '%'.request('search').'%')
+            )
+            ->when(request('role'),     fn($q) => $q->where('role', request('role')))
+            ->when(request('shift_id'), fn($q) => $q->where('shift_id', request('shift_id')))
+            ->when(request('status') === 'active',   fn($q) => $q->where('is_active', true))
+            ->when(request('status') === 'inactive', fn($q) => $q->where('is_active', false))
+            ->latest()
+            ->paginate(20);
+
+        $shifts = Shift::where('is_active', true)->orderBy('name')->get();
+
+        $stats = [
+            'total'      => Employee::count(),
+            'active'     => Employee::where('is_active', true)->count(),
+            'inactive'   => Employee::where('is_active', false)->count(),
+            'clocked_in' => Attendance::whereDate('date', today())
+                                ->whereNotNull('clock_in')
+                                ->whereNull('clock_out')
+                                ->count(),
+        ];
+
+        return view('admin.attendance.employees', compact('employees', 'shifts', 'stats'));
     }
 
     // ── Shifts manager ─────────────────────────────────────────
