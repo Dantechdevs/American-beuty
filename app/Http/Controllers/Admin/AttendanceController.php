@@ -207,6 +207,7 @@ class AttendanceController extends Controller
             ->orderBy('name')
             ->get();
 
+        // Per employee summary
         $employees->each(function ($emp) {
             $emp->summary = [
                 'present'   => $emp->attendances->where('status', 'present')->count(),
@@ -218,7 +219,21 @@ class AttendanceController extends Controller
             ];
         });
 
-        return view('admin.attendance.report', compact('employees', 'dateFrom', 'dateTo'));
+        // Global summary across all employees
+        $allAttendances = Attendance::whereBetween('date', [$dateFrom, $dateTo])->get();
+
+        $summary = [
+            'present'   => $allAttendances->where('status', 'present')->count(),
+            'late'      => $allAttendances->where('status', 'late')->count(),
+            'absent'    => $allAttendances->where('status', 'absent')->count(),
+            'early_out' => $allAttendances->where('status', 'early_out')->count(),
+            'half_day'  => $allAttendances->where('status', 'half_day')->count(),
+            'total_hrs' => $allAttendances->sum('hours_worked'),
+        ];
+
+        return view('admin.attendance.report', compact(
+            'employees', 'dateFrom', 'dateTo', 'summary'
+        ));
     }
 
     // ── Export (CSV) ───────────────────────────────────────────
@@ -252,7 +267,7 @@ class AttendanceController extends Controller
                     $att->employee->name,
                     $att->employee->role_label,
                     $att->date->format('d M Y'),
-                    $att->shift?->name          ?? '—',
+                    $att->shift?->name              ?? '—',
                     $att->clock_in?->format('H:i')  ?? '—',
                     $att->clock_out?->format('H:i') ?? '—',
                     $att->hours_worked_formatted,
