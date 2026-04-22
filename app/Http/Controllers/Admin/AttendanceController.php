@@ -197,17 +197,16 @@ class AttendanceController extends Controller
     // ── Report ─────────────────────────────────────────────────
     public function report(Request $request)
     {
-        $from = $request->from ?? now()->startOfMonth()->toDateString();
-        $to   = $request->to   ?? now()->toDateString();
+        $dateFrom = $request->from ?? now()->startOfMonth()->toDateString();
+        $dateTo   = $request->to   ?? now()->toDateString();
 
         $employees = Employee::where('is_active', true)
             ->with(['attendances' => fn($q) =>
-                $q->whereBetween('date', [$from, $to])
+                $q->whereBetween('date', [$dateFrom, $dateTo])
             ])
             ->orderBy('name')
             ->get();
 
-        // Summary per employee
         $employees->each(function ($emp) {
             $emp->summary = [
                 'present'   => $emp->attendances->where('status', 'present')->count(),
@@ -219,21 +218,21 @@ class AttendanceController extends Controller
             ];
         });
 
-        return view('admin.attendance.report', compact('employees', 'from', 'to'));
+        return view('admin.attendance.report', compact('employees', 'dateFrom', 'dateTo'));
     }
 
     // ── Export (CSV) ───────────────────────────────────────────
     public function export(Request $request)
     {
-        $from = $request->from ?? now()->startOfMonth()->toDateString();
-        $to   = $request->to   ?? now()->toDateString();
+        $dateFrom = $request->from ?? now()->startOfMonth()->toDateString();
+        $dateTo   = $request->to   ?? now()->toDateString();
 
         $attendances = Attendance::with(['employee', 'shift'])
-            ->whereBetween('date', [$from, $to])
+            ->whereBetween('date', [$dateFrom, $dateTo])
             ->latest('date')
             ->get();
 
-        $filename = 'attendance_' . $from . '_to_' . $to . '.csv';
+        $filename = 'attendance_' . $dateFrom . '_to_' . $dateTo . '.csv';
 
         $headers = [
             'Content-Type'        => 'text/csv',
@@ -253,7 +252,7 @@ class AttendanceController extends Controller
                     $att->employee->name,
                     $att->employee->role_label,
                     $att->date->format('d M Y'),
-                    $att->shift?->name ?? '—',
+                    $att->shift?->name          ?? '—',
                     $att->clock_in?->format('H:i')  ?? '—',
                     $att->clock_out?->format('H:i') ?? '—',
                     $att->hours_worked_formatted,
