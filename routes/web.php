@@ -136,33 +136,42 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/stock/{product}/alert',  [StockController::class, 'setAlert']) ->name('stock.alert');
 
     // ─── Employees ────────────────────────────────────────────
-    Route::get('/employees',               [EmployeeController::class, 'index'])  ->name('employees.index');
-    Route::get('/employees/create',        [EmployeeController::class, 'create']) ->name('employees.create');
-    Route::post('/employees',              [EmployeeController::class, 'store'])  ->name('employees.store');
-    Route::get('/employees/{employee}',    [EmployeeController::class, 'show'])   ->name('employees.show');
-    Route::get('/employees/{employee}/edit',  [EmployeeController::class, 'edit'])   ->name('employees.edit');
-    Route::put('/employees/{employee}',    [EmployeeController::class, 'update']) ->name('employees.update');
-    Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
-    Route::patch('/employees/{employee}/toggle', [EmployeeController::class, 'toggle'])->name('employees.toggle');
+    Route::get('/employees',                     [EmployeeController::class, 'index'])  ->name('employees.index');
+    Route::get('/employees/create',              [EmployeeController::class, 'create']) ->name('employees.create');
+    Route::post('/employees',                    [EmployeeController::class, 'store'])  ->name('employees.store');
+    Route::get('/employees/{employee}',          [EmployeeController::class, 'show'])   ->name('employees.show');
+    Route::get('/employees/{employee}/edit',     [EmployeeController::class, 'edit'])   ->name('employees.edit');
+    Route::put('/employees/{employee}',          [EmployeeController::class, 'update']) ->name('employees.update');
+    Route::delete('/employees/{employee}',       [EmployeeController::class, 'destroy'])->name('employees.destroy');
+    Route::patch('/employees/{employee}/toggle', [EmployeeController::class, 'toggle']) ->name('employees.toggle');
 
     // ─── Shifts ───────────────────────────────────────────────
-    Route::get('/shifts',               [ShiftController::class, 'index'])  ->name('shifts.index');
-    Route::get('/shifts/create',        [ShiftController::class, 'create']) ->name('shifts.create');
-    Route::post('/shifts',              [ShiftController::class, 'store'])  ->name('shifts.store');
-    Route::get('/shifts/{shift}/edit',  [ShiftController::class, 'edit'])   ->name('shifts.edit');
-    Route::put('/shifts/{shift}',       [ShiftController::class, 'update']) ->name('shifts.update');
-    Route::delete('/shifts/{shift}',    [ShiftController::class, 'destroy'])->name('shifts.destroy');
+    Route::get('/shifts',              [ShiftController::class, 'index'])  ->name('shifts.index');
+    Route::get('/shifts/create',       [ShiftController::class, 'create']) ->name('shifts.create');
+    Route::post('/shifts',             [ShiftController::class, 'store'])  ->name('shifts.store');
+    Route::get('/shifts/{shift}/edit', [ShiftController::class, 'edit'])   ->name('shifts.edit');
+    Route::put('/shifts/{shift}',      [ShiftController::class, 'update']) ->name('shifts.update');
+    Route::delete('/shifts/{shift}',   [ShiftController::class, 'destroy'])->name('shifts.destroy');
 
     // ─── Attendance ───────────────────────────────────────────
-    Route::get('/attendance',                          [AttendanceController::class, 'index'])      ->name('attendance.index');
-    Route::get('/attendance/today',                    [AttendanceController::class, 'today'])      ->name('attendance.today');
-    Route::get('/attendance/report',                   [AttendanceController::class, 'report'])     ->name('attendance.report');
-    Route::get('/attendance/export',                   [AttendanceController::class, 'export'])     ->name('attendance.export');
-    Route::get('/attendance/{employee}',               [AttendanceController::class, 'show'])       ->name('attendance.show');
-    Route::post('/attendance/clock-in',                [AttendanceController::class, 'clockIn'])    ->name('attendance.clock-in');
-    Route::post('/attendance/clock-out',               [AttendanceController::class, 'clockOut'])   ->name('attendance.clock-out');
-    Route::post('/attendance/manual',                  [AttendanceController::class, 'manual'])     ->name('attendance.manual');
-    Route::put('/attendance/{attendance}/override',    [AttendanceController::class, 'override'])   ->name('attendance.override');
-    Route::delete('/attendance/{attendance}',          [AttendanceController::class, 'destroy'])    ->name('attendance.destroy');
+    
+    Route::get('/attendance/terminal',             [AttendanceController::class, 'terminal'])  ->name('attendance.terminal');
+    Route::get('/attendance/today',                [AttendanceController::class, 'today'])     ->name('attendance.today');
+    Route::get('/attendance/report',               [AttendanceController::class, 'report'])    ->name('attendance.report');
+    Route::get('/attendance/export',               [AttendanceController::class, 'export'])    ->name('attendance.export');
+
+    // PIN endpoints
+    Route::get('/attendance/pin/lookup',           [AttendanceController::class, 'pinLookup']) ->name('attendance.pin.lookup');
+    Route::post('/attendance/clock-in',            [AttendanceController::class, 'clockIn'])   ->name('attendance.clock-in');
+    Route::post('/attendance/clock-out',           [AttendanceController::class, 'clockOut'])  ->name('attendance.clock-out');
+
+    // Manual & override
+    Route::post('/attendance/manual',              [AttendanceController::class, 'manual'])    ->name('attendance.manual');
+    Route::put('/attendance/{attendance}/override',[AttendanceController::class, 'override'])  ->name('attendance.override');
+    Route::delete('/attendance/{attendance}',      [AttendanceController::class, 'destroy'])   ->name('attendance.destroy');
+
+    // List & detail — wildcard last
+    Route::get('/attendance',                      [AttendanceController::class, 'index'])     ->name('attendance.index');
+    Route::get('/attendance/{employee}',           [AttendanceController::class, 'show'])      ->name('attendance.show');
 
 });
