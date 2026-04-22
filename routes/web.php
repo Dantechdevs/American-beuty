@@ -14,8 +14,11 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\PosController;
 use App\Http\Controllers\Admin\PurchaseController;
-use App\Http\Controllers\Admin\SupplierController; 
+use App\Http\Controllers\Admin\SupplierController;
 use App\Http\Controllers\Admin\StockController;
+use App\Http\Controllers\Admin\AttendanceController;
+use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\ShiftController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -91,45 +94,75 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/users/{user}/toggle', [UserController::class, 'toggleStatus'])->name('users.toggle');
 
     // ─── Settings ─────────────────────────────────────────────
-    Route::get('/settings',                          [SettingsController::class, 'index'])->name('settings.index');
-    Route::post('/settings',                         [SettingsController::class, 'update'])->name('settings.update');
-    Route::patch('/settings/gateways/{gateway}',     [SettingsController::class, 'updateGateway'])->name('settings.gateway');
+    Route::get('/settings',                      [SettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings',                     [SettingsController::class, 'update'])->name('settings.update');
+    Route::patch('/settings/gateways/{gateway}', [SettingsController::class, 'updateGateway'])->name('settings.gateway');
 
     // ─── POS ──────────────────────────────────────────────────
-    Route::get('/pos',                  [PosController::class, 'index'])->name('pos.index');
-    Route::post('/pos/sale',            [PosController::class, 'processSale'])->name('pos.sale');
-    Route::get('/pos/orders',           [PosController::class, 'orders'])->name('pos.orders');
-    Route::get('/pos/receipt/{order}',  [PosController::class, 'receipt'])->name('pos.receipt');
-    Route::get('/pos/products/search',  [PosController::class, 'searchProducts'])->name('pos.products.search');
-    Route::get('/pos/customer/lookup',  [PosController::class, 'lookupCustomer'])->name('pos.customer.lookup');
+    Route::get('/pos',                 [PosController::class, 'index'])->name('pos.index');
+    Route::post('/pos/sale',           [PosController::class, 'processSale'])->name('pos.sale');
+    Route::get('/pos/orders',          [PosController::class, 'orders'])->name('pos.orders');
+    Route::get('/pos/receipt/{order}', [PosController::class, 'receipt'])->name('pos.receipt');
+    Route::get('/pos/products/search', [PosController::class, 'searchProducts'])->name('pos.products.search');
+    Route::get('/pos/customer/lookup', [PosController::class, 'lookupCustomer'])->name('pos.customer.lookup');
 
     // ─── Purchases ────────────────────────────────────────────
-    Route::get('/purchases',                [PurchaseController::class, 'index'])       ->name('purchase.index');
-    Route::get('/purchases/create',         [PurchaseController::class, 'create'])      ->name('purchase.create');
-    Route::post('/purchases',               [PurchaseController::class, 'store'])       ->name('purchase.store');
-    Route::get('/purchases/{id}',           [PurchaseController::class, 'show'])        ->name('purchase.show');
-    Route::get('/purchases/{id}/edit',      [PurchaseController::class, 'edit'])        ->name('purchase.edit');
-    Route::put('/purchases/{id}',           [PurchaseController::class, 'update'])      ->name('purchase.update');
-    Route::delete('/purchases/{id}',        [PurchaseController::class, 'destroy'])     ->name('purchase.destroy');
-    Route::get('/purchases/{id}/return',    [PurchaseController::class, 'returnForm'])  ->name('purchase.return.form');
-    Route::post('/purchases/{id}/return',   [PurchaseController::class, 'returnStore']) ->name('purchase.return.store');
+    Route::get('/purchases',              [PurchaseController::class, 'index'])      ->name('purchase.index');
+    Route::get('/purchases/create',       [PurchaseController::class, 'create'])     ->name('purchase.create');
+    Route::post('/purchases',             [PurchaseController::class, 'store'])      ->name('purchase.store');
+    Route::get('/purchases/{id}',         [PurchaseController::class, 'show'])       ->name('purchase.show');
+    Route::get('/purchases/{id}/edit',    [PurchaseController::class, 'edit'])       ->name('purchase.edit');
+    Route::put('/purchases/{id}',         [PurchaseController::class, 'update'])     ->name('purchase.update');
+    Route::delete('/purchases/{id}',      [PurchaseController::class, 'destroy'])    ->name('purchase.destroy');
+    Route::get('/purchases/{id}/return',  [PurchaseController::class, 'returnForm']) ->name('purchase.return.form');
+    Route::post('/purchases/{id}/return', [PurchaseController::class, 'returnStore'])->name('purchase.return.store');
 
     // ─── Suppliers ────────────────────────────────────────────
-    Route::get('/suppliers',                [SupplierController::class, 'index'])  ->name('supplier.index');
-    Route::get('/suppliers/create',         [SupplierController::class, 'create']) ->name('supplier.create');
-    Route::post('/suppliers',               [SupplierController::class, 'store'])  ->name('supplier.store');
-    Route::get('/suppliers/{id}/edit',      [SupplierController::class, 'edit'])   ->name('supplier.edit');
-    Route::put('/suppliers/{id}',           [SupplierController::class, 'update']) ->name('supplier.update');
-    Route::delete('/suppliers/{id}',        [SupplierController::class, 'destroy'])->name('supplier.destroy');
-    Route::patch('/suppliers/{id}/toggle',  [SupplierController::class, 'toggle']) ->name('supplier.toggle');
+    Route::get('/suppliers',               [SupplierController::class, 'index'])  ->name('supplier.index');
+    Route::get('/suppliers/create',        [SupplierController::class, 'create']) ->name('supplier.create');
+    Route::post('/suppliers',              [SupplierController::class, 'store'])  ->name('supplier.store');
+    Route::get('/suppliers/{id}/edit',     [SupplierController::class, 'edit'])   ->name('supplier.edit');
+    Route::put('/suppliers/{id}',          [SupplierController::class, 'update']) ->name('supplier.update');
+    Route::delete('/suppliers/{id}',       [SupplierController::class, 'destroy'])->name('supplier.destroy');
+    Route::patch('/suppliers/{id}/toggle', [SupplierController::class, 'toggle']) ->name('supplier.toggle');
 
     // ─── Stock ────────────────────────────────────────────────
-    Route::get('/stock',                        [StockController::class, 'index'])    ->name('stock.index');
-    Route::get('/stock/history',                [StockController::class, 'history'])  ->name('stock.history');
-    Route::get('/stock/low-stock',              [StockController::class, 'lowStock']) ->name('stock.low');
-    Route::get('/stock/damaged',                [StockController::class, 'damaged'])  ->name('stock.damaged');
-    Route::get('/stock/{product}/adjust',       [StockController::class, 'adjust'])   ->name('stock.adjust');
-    Route::post('/stock/{product}/adjust',      [StockController::class, 'store'])    ->name('stock.store');
-Route::post('/stock/{product}/alert',       [StockController::class, 'setAlert']) ->name('stock.alert');
-    
+    Route::get('/stock',                   [StockController::class, 'index'])    ->name('stock.index');
+    Route::get('/stock/history',           [StockController::class, 'history'])  ->name('stock.history');
+    Route::get('/stock/low-stock',         [StockController::class, 'lowStock']) ->name('stock.low');
+    Route::get('/stock/damaged',           [StockController::class, 'damaged'])  ->name('stock.damaged');
+    Route::get('/stock/{product}/adjust',  [StockController::class, 'adjust'])   ->name('stock.adjust');
+    Route::post('/stock/{product}/adjust', [StockController::class, 'store'])    ->name('stock.store');
+    Route::post('/stock/{product}/alert',  [StockController::class, 'setAlert']) ->name('stock.alert');
+
+    // ─── Employees ────────────────────────────────────────────
+    Route::get('/employees',               [EmployeeController::class, 'index'])  ->name('employees.index');
+    Route::get('/employees/create',        [EmployeeController::class, 'create']) ->name('employees.create');
+    Route::post('/employees',              [EmployeeController::class, 'store'])  ->name('employees.store');
+    Route::get('/employees/{employee}',    [EmployeeController::class, 'show'])   ->name('employees.show');
+    Route::get('/employees/{employee}/edit',  [EmployeeController::class, 'edit'])   ->name('employees.edit');
+    Route::put('/employees/{employee}',    [EmployeeController::class, 'update']) ->name('employees.update');
+    Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+    Route::patch('/employees/{employee}/toggle', [EmployeeController::class, 'toggle'])->name('employees.toggle');
+
+    // ─── Shifts ───────────────────────────────────────────────
+    Route::get('/shifts',               [ShiftController::class, 'index'])  ->name('shifts.index');
+    Route::get('/shifts/create',        [ShiftController::class, 'create']) ->name('shifts.create');
+    Route::post('/shifts',              [ShiftController::class, 'store'])  ->name('shifts.store');
+    Route::get('/shifts/{shift}/edit',  [ShiftController::class, 'edit'])   ->name('shifts.edit');
+    Route::put('/shifts/{shift}',       [ShiftController::class, 'update']) ->name('shifts.update');
+    Route::delete('/shifts/{shift}',    [ShiftController::class, 'destroy'])->name('shifts.destroy');
+
+    // ─── Attendance ───────────────────────────────────────────
+    Route::get('/attendance',                          [AttendanceController::class, 'index'])      ->name('attendance.index');
+    Route::get('/attendance/today',                    [AttendanceController::class, 'today'])      ->name('attendance.today');
+    Route::get('/attendance/report',                   [AttendanceController::class, 'report'])     ->name('attendance.report');
+    Route::get('/attendance/export',                   [AttendanceController::class, 'export'])     ->name('attendance.export');
+    Route::get('/attendance/{employee}',               [AttendanceController::class, 'show'])       ->name('attendance.show');
+    Route::post('/attendance/clock-in',                [AttendanceController::class, 'clockIn'])    ->name('attendance.clock-in');
+    Route::post('/attendance/clock-out',               [AttendanceController::class, 'clockOut'])   ->name('attendance.clock-out');
+    Route::post('/attendance/manual',                  [AttendanceController::class, 'manual'])     ->name('attendance.manual');
+    Route::put('/attendance/{attendance}/override',    [AttendanceController::class, 'override'])   ->name('attendance.override');
+    Route::delete('/attendance/{attendance}',          [AttendanceController::class, 'destroy'])    ->name('attendance.destroy');
+
 });
