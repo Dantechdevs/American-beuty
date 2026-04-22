@@ -150,27 +150,24 @@ class AttendanceController extends Controller
         return view('admin.attendance.index', compact('attendances', 'employees', 'todayStats'));
     }
 
-    public function today()
+  public function today()
 {
-    $today = Carbon\Carbon::today();
-    
-    $attendances = Attendance::whereDate('date', $today)
+    $attendances = Attendance::whereDate('date', today())
         ->with('employee')
         ->orderBy('clock_in', 'desc')
         ->get();
 
     $totalStaff = Employee::where('is_active', 1)->count();
-    
+
     $stats = [
         'total'   => $totalStaff,
-        'present' => $attendances->whereNotNull('clock_in')->count(),
-        'late'    => $attendances->where('is_late', true)->count(),  // adjust field name as needed
+        'present' => $attendances->whereIn('status', ['present', 'late', 'early_out', 'half_day'])->count(),
+        'late'    => $attendances->where('status', 'late')->count(),
         'absent'  => $totalStaff - $attendances->whereNotNull('clock_in')->count(),
     ];
 
     return view('admin.attendance.today', compact('attendances', 'stats'));
 }
-
     // ── Single employee attendance ─────────────────────────────
     public function show(Employee $employee, Request $request)
     {
