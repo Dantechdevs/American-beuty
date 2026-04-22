@@ -183,12 +183,14 @@ class AttendanceController extends Controller
             ->paginate(20);
 
         $summary = [
-            'present'    => $attendances->where('status', 'present')->count(),
-            'late'       => $attendances->where('status', 'late')->count(),
-            'absent'     => $attendances->where('status', 'absent')->count(),
-            'early_out'  => $attendances->where('status', 'early_out')->count(),
-            'half_day'   => $attendances->where('status', 'half_day')->count(),
-            'total_mins' => $attendances->sum('hours_worked'),
+            'present'     => $attendances->where('status', 'present')->count(),
+            'late'        => $attendances->where('status', 'late')->count(),
+            'absent'      => $attendances->where('status', 'absent')->count(),
+            'early_out'   => $attendances->where('status', 'early_out')->count(),
+            'half_day'    => $attendances->where('status', 'half_day')->count(),
+            'total_hours' => round($attendances->sum('hours_worked') / 60, 1),
+            'total_mins'  => $attendances->sum('hours_worked'),
+            'days'        => $attendances->count(),
         ];
 
         return view('admin.attendance.show', compact('employee', 'attendances', 'summary', 'from', 'to'));
@@ -210,25 +212,32 @@ class AttendanceController extends Controller
         // Per employee summary
         $employees->each(function ($emp) {
             $emp->summary = [
-                'present'   => $emp->attendances->where('status', 'present')->count(),
-                'late'      => $emp->attendances->where('status', 'late')->count(),
-                'absent'    => $emp->attendances->where('status', 'absent')->count(),
-                'early_out' => $emp->attendances->where('status', 'early_out')->count(),
-                'half_day'  => $emp->attendances->where('status', 'half_day')->count(),
-                'total_hrs' => $emp->attendances->sum('hours_worked'),
+                'present'     => $emp->attendances->where('status', 'present')->count(),
+                'late'        => $emp->attendances->where('status', 'late')->count(),
+                'absent'      => $emp->attendances->where('status', 'absent')->count(),
+                'early_out'   => $emp->attendances->where('status', 'early_out')->count(),
+                'half_day'    => $emp->attendances->where('status', 'half_day')->count(),
+                'total_hours' => round($emp->attendances->sum('hours_worked') / 60, 1),
+                'total_hrs'   => $emp->attendances->sum('hours_worked'),
+                'days'        => $emp->attendances->count(),
             ];
         });
 
         // Global summary across all employees
         $allAttendances = Attendance::whereBetween('date', [$dateFrom, $dateTo])->get();
 
+        // Count unique working days in range
+        $days = Carbon::parse($dateFrom)->diffInWeekdays(Carbon::parse($dateTo)) + 1;
+
         $summary = [
-            'present'   => $allAttendances->where('status', 'present')->count(),
-            'late'      => $allAttendances->where('status', 'late')->count(),
-            'absent'    => $allAttendances->where('status', 'absent')->count(),
-            'early_out' => $allAttendances->where('status', 'early_out')->count(),
-            'half_day'  => $allAttendances->where('status', 'half_day')->count(),
-            'total_hrs' => $allAttendances->sum('hours_worked'),
+            'present'     => $allAttendances->where('status', 'present')->count(),
+            'late'        => $allAttendances->where('status', 'late')->count(),
+            'absent'      => $allAttendances->where('status', 'absent')->count(),
+            'early_out'   => $allAttendances->where('status', 'early_out')->count(),
+            'half_day'    => $allAttendances->where('status', 'half_day')->count(),
+            'total_hours' => round($allAttendances->sum('hours_worked') / 60, 1),
+            'total_hrs'   => $allAttendances->sum('hours_worked'),
+            'days'        => $days,
         ];
 
         return view('admin.attendance.report', compact(
