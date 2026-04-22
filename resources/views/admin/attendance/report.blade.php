@@ -4,6 +4,9 @@
 
 @push('styles')
 <style>
+/* ═══════════════════════════════════════════════════════════
+   ATTENDANCE — REPORT
+   ═══════════════════════════════════════════════════════════ */
 .report-filters {
     background: #fff;
     border: 1.5px solid var(--border);
@@ -78,23 +81,22 @@
 .report-table tbody tr:hover { background: #faf7ff; }
 .report-table td { padding: .85rem 1rem; vertical-align: middle; }
 
-.pct-bar {
-    display: flex; align-items: center; gap: .5rem;
-}
+.pct-bar { display: flex; align-items: center; gap: .5rem; }
 .pct-track {
     flex: 1; height: 7px; background: var(--border);
     border-radius: 10px; overflow: hidden;
 }
 .pct-fill { height: 100%; border-radius: 10px; transition: width .4s; }
-.pct-fill.good  { background: linear-gradient(90deg, var(--green), var(--green-lt)); }
-.pct-fill.warn  { background: linear-gradient(90deg, var(--gold), #fbbf24); }
-.pct-fill.bad   { background: linear-gradient(90deg, var(--tango), var(--tango-lt)); }
+.pct-fill.good { background: linear-gradient(90deg, var(--green), var(--green-lt)); }
+.pct-fill.warn { background: linear-gradient(90deg, var(--gold), #fbbf24); }
+.pct-fill.bad  { background: linear-gradient(90deg, var(--tango), var(--tango-lt)); }
 .pct-label { font-size: .76rem; font-weight: 700; min-width: 36px; text-align: right; }
 </style>
 @endpush
 
 @section('content')
 
+{{-- Page header --}}
 <div class="page-header" style="margin-bottom:1.5rem">
     <div>
         <h1 class="page-title">
@@ -108,10 +110,13 @@
         </p>
     </div>
     <div style="display:flex;gap:.65rem;flex-wrap:wrap">
-        <a href="{{ route('admin.attendance.today') }}" class="btn btn-outline btn-sm">
-            <i class="fas fa-calendar-day"></i> Today
+        <a href="{{ route('admin.attendance.index') }}" class="btn btn-outline btn-sm">
+            <i class="fas fa-list"></i> Records
         </a>
-        <a href="{{ route('admin.attendance.export') }}?date_from={{ $dateFrom }}&date_to={{ $dateTo }}"
+        <a href="{{ route('admin.attendance.terminal') }}" class="btn btn-outline btn-sm">
+            <i class="fas fa-user-clock"></i> Terminal
+        </a>
+        <a href="{{ route('admin.attendance.export') }}?from={{ $dateFrom }}&to={{ $dateTo }}"
            class="btn btn-outline btn-sm">
             <i class="fas fa-file-export"></i> Export CSV
         </a>
@@ -122,19 +127,19 @@
 <form method="GET" action="{{ route('admin.attendance.report') }}" class="report-filters">
     <div class="fg" style="max-width:160px">
         <label>From</label>
-        <input type="date" name="date_from" value="{{ $dateFrom }}" required>
+        <input type="date" name="from" value="{{ $dateFrom }}" required>
     </div>
     <div class="fg" style="max-width:160px">
         <label>To</label>
-        <input type="date" name="date_to" value="{{ $dateTo }}" required>
+        <input type="date" name="to" value="{{ $dateTo }}" required>
     </div>
-    <div class="fg" style="max-width:160px">
+    <div class="fg" style="max-width:200px">
         <label>Employee</label>
         <select name="employee_id">
             <option value="">All Employees</option>
             @foreach($employees as $emp)
                 <option value="{{ $emp->id }}"
-                    {{ request('employee_id') == $emp->id ? 'selected':'' }}>
+                    {{ request('employee_id') == $emp->id ? 'selected' : '' }}>
                     {{ $emp->name }}
                 </option>
             @endforeach
@@ -147,38 +152,53 @@
     </div>
 </form>
 
-{{-- Summary stats --}}
+{{-- Summary stat cards --}}
 <div class="report-stats">
     <div class="stat-card">
         <div class="stat-icon green"><i class="fas fa-circle-check"></i></div>
-        <div><div class="stat-value">{{ $summary['present'] }}</div><div class="stat-label">Total Present</div></div>
+        <div>
+            <div class="stat-value">{{ $summary['present'] }}</div>
+            <div class="stat-label">Total Present</div>
+        </div>
     </div>
     <div class="stat-card">
         <div class="stat-icon tango"><i class="fas fa-circle-xmark"></i></div>
-        <div><div class="stat-value">{{ $summary['absent'] }}</div><div class="stat-label">Total Absent</div></div>
+        <div>
+            <div class="stat-value">{{ $summary['absent'] }}</div>
+            <div class="stat-label">Total Absent</div>
+        </div>
     </div>
     <div class="stat-card">
         <div class="stat-icon gold"><i class="fas fa-clock"></i></div>
-        <div><div class="stat-value">{{ $summary['late'] }}</div><div class="stat-label">Total Late</div></div>
+        <div>
+            <div class="stat-value">{{ $summary['late'] }}</div>
+            <div class="stat-label">Total Late</div>
+        </div>
     </div>
     <div class="stat-card">
         <div class="stat-icon purple"><i class="fas fa-hourglass-half"></i></div>
-        <div><div class="stat-value">{{ number_format($summary['total_hours'],1) }}h</div><div class="stat-label">Total Hours</div></div>
+        <div>
+            <div class="stat-value">{{ number_format($summary['total_hours'], 1) }}h</div>
+            <div class="stat-label">Total Hours</div>
+        </div>
     </div>
     <div class="stat-card">
         <div class="stat-icon blue"><i class="fas fa-calendar-days"></i></div>
-        <div><div class="stat-value">{{ $summary['days'] }}</div><div class="stat-label">Working Days</div></div>
+        <div>
+            <div class="stat-value">{{ $summary['days'] }}</div>
+            <div class="stat-label">Working Days</div>
+        </div>
     </div>
 </div>
 
-{{-- Per-employee breakdown --}}
+{{-- Per-employee table --}}
 <div class="report-card">
     <div class="report-card-header">
         <h3>
             <i class="fas fa-table"></i> Per-Employee Breakdown
         </h3>
         <span style="font-size:.78rem;color:var(--muted)">
-            {{ $summary['days'] }} day period
+            {{ $summary['days'] }} day period · {{ count($report) }} employees
         </span>
     </div>
     <div style="overflow-x:auto">
@@ -194,6 +214,7 @@
                     <th>Half Day</th>
                     <th>Hours</th>
                     <th>Attendance %</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -201,42 +222,90 @@
                 @php
                     $pct   = $row['percentage'];
                     $color = $pct >= 80 ? 'good' : ($pct >= 60 ? 'warn' : 'bad');
+                    $colorVar = $color === 'good' ? 'green' : ($color === 'warn' ? 'gold' : 'tango');
                 @endphp
                 <tr>
+                    {{-- Employee --}}
                     <td>
-                        <a href="{{ route('admin.attendance.show', $row['employee']->id) }}"
-                           style="font-weight:600;color:var(--purple);text-decoration:none">
-                            {{ $row['employee']->name }}
-                        </a>
+                        <div style="display:flex;align-items:center;gap:.6rem">
+                            <div style="width:34px;height:34px;border-radius:9px;flex-shrink:0;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.78rem;font-weight:700;box-shadow:0 2px 8px rgba(124,58,237,.2)">
+                                {{ strtoupper(substr($row['employee']->name, 0, 2)) }}
+                            </div>
+                            <a href="{{ route('admin.attendance.show', $row['employee']->id) }}"
+                               style="font-weight:600;color:var(--purple);text-decoration:none">
+                                {{ $row['employee']->name }}
+                            </a>
+                        </div>
                     </td>
+
+                    {{-- Role --}}
                     <td>
                         <span class="badge badge-purple" style="text-transform:capitalize">
                             {{ $row['employee']->role }}
                         </span>
                     </td>
-                    <td><span style="color:var(--green);font-weight:700">{{ $row['present'] }}</span></td>
-                    <td><span style="color:var(--tango);font-weight:700">{{ $row['absent'] }}</span></td>
-                    <td><span style="color:var(--gold);font-weight:700">{{ $row['late'] }}</span></td>
-                    <td>{{ $row['early_out'] }}</td>
-                    <td>{{ $row['half_day'] }}</td>
-                    <td><span style="font-weight:700">{{ number_format($row['hours'],1) }}h</span></td>
+
+                    {{-- Present --}}
                     <td>
+                        <span style="color:var(--green);font-weight:700">
+                            {{ $row['present'] }}
+                        </span>
+                    </td>
+
+                    {{-- Absent --}}
+                    <td>
+                        <span style="color:var(--tango);font-weight:700">
+                            {{ $row['absent'] }}
+                        </span>
+                    </td>
+
+                    {{-- Late --}}
+                    <td>
+                        <span style="color:var(--gold);font-weight:700">
+                            {{ $row['late'] }}
+                        </span>
+                    </td>
+
+                    {{-- Early out --}}
+                    <td style="color:var(--muted)">{{ $row['early_out'] }}</td>
+
+                    {{-- Half day --}}
+                    <td style="color:var(--muted)">{{ $row['half_day'] }}</td>
+
+                    {{-- Hours --}}
+                    <td>
+                        <span style="font-weight:700;font-variant-numeric:tabular-nums">
+                            {{ number_format($row['hours'], 1) }}h
+                        </span>
+                    </td>
+
+                    {{-- Attendance % --}}
+                    <td style="min-width:140px">
                         <div class="pct-bar">
                             <div class="pct-track">
-                                <div class="pct-fill {{ $color }}" style="width:{{ $pct }}%"></div>
+                                <div class="pct-fill {{ $color }}"
+                                     style="width:{{ $pct }}%"></div>
                             </div>
-                            <span class="pct-label" style="color:var(--{{ $color === 'good' ? 'green' : ($color === 'warn' ? 'gold' : 'tango') }})">
+                            <span class="pct-label" style="color:var(--{{ $colorVar }})">
                                 {{ $pct }}%
                             </span>
                         </div>
                     </td>
+
+                    {{-- View --}}
+                    <td>
+                        <a href="{{ route('admin.attendance.show', $row['employee']->id) }}?from={{ $dateFrom }}&to={{ $dateTo }}"
+                           class="btn btn-outline btn-sm">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                    </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="9">
+                    <td colspan="10">
                         <div style="padding:3rem;text-align:center;color:var(--muted)">
-                            <i class="fas fa-chart-bar" style="font-size:2rem;display:block;margin-bottom:.6rem;opacity:.18"></i>
-                            No data for selected period.
+                            <i class="fas fa-chart-bar" style="font-size:2rem;display:block;margin-bottom:.6rem;opacity:.18;color:var(--purple)"></i>
+                            <p style="font-size:.88rem">No attendance data for the selected period.</p>
                         </div>
                     </td>
                 </tr>

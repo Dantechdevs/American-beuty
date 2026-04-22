@@ -196,54 +196,54 @@ class AttendanceController extends Controller
         return view('admin.attendance.show', compact('employee', 'attendances', 'summary', 'from', 'to'));
     }
 
-    // ── Report ─────────────────────────────────────────────────
     public function report(Request $request)
-    {
-        $dateFrom = $request->from ?? now()->startOfMonth()->toDateString();
-        $dateTo   = $request->to   ?? now()->toDateString();
+{
+    $dateFrom = $request->from ?? now()->startOfMonth()->toDateString();
+    $dateTo   = $request->to   ?? now()->toDateString();
 
-        $employees = Employee::where('is_active', true)
-            ->with(['attendances' => fn($q) =>
-                $q->whereBetween('date', [$dateFrom, $dateTo])
-            ])
-            ->orderBy('name')
-            ->get();
+    $query = Employee::where('is_active', true)
+        ->when($request->employee_id, fn($q) => $q->where('id', $request->employee_id))
+        ->with(['attendances' => fn($q) =>
+            $q->whereBetween('date', [$dateFrom, $dateTo])
+        ])
+        ->orderBy('name')
+        ->get();
 
-        // Per employee summary
-        $employees->each(function ($emp) {
-            $emp->summary = [
-                'present'     => $emp->attendances->where('status', 'present')->count(),
-                'late'        => $emp->attendances->where('status', 'late')->count(),
-                'absent'      => $emp->attendances->where('status', 'absent')->count(),
-                'early_out'   => $emp->attendances->where('status', 'early_out')->count(),
-                'half_day'    => $emp->attendances->where('status', 'half_day')->count(),
-                'total_hours' => round($emp->attendances->sum('hours_worked') / 60, 1),
-                'total_hrs'   => $emp->attendances->sum('hours_worked'),
-                'days'        => $emp->attendances->count(),
-            ];
-        });
+    $days = \Carbon\Carbon::parse($dateFrom)->diffInDays(\Carbon\Carbon::parse($dateTo)) + 1;
 
-        // Global summary across all employees
-        $allAttendances = Attendance::whereBetween('date', [$dateFrom, $dateTo])->get();
+    $report = $query->map(function ($emp) use ($days) {
+        $atts     = $emp->attendances;
+        $present  = $atts->whereIn('status', ['present', 'late', 'early_out', 'half_day'])->count();
+        $absent   = max(0, $days - $present);
+        $hours    = round($atts->sum('hours_worked') / 60, 1);
+        $pct      = $days > 0 ? round(($present / $days) * 100) : 0;
 
-        // Count unique working days in range
-        $days = Carbon::parse($dateFrom)->diffInWeekdays(Carbon::parse($dateTo)) + 1;
-
-        $summary = [
-            'present'     => $allAttendances->where('status', 'present')->count(),
-            'late'        => $allAttendances->where('status', 'late')->count(),
-            'absent'      => $allAttendances->where('status', 'absent')->count(),
-            'early_out'   => $allAttendances->where('status', 'early_out')->count(),
-            'half_day'    => $allAttendances->where('status', 'half_day')->count(),
-            'total_hours' => round($allAttendances->sum('hours_worked') / 60, 1),
-            'total_hrs'   => $allAttendances->sum('hours_worked'),
-            'days'        => $days,
+        return [
+            'employee'   => $emp,
+            'present'    => $present,
+            'absent'     => $absent,
+            'late'       => $atts->where('status', 'late')->count(),
+            'early_out'  => $atts->where('status', 'early_out')->count(),
+            'half_day'   => $atts->where('status', 'half_day')->count(),
+            'hours'      => $hours,
+            'percentage' => $pct,
         ];
+    });
 
-        return view('admin.attendance.report', compact(
-            'employees', 'dateFrom', 'dateTo', 'summary'
-        ));
-    }
+    $summary = [
+        'present'     => $report->sum('present'),
+        'absent'      => $report->sum('absent'),
+        'late'        => $report->sum('late'),
+        'total_hours' => $report->sum('hours'),
+        'days'        => $days,
+    ];
+
+    $employees = Employee::where('is_active', true)->orderBy('name')->get();
+
+    return view('admin.attendance.report', compact(
+        'report', 'summary', 'employees', 'dateFrom', 'dateTo'
+    ));
+}
 
     // ── Export (CSV) ───────────────────────────────────────────
     public function export(Request $request)
