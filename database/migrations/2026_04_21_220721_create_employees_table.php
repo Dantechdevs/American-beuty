@@ -13,19 +13,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->nullable()->unique();
             $table->string('phone')->nullable();
-            $table->string('position')->nullable();
-            $table->string('department')->nullable();
-            $table->date('hire_date')->nullable();
-            $table->decimal('salary', 12, 2)->default(0);
-            $table->enum('status', ['active', 'inactive', 'terminated'])->default('active');
-            $table->string('id_number')->nullable();
-            $table->string('nssf_number')->nullable();
-            $table->string('nhif_number')->nullable();
-            $table->string('kra_pin')->nullable();
-            $table->text('address')->nullable();
-            $table->string('emergency_contact')->nullable();
-            $table->string('emergency_phone')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->string('pin', 10)->nullable();           // clock-in PIN
+            $table->string('role')->default('cashier');      // cashier|beautician|receptionist|manager|cleaner
+            $table->string('photo')->nullable();
+            $table->foreignId('shift_id')->nullable()->constrained('shifts')->nullOnDelete();
+            $table->boolean('is_active')->default(true);
+            $table->date('joined_date')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
