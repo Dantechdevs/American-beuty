@@ -90,8 +90,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/categories/{category}',   [CategoryController::class, 'destroy'])->name('categories.destroy');
 
     // ─── Users ────────────────────────────────────────────────
-    Route::get('/users',                 [UserController::class, 'index'])->name('users.index');
-    Route::patch('/users/{user}/toggle', [UserController::class, 'toggleStatus'])->name('users.toggle');
+    Route::get('/users/administrators',        [UserController::class, 'administrators'])->name('users.administrators');
+    Route::get('/users/managers',              [UserController::class, 'managers'])      ->name('users.managers');
+    Route::get('/users/pos-operators',         [UserController::class, 'posOperators'])  ->name('users.pos-operators');
+    Route::get('/users/delivery',              [UserController::class, 'delivery'])      ->name('users.delivery');
+    Route::get('/users/create',                [UserController::class, 'create'])        ->name('users.create');
+    Route::post('/users',                      [UserController::class, 'store'])         ->name('users.store');
+    Route::get('/users/{user}/edit',           [UserController::class, 'edit'])          ->name('users.edit');
+    Route::put('/users/{user}',                [UserController::class, 'update'])        ->name('users.update');
+    Route::patch('/users/{user}/toggle',       [UserController::class, 'toggleStatus'])  ->name('users.toggle');
+    Route::delete('/users/{user}',             [UserController::class, 'destroy'])       ->name('users.destroy');
+    Route::get('/users',                       [UserController::class, 'index'])         ->name('users.index');
 
     // ─── Settings ─────────────────────────────────────────────
     Route::get('/settings',                      [SettingsController::class, 'index'])->name('settings.index');
@@ -154,24 +163,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/shifts/{shift}',   [ShiftController::class, 'destroy'])->name('shifts.destroy');
 
     // ─── Attendance ───────────────────────────────────────────
-    
-    Route::get('/attendance/terminal',             [AttendanceController::class, 'terminal'])  ->name('attendance.terminal');
-    Route::get('/attendance/today',                [AttendanceController::class, 'today'])     ->name('attendance.today');
-    Route::get('/attendance/report',               [AttendanceController::class, 'report'])    ->name('attendance.report');
-    Route::get('/attendance/export',               [AttendanceController::class, 'export'])    ->name('attendance.export');
-
-    // PIN endpoints
-    Route::get('/attendance/pin/lookup',           [AttendanceController::class, 'pinLookup']) ->name('attendance.pin.lookup');
-    Route::post('/attendance/clock-in',            [AttendanceController::class, 'clockIn'])   ->name('attendance.clock-in');
-    Route::post('/attendance/clock-out',           [AttendanceController::class, 'clockOut'])  ->name('attendance.clock-out');
-
-    // Manual & override
-    Route::post('/attendance/manual',              [AttendanceController::class, 'manual'])    ->name('attendance.manual');
-    Route::put('/attendance/{attendance}/override',[AttendanceController::class, 'override'])  ->name('attendance.override');
-    Route::delete('/attendance/{attendance}',      [AttendanceController::class, 'destroy'])   ->name('attendance.destroy');
-
-    // List & detail — wildcard last
-    Route::get('/attendance',                      [AttendanceController::class, 'index'])     ->name('attendance.index');
-    Route::get('/attendance/{employee}',           [AttendanceController::class, 'show'])      ->name('attendance.show');
+    Route::get('/attendance/terminal',              [AttendanceController::class, 'terminal'])  ->name('attendance.terminal');
+    Route::get('/attendance/today',                 [AttendanceController::class, 'today'])     ->name('attendance.today');
+    Route::get('/attendance/report',                [AttendanceController::class, 'report'])    ->name('attendance.report');
+    Route::get('/attendance/export',                [AttendanceController::class, 'export'])    ->name('attendance.export');
+    Route::get('/attendance/pin/lookup',            [AttendanceController::class, 'pinLookup']) ->name('attendance.pin.lookup');
+    Route::post('/attendance/clock-in',             [AttendanceController::class, 'clockIn'])   ->name('attendance.clock-in');
+    Route::post('/attendance/clock-out',            [AttendanceController::class, 'clockOut'])  ->name('attendance.clock-out');
+    Route::post('/attendance/manual',               [AttendanceController::class, 'manual'])    ->name('attendance.manual');
+    Route::put('/attendance/{attendance}/override', [AttendanceController::class, 'override'])  ->name('attendance.override');
+    Route::delete('/attendance/{attendance}',       [AttendanceController::class, 'destroy'])   ->name('attendance.destroy');
+    Route::get('/attendance',                       [AttendanceController::class, 'index'])     ->name('attendance.index');
+    Route::get('/attendance/{employee}',            [AttendanceController::class, 'show'])      ->name('attendance.show');
 
 });
