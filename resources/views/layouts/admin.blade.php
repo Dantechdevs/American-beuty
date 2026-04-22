@@ -405,23 +405,42 @@
         {{-- ── Users ── --}}
         <div class="sb-section">Users</div>
 
-        <a href="#" class="sb-link">
+        <a href="{{ route('admin.users.administrators') }}"
+           class="sb-link {{ request()->routeIs('admin.users.administrators') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-user-shield"></i></span>
             <span class="sb-txt">Administrators</span>
+            @php $adminCount = \App\Models\User::where('role','admin')->count(); @endphp
+            @if($adminCount > 0)
+                <span class="sb-badge" style="background:linear-gradient(135deg,var(--purple),var(--pink))">{{ $adminCount }}</span>
+            @endif
         </a>
 
-        <a href="#" class="sb-link">
+        <a href="{{ route('admin.users.managers') }}"
+           class="sb-link {{ request()->routeIs('admin.users.managers') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-user-tie"></i></span>
+            <span class="sb-txt">Managers</span>
+        </a>
+
+        <a href="{{ route('admin.users.pos-operators') }}"
+           class="sb-link {{ request()->routeIs('admin.users.pos-operators') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-computer"></i></span>
+            <span class="sb-txt">POS Operators</span>
+        </a>
+
+        <a href="{{ route('admin.users.delivery') }}"
+           class="sb-link {{ request()->routeIs('admin.users.delivery') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-motorcycle"></i></span>
-            <span class="sb-txt">Delivery Boys</span>
+            <span class="sb-txt">Delivery Personnel</span>
         </a>
 
         <a href="{{ route('admin.users.index') }}"
-           class="sb-link {{ request()->routeIs('admin.users.*') ? 'active':'' }}">
+           class="sb-link {{ request()->routeIs('admin.users.index') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-users"></i></span>
             <span class="sb-txt">Customers</span>
         </a>
 
-        <a href="#" class="sb-link">
+        <a href="{{ route('admin.employees.index') }}"
+           class="sb-link {{ request()->routeIs('admin.employees.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-id-badge"></i></span>
             <span class="sb-txt">Employees</span>
         </a>
@@ -452,7 +471,7 @@
             <span class="sb-txt">Credit Balance Report</span>
         </a>
 
-         {{-- ── Attendance ── --}}
+        {{-- ── Attendance ── --}}
         <div class="sb-section">Attendance</div>
 
         <a href="{{ route('admin.attendance.terminal') }}"
@@ -485,14 +504,9 @@
             <span class="sb-txt">Shifts</span>
         </a>
 
-        <a href="{{ route('admin.employees.index') }}"
-           class="sb-link {{ request()->routeIs('admin.employees.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-id-badge"></i></span>
-            <span class="sb-txt">Employees</span>
-        </a>
-
         {{-- ── Setup ── --}}
         <div class="sb-section">Setup</div>
+
         <a href="{{ route('admin.settings.index') }}"
            class="sb-link {{ request()->routeIs('admin.settings.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-sliders"></i></span>
@@ -506,7 +520,7 @@
             <div class="sb-av">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</div>
             <div style="flex:1;min-width:0">
                 <span class="sb-uname">{{ auth()->user()->name ?? 'Admin' }}</span>
-                <span class="sb-urole">Administrator</span>
+                <span class="sb-urole">{{ auth()->user()->role_label ?? 'Administrator' }}</span>
             </div>
             <form method="POST" action="{{ route('logout') }}" style="margin:0">
                 @csrf
@@ -559,7 +573,7 @@
                     <div class="tb-av">{{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}</div>
                     <div class="tb-user-info">
                         <span class="tb-uname">{{ auth()->user()->name ?? 'Admin' }}</span>
-                        <span class="tb-urole">Administrator</span>
+                        <span class="tb-urole">{{ auth()->user()->role_label ?? 'Administrator' }}</span>
                     </div>
                     <i class="fas fa-chevron-down tb-chev"></i>
                 </div>
@@ -570,7 +584,10 @@
                             <div>
                                 <div class="tb-drop-name">{{ auth()->user()->name ?? 'Admin' }}</div>
                                 <div class="tb-drop-email">{{ auth()->user()->email ?? 'admin@americanbeauty.com' }}</div>
-                                <div class="tb-drop-badge"><i class="fas fa-crown"></i> Administrator</div>
+                                <div class="tb-drop-badge">
+                                    <i class="fas fa-crown"></i>
+                                    {{ auth()->user()->role_label ?? 'Administrator' }}
+                                </div>
                             </div>
                         </div>
                     </div>
