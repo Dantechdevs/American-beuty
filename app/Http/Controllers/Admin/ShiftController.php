@@ -8,12 +8,11 @@ use Illuminate\Http\Request;
 
 class ShiftController extends Controller
 {
-    public function index()
-    {
-        $shifts = Shift::withCount('employees')->latest()->get();
-        return view('admin.shifts', compact('shifts'));
-    }
-
+   public function index()
+{
+    $shifts = Shift::withCount('employees')->latest()->get();
+    return view('admin.shifts.index', compact('shifts'));
+}
     public function store(Request $request)
     {
         $request->validate([
