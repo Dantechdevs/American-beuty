@@ -159,7 +159,8 @@ class AttendanceController extends Controller
 
         $totalEmployees = Employee::where('is_active', true)->count();
 
-        $todayStats = [
+        // Renamed from $todayStats to $stats to match what the blade expects
+        $stats = [
             'total'     => $totalEmployees,
             'present'   => $attendances->where('status', 'present')->count(),
             'late'      => $attendances->where('status', 'late')->count(),
@@ -167,7 +168,7 @@ class AttendanceController extends Controller
             'absent'    => $totalEmployees - $attendances->count(),
         ];
 
-        return view('admin.attendance.today', compact('attendances', 'todayStats'));
+        return view('admin.attendance.today', compact('attendances', 'stats'));
     }
 
     // ── Single employee attendance ─────────────────────────────
