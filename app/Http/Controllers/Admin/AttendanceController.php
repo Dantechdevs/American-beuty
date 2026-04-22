@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
+
 class AttendanceController extends Controller
 {
     // ── Terminal page ──────────────────────────────────────────
@@ -149,26 +150,26 @@ class AttendanceController extends Controller
         return view('admin.attendance.index', compact('attendances', 'employees', 'todayStats'));
     }
 
-    // ── Today's attendance ─────────────────────────────────────
     public function today()
-    {
-        $attendances    = Attendance::with(['employee', 'shift'])
-            ->whereDate('date', today())
-            ->latest('clock_in')
-            ->get();
+{
+    $today = Carbon\Carbon::today();
+    
+    $attendances = Attendance::whereDate('date', $today)
+        ->with('employee')
+        ->orderBy('clock_in', 'desc')
+        ->get();
 
-        $totalEmployees = Employee::where('is_active', true)->count();
+    $totalStaff = Employee::where('is_active', 1)->count();
+    
+    $stats = [
+        'total'   => $totalStaff,
+        'present' => $attendances->whereNotNull('clock_in')->count(),
+        'late'    => $attendances->where('is_late', true)->count(),  // adjust field name as needed
+        'absent'  => $totalStaff - $attendances->whereNotNull('clock_in')->count(),
+    ];
 
-        $todayStats = [
-            'total'     => $totalEmployees,
-            'present'   => $attendances->where('status', 'present')->count(),
-            'late'      => $attendances->where('status', 'late')->count(),
-            'early_out' => $attendances->where('status', 'early_out')->count(),
-            'absent'    => $totalEmployees - $attendances->count(),
-        ];
-
-        return view('admin.attendance.today', compact('attendances', 'todayStats'));
-    }
+    return view('admin.attendance.today', compact('attendances', 'stats'));
+}
 
     // ── Single employee attendance ─────────────────────────────
     public function show(Employee $employee, Request $request)
