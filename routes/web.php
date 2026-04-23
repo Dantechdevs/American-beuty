@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\ShiftController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\PromotionController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -123,6 +124,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/coupons/{coupon}',          [CouponController::class, 'update'])  ->name('coupons.update');
     Route::patch('/coupons/{coupon}/toggle', [CouponController::class, 'toggle'])  ->name('coupons.toggle');
     Route::delete('/coupons/{coupon}',       [CouponController::class, 'destroy']) ->name('coupons.destroy');
+
+    // ─── Promotions ───────────────────────────────────────────
+    Route::get('/promotions',                     [PromotionController::class, 'index'])  ->name('promotions.index');
+    Route::post('/promotions',                    [PromotionController::class, 'store'])  ->name('promotions.store');
+    Route::put('/promotions/{promotion}',         [PromotionController::class, 'update']) ->name('promotions.update');
+    Route::patch('/promotions/{promotion}/toggle',[PromotionController::class, 'toggle']) ->name('promotions.toggle');
+    Route::delete('/promotions/{promotion}',      [PromotionController::class, 'destroy'])->name('promotions.destroy');
 
     // ─── POS ──────────────────────────────────────────────────
     Route::get('/pos',                 [PosController::class, 'index'])->name('pos.index');
