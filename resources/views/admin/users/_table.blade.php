@@ -1,62 +1,4 @@
-@extends('layouts.admin')
-@section('title','Customers')
-
-@section('content')
-
-{{-- Header --}}
-<div class="page-header" style="margin-bottom:1.5rem">
-    <div>
-        <div class="page-title">
-            <i class="fas fa-users" style="color:var(--pink)"></i> Customers
-        </div>
-        <div class="page-sub">Manage customer accounts</div>
-    </div>
-    <a href="{{ route('admin.users.create', ['role' => 'customer']) }}" class="btn btn-primary btn-sm">
-        <i class="fas fa-plus"></i> Add Customer
-    </a>
-</div>
-
-{{-- Stats --}}
-<div class="stats-grid" style="margin-bottom:1.25rem">
-    <a href="{{ route('admin.users.administrators') }}" style="text-decoration:none" class="stat-card">
-        <div class="stat-icon purple"><i class="fas fa-user-shield"></i></div>
-        <div>
-            <div class="stat-value">{{ $stats['admin'] }}</div>
-            <div class="stat-label">Administrators</div>
-        </div>
-    </a>
-    <a href="{{ route('admin.users.managers') }}" style="text-decoration:none" class="stat-card">
-        <div class="stat-icon gold"><i class="fas fa-user-tie"></i></div>
-        <div>
-            <div class="stat-value">{{ $stats['manager'] }}</div>
-            <div class="stat-label">Managers</div>
-        </div>
-    </a>
-    <a href="{{ route('admin.users.pos-operators') }}" style="text-decoration:none" class="stat-card">
-        <div class="stat-icon blue"><i class="fas fa-computer"></i></div>
-        <div>
-            <div class="stat-value">{{ $stats['pos_operator'] }}</div>
-            <div class="stat-label">POS Operators</div>
-        </div>
-    </a>
-    <a href="{{ route('admin.users.delivery') }}" style="text-decoration:none" class="stat-card">
-        <div class="stat-icon tango"><i class="fas fa-motorcycle"></i></div>
-        <div>
-            <div class="stat-value">{{ $stats['delivery'] }}</div>
-            <div class="stat-label">Delivery Personnel</div>
-        </div>
-    </a>
-    <a href="{{ route('admin.users.index') }}" style="text-decoration:none" class="stat-card"
-       style="border:2px solid var(--pink)">
-        <div class="stat-icon pink"><i class="fas fa-users"></i></div>
-        <div>
-            <div class="stat-value">{{ $stats['customer'] }}</div>
-            <div class="stat-label">Customers</div>
-        </div>
-    </a>
-</div>
-
-{{-- Table --}}
+{{-- resources/views/admin/users/_table.blade.php --}}
 <div class="card">
     <div class="card-header" style="flex-wrap:wrap;gap:.75rem">
         <form method="GET" style="display:flex;gap:.6rem;flex:1;min-width:200px">
@@ -65,20 +7,21 @@
                 style="padding:.5rem .9rem;border:1.5px solid var(--border);border-radius:8px;font-size:.85rem;font-family:inherit;flex:1;outline:none">
             <button type="submit" class="btn btn-outline btn-sm">Search</button>
             @if(request('search'))
-                <a href="{{ route('admin.users.index') }}" class="btn btn-outline btn-sm">Clear</a>
+                <a href="{{ request()->url() }}" class="btn btn-outline btn-sm">Clear</a>
             @endif
         </form>
-        <a href="{{ route('admin.users.create', ['role' => 'customer']) }}" class="btn btn-primary btn-sm">
-            <i class="fas fa-plus"></i> Add Customer
+        <a href="{{ route('admin.users.create', ['role' => $roleKey]) }}" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus"></i> Add {{ $roleLabel }}
         </a>
     </div>
     <div class="table-wrap">
         <table>
             <thead>
                 <tr>
-                    <th>Customer</th>
+                    <th>User</th>
                     <th>Phone</th>
-                    <th>Orders</th>
+                    @if($roleKey === 'customer')<th>Orders</th>@endif
+                    <th>Role</th>
                     <th>Joined</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -99,7 +42,10 @@
                         </div>
                     </td>
                     <td style="font-size:.84rem;color:var(--muted)">{{ $user->phone ?? '—' }}</td>
-                    <td><span class="badge badge-info">{{ $user->orders_count ?? 0 }}</span></td>
+                    @if($roleKey === 'customer')
+                        <td><span class="badge badge-info">{{ $user->orders_count ?? 0 }}</span></td>
+                    @endif
+                    <td><span class="badge {{ $user->role_badge }}">{{ $user->role_label }}</span></td>
                     <td style="font-size:.8rem;color:var(--muted)">{{ $user->created_at->format('d M Y') }}</td>
                     <td>
                         <span class="badge {{ $user->is_active ? 'badge-success' : 'badge-danger' }}">
@@ -133,9 +79,9 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" style="text-align:center;padding:3rem;color:var(--muted)">
+                    <td colspan="8" style="text-align:center;padding:3rem;color:var(--muted)">
                         <i class="fas fa-users" style="font-size:2rem;opacity:.2;display:block;margin-bottom:.5rem"></i>
-                        No customers found.
+                        No {{ $roleLabel }}s found.
                     </td>
                 </tr>
                 @endforelse
@@ -144,5 +90,3 @@
     </div>
     <div class="pagination-wrap">{{ $users->links() }}</div>
 </div>
-
-@endsection
