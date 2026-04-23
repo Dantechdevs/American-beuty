@@ -22,6 +22,8 @@ use App\Http\Controllers\Admin\ShiftController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\PromotionController;
+use App\Http\Controllers\Admin\ReturnOrderController as AdminReturnOrderController;
+use App\Http\Controllers\Customer\ReturnOrderController as CustomerReturnOrderController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -65,6 +67,14 @@ Route::middleware('guest')->group(function () {
 });
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
+// ─── Customer ────────────────────────────────────────────────
+Route::middleware(['auth'])->name('customer.')->group(function () {
+    Route::get('/my-returns',                  [CustomerReturnOrderController::class, 'index'])  ->name('return-orders.index');
+    Route::get('/orders/{order}/return',       [CustomerReturnOrderController::class, 'create']) ->name('return-orders.create');
+    Route::post('/my-returns',                 [CustomerReturnOrderController::class, 'store'])  ->name('return-orders.store');
+    Route::get('/my-returns/{returnOrder}',    [CustomerReturnOrderController::class, 'show'])   ->name('return-orders.show');
+});
+
 // ─── Admin ───────────────────────────────────────────────────
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
@@ -83,6 +93,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/orders',                  [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}',          [OrderController::class, 'show'])->name('orders.show');
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
+
+    // ─── Return Orders ────────────────────────────────────────
+    Route::get('/return-orders',                          [AdminReturnOrderController::class, 'index'])       ->name('return-orders.index');
+    Route::post('/return-orders',                         [AdminReturnOrderController::class, 'store'])       ->name('return-orders.store');
+    Route::get('/return-orders/{returnOrder}',            [AdminReturnOrderController::class, 'show'])        ->name('return-orders.show');
+    Route::patch('/return-orders/{returnOrder}/status',   [AdminReturnOrderController::class, 'updateStatus'])->name('return-orders.update-status');
+    Route::delete('/return-orders/{returnOrder}',         [AdminReturnOrderController::class, 'destroy'])     ->name('return-orders.destroy');
 
     // ─── Categories ───────────────────────────────────────────
     Route::get('/categories',                 [CategoryController::class, 'index'])->name('categories.index');
@@ -126,11 +143,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/coupons/{coupon}',       [CouponController::class, 'destroy']) ->name('coupons.destroy');
 
     // ─── Promotions ───────────────────────────────────────────
-    Route::get('/promotions',                     [PromotionController::class, 'index'])  ->name('promotions.index');
-    Route::post('/promotions',                    [PromotionController::class, 'store'])  ->name('promotions.store');
-    Route::put('/promotions/{promotion}',         [PromotionController::class, 'update']) ->name('promotions.update');
-    Route::patch('/promotions/{promotion}/toggle',[PromotionController::class, 'toggle']) ->name('promotions.toggle');
-    Route::delete('/promotions/{promotion}',      [PromotionController::class, 'destroy'])->name('promotions.destroy');
+    Route::get('/promotions',                      [PromotionController::class, 'index'])  ->name('promotions.index');
+    Route::post('/promotions',                     [PromotionController::class, 'store'])  ->name('promotions.store');
+    Route::put('/promotions/{promotion}',          [PromotionController::class, 'update']) ->name('promotions.update');
+    Route::patch('/promotions/{promotion}/toggle', [PromotionController::class, 'toggle']) ->name('promotions.toggle');
+    Route::delete('/promotions/{promotion}',       [PromotionController::class, 'destroy'])->name('promotions.destroy');
 
     // ─── POS ──────────────────────────────────────────────────
     Route::get('/pos',                 [PosController::class, 'index'])->name('pos.index');
