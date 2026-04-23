@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\ShiftController;
+use App\Http\Controllers\Admin\ProfileController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -101,6 +102,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/users/{user}/toggle',       [UserController::class, 'toggleStatus'])  ->name('users.toggle');
     Route::delete('/users/{user}',             [UserController::class, 'destroy'])       ->name('users.destroy');
     Route::get('/users',                       [UserController::class, 'index'])         ->name('users.index');
+
+    // ─── Profile ──────────────────────────────────────────────
+    Route::get('/profile/edit',         [ProfileController::class, 'edit'])          ->name('profile.edit');
+    Route::put('/profile',              [ProfileController::class, 'update'])        ->name('profile.update');
+    Route::get('/profile/password',     [ProfileController::class, 'password'])      ->name('profile.password');
+    Route::put('/profile/password',     [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+    Route::get('/profile/activity',     [ProfileController::class, 'activity'])      ->name('profile.activity');
 
     // ─── Settings ─────────────────────────────────────────────
     Route::get('/settings',                      [SettingsController::class, 'index'])->name('settings.index');
