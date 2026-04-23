@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\ShiftController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\CouponController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -104,16 +105,24 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/users',                       [UserController::class, 'index'])         ->name('users.index');
 
     // ─── Profile ──────────────────────────────────────────────
-    Route::get('/profile/edit',         [ProfileController::class, 'edit'])          ->name('profile.edit');
-    Route::put('/profile',              [ProfileController::class, 'update'])        ->name('profile.update');
-    Route::get('/profile/password',     [ProfileController::class, 'password'])      ->name('profile.password');
-    Route::put('/profile/password',     [ProfileController::class, 'updatePassword'])->name('profile.password.update');
-    Route::get('/profile/activity',     [ProfileController::class, 'activity'])      ->name('profile.activity');
+    Route::get('/profile/edit',     [ProfileController::class, 'edit'])          ->name('profile.edit');
+    Route::put('/profile',          [ProfileController::class, 'update'])        ->name('profile.update');
+    Route::get('/profile/password', [ProfileController::class, 'password'])      ->name('profile.password');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+    Route::get('/profile/activity', [ProfileController::class, 'activity'])      ->name('profile.activity');
 
     // ─── Settings ─────────────────────────────────────────────
     Route::get('/settings',                      [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings',                     [SettingsController::class, 'update'])->name('settings.update');
     Route::patch('/settings/gateways/{gateway}', [SettingsController::class, 'updateGateway'])->name('settings.gateway');
+
+    // ─── Coupons ──────────────────────────────────────────────
+    Route::get('/coupons/generate',          [CouponController::class, 'generate'])->name('coupons.generate');
+    Route::get('/coupons',                   [CouponController::class, 'index'])   ->name('coupons.index');
+    Route::post('/coupons',                  [CouponController::class, 'store'])   ->name('coupons.store');
+    Route::put('/coupons/{coupon}',          [CouponController::class, 'update'])  ->name('coupons.update');
+    Route::patch('/coupons/{coupon}/toggle', [CouponController::class, 'toggle'])  ->name('coupons.toggle');
+    Route::delete('/coupons/{coupon}',       [CouponController::class, 'destroy']) ->name('coupons.destroy');
 
     // ─── POS ──────────────────────────────────────────────────
     Route::get('/pos',                 [PosController::class, 'index'])->name('pos.index');
