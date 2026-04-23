@@ -19,7 +19,7 @@ class PromotionController extends Controller
             ->when($request->type, fn($q) =>
                 $q->where('type', $request->type)
             )
-            ->when($request->status === 'running', fn($q) =>
+            ->when($request->status === 'active', fn($q) =>
                 $q->running()
             )
             ->when($request->status === 'scheduled', fn($q) =>
@@ -39,7 +39,7 @@ class PromotionController extends Controller
 
         $stats = [
             'total'     => Promotion::count(),
-            'running'   => Promotion::running()->count(),
+            'active'    => Promotion::running()->count(),  // fixed: was 'running'
             'scheduled' => Promotion::where('is_active', true)
                             ->whereNotNull('starts_at')
                             ->where('starts_at', '>', now())->count(),
@@ -74,7 +74,7 @@ class PromotionController extends Controller
             'type'          => $request->type,
             'value'         => $request->value,
             'applies_to'    => $request->applies_to,
-            'applies_to_id' => in_array($request->applies_to, ['category','product'])
+            'applies_to_id' => in_array($request->applies_to, ['category', 'product'])
                                 ? $request->applies_to_id : null,
             'minimum_order' => $request->minimum_order ?? 0,
             'starts_at'     => $request->starts_at,
@@ -106,7 +106,7 @@ class PromotionController extends Controller
             'type'          => $request->type,
             'value'         => $request->value,
             'applies_to'    => $request->applies_to,
-            'applies_to_id' => in_array($request->applies_to, ['category','product'])
+            'applies_to_id' => in_array($request->applies_to, ['category', 'product'])
                                 ? $request->applies_to_id : null,
             'minimum_order' => $request->minimum_order ?? 0,
             'starts_at'     => $request->starts_at,

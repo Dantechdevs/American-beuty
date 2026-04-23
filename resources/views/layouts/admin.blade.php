@@ -465,20 +465,26 @@
         <div class="sb-section">Promo</div>
 
        <a href="{{ route('admin.coupons.index') }}"
-   class="sb-link {{ request()->routeIs('admin.coupons.*') ? 'active':'' }}">
-    <span class="sb-ico"><i class="fas fa-ticket"></i></span>
-    <span class="sb-txt">Coupons</span>
-    @php $activeCoupons = \App\Models\Coupon::where('is_active',true)->count(); @endphp
-    @if($activeCoupons > 0)
-        <span class="sb-badge">{{ $activeCoupons }}</span>
-    @endif
-</a>
+          class="sb-link {{ request()->routeIs('admin.coupons.*') ? 'active':'' }}">
+           <span class="sb-ico"><i class="fas fa-ticket"></i></span>
+           <span class="sb-txt">Coupons</span>
+           @php $activeCoupons = \App\Models\Coupon::where('is_active',true)->count(); @endphp
+            @if($activeCoupons > 0)
+            <span class="sb-badge">{{ $activeCoupons }}</span>
+           @endif
+        </a>
 
-        <a href="#" class="sb-link soon">
+         {{-- ✅ Promotions — LIVE --}}
+        <a href="{{ route('admin.promotions.index') }}"
+           class="sb-link {{ request()->routeIs('admin.promotions.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-percent"></i></span>
             <span class="sb-txt">Promotions</span>
-            <span class="sb-soon-pill">Soon</span>
+            @php $activePromos = \App\Models\Promotion::where('is_active',true)->count(); @endphp
+            @if($activePromos > 0)
+                <span class="sb-badge">{{ $activePromos }}</span>
+            @endif
         </a>
+
 
         <a href="{{ route('admin.categories.index') }}"
            class="sb-link {{ request()->routeIs('admin.categories.*') ? 'active':'' }}">
