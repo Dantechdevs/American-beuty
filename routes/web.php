@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ShiftController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\PromotionController;
+use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\ReturnOrderController as AdminReturnOrderController;
 use App\Http\Controllers\Customer\ReturnOrderController as CustomerReturnOrderController;
 
@@ -148,6 +149,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/promotions/{promotion}',          [PromotionController::class, 'update']) ->name('promotions.update');
     Route::patch('/promotions/{promotion}/toggle', [PromotionController::class, 'toggle']) ->name('promotions.toggle');
     Route::delete('/promotions/{promotion}',       [PromotionController::class, 'destroy'])->name('promotions.destroy');
+
+    // ─── Transactions ─────────────────────────────────────────
+    Route::get('/transactions/export',                 [TransactionController::class, 'export'])      ->name('transactions.export');
+    Route::get('/transactions',                        [TransactionController::class, 'index'])       ->name('transactions.index');
+    Route::get('/transactions/{transaction}',          [TransactionController::class, 'show'])        ->name('transactions.show');
+    Route::patch('/transactions/{transaction}/status', [TransactionController::class, 'updateStatus'])->name('transactions.updateStatus');
 
     // ─── POS ──────────────────────────────────────────────────
     Route::get('/pos',                 [PosController::class, 'index'])->name('pos.index');
