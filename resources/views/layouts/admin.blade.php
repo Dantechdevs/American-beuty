@@ -581,34 +581,32 @@
         </a>
 
         {{-- ── Accounts ── --}}
-        <div class="sb-section">Accounts</div>
+<div class="sb-section">Accounts</div>
 
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-arrow-right-arrow-left"></i></span>
-            <span class="sb-txt">Transactions</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
-
+<a href="{{ route('admin.transactions.index') }}"
+   class="sb-link {{ request()->routeIs('admin.transactions.*') ? 'active':'' }}">
+    <span class="sb-ico"><i class="fas fa-arrow-right-arrow-left"></i></span>
+    <span class="sb-txt">Transactions</span>
+</a>
         {{-- ── Reports ── --}}
-        <div class="sb-section">Reports</div>
+<div class="sb-section">Reports</div>
 
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-chart-line"></i></span>
-            <span class="sb-txt">Sales Report</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
+<a href="{{ route('admin.reports.sales') }}" class="sb-link {{ request()->routeIs('admin.reports.sales*') ? 'active' : '' }}">
+    <span class="sb-ico"><i class="fas fa-chart-line"></i></span>
+    <span class="sb-txt">Sales Report</span>
+</a>
 
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-chart-bar"></i></span>
-            <span class="sb-txt">Products Report</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
+<a href="#" class="sb-link soon">
+    <span class="sb-ico"><i class="fas fa-chart-bar"></i></span>
+    <span class="sb-txt">Products Report</span>
+    <span class="sb-soon-pill">Soon</span>
+</a>
 
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-file-invoice-dollar"></i></span>
-            <span class="sb-txt">Credit Balance Report</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
+<a href="#" class="sb-link soon">
+    <span class="sb-ico"><i class="fas fa-file-invoice-dollar"></i></span>
+    <span class="sb-txt">Credit Balance Report</span>
+    <span class="sb-soon-pill">Soon</span>
+</a>
 
         {{-- ── Attendance ── --}}
         <div class="sb-section">Attendance</div>

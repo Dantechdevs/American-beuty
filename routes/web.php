@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\ReturnOrderController as AdminReturnOrderController;
 use App\Http\Controllers\Customer\ReturnOrderController as CustomerReturnOrderController;
+use App\Http\Controllers\Admin\SalesReportController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -155,6 +156,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/transactions',                        [TransactionController::class, 'index'])       ->name('transactions.index');
     Route::get('/transactions/{transaction}',          [TransactionController::class, 'show'])        ->name('transactions.show');
     Route::patch('/transactions/{transaction}/status', [TransactionController::class, 'updateStatus'])->name('transactions.updateStatus');
+
+    // ─── Reports ──────────────────────────────────────────────
+    Route::get('/reports/sales',        [SalesReportController::class, 'index'])  ->name('reports.sales');
+    Route::get('/reports/sales/export', [SalesReportController::class, 'export']) ->name('reports.sales.export');
 
     // ─── POS ──────────────────────────────────────────────────
     Route::get('/pos',                 [PosController::class, 'index'])->name('pos.index');
