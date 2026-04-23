@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\TransactionController;
 use App\Http\Controllers\Admin\ReturnOrderController as AdminReturnOrderController;
 use App\Http\Controllers\Customer\ReturnOrderController as CustomerReturnOrderController;
 use App\Http\Controllers\Admin\SalesReportController;
+use App\Http\Controllers\Admin\ProductsReportController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -158,8 +159,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/transactions/{transaction}/status', [TransactionController::class, 'updateStatus'])->name('transactions.updateStatus');
 
     // ─── Reports ──────────────────────────────────────────────
-    Route::get('/reports/sales',        [SalesReportController::class, 'index'])  ->name('reports.sales');
-    Route::get('/reports/sales/export', [SalesReportController::class, 'export']) ->name('reports.sales.export');
+    Route::get('/reports/sales',        [SalesReportController::class, 'index'])    ->name('reports.sales');
+    Route::get('/reports/sales/export', [SalesReportController::class, 'export'])   ->name('reports.sales.export');
+    Route::get('/reports/products',     [ProductsReportController::class, 'index']) ->name('reports.products');
 
     // ─── POS ──────────────────────────────────────────────────
     Route::get('/pos',                 [PosController::class, 'index'])->name('pos.index');

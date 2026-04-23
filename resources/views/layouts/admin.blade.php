@@ -596,16 +596,9 @@
     <span class="sb-txt">Sales Report</span>
 </a>
 
-<a href="#" class="sb-link soon">
+<a href="{{ route('admin.reports.products') }}" class="sb-link {{ request()->routeIs('admin.reports.products*') ? 'active' : '' }}">
     <span class="sb-ico"><i class="fas fa-chart-bar"></i></span>
     <span class="sb-txt">Products Report</span>
-    <span class="sb-soon-pill">Soon</span>
-</a>
-
-<a href="#" class="sb-link soon">
-    <span class="sb-ico"><i class="fas fa-file-invoice-dollar"></i></span>
-    <span class="sb-txt">Credit Balance Report</span>
-    <span class="sb-soon-pill">Soon</span>
 </a>
 
         {{-- ── Attendance ── --}}
