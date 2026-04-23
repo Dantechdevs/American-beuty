@@ -464,11 +464,15 @@
         {{-- ── Promo ── --}}
         <div class="sb-section">Promo</div>
 
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-ticket"></i></span>
-            <span class="sb-txt">Coupons</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
+       <a href="{{ route('admin.coupons.index') }}"
+   class="sb-link {{ request()->routeIs('admin.coupons.*') ? 'active':'' }}">
+    <span class="sb-ico"><i class="fas fa-ticket"></i></span>
+    <span class="sb-txt">Coupons</span>
+    @php $activeCoupons = \App\Models\Coupon::where('is_active',true)->count(); @endphp
+    @if($activeCoupons > 0)
+        <span class="sb-badge">{{ $activeCoupons }}</span>
+    @endif
+</a>
 
         <a href="#" class="sb-link soon">
             <span class="sb-ico"><i class="fas fa-percent"></i></span>
