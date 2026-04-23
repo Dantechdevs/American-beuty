@@ -455,10 +455,13 @@
             <span class="sb-txt">Online Orders</span>
         </a>
 
-        <a href="#" class="sb-link soon">
+        <a href="{{ route('admin.return-orders.index') }}" class="sb-link">
+           <span class="sb-ico"><i class="fas fa-rotate-left"></i></span>
+           <span class="sb-txt">Return Orders</span>
+        </a>
+        <a href="{{ route('customer.return-orders.index') }}" class="sb-link">
             <span class="sb-ico"><i class="fas fa-rotate-left"></i></span>
-            <span class="sb-txt">Return Orders</span>
-            <span class="sb-soon-pill">Soon</span>
+            <span class="sb-txt">My Returns</span>
         </a>
 
         {{-- ── Promo ── --}}
