@@ -14,8 +14,8 @@ class TransactionController extends Controller
         $transactions = Transaction::with(['order.user'])
             ->when($request->search, fn($q) =>
                 $q->where('transaction_id', 'like', '%'.$request->search.'%')
-                  ->orWhereHas('order.user', fn($q) =>
-                      $q->where('name', 'like', '%'.$request->search.'%')
+                  ->orWhereHas('order.user', fn($u) =>
+                      $u->where('name',  'like', '%'.$request->search.'%')
                         ->orWhere('email', 'like', '%'.$request->search.'%')
                   )
             )
@@ -36,10 +36,10 @@ class TransactionController extends Controller
             ->withQueryString();
 
         $stats = [
-            'total'    => Transaction::count(),
-            'revenue'  => Transaction::where('status', 'success')->sum('amount'),
-            'pending'  => Transaction::where('status', 'pending')->count(),
-            'failed'   => Transaction::where('status', 'failed')->count(),
+            'total'   => Transaction::count(),
+            'revenue' => Transaction::where('status', 'success')->sum('amount'),
+            'pending' => Transaction::where('status', 'pending')->count(),
+            'failed'  => Transaction::where('status', 'failed')->count(),
         ];
 
         return view('admin.transactions.index', compact('transactions', 'stats'));
@@ -48,17 +48,18 @@ class TransactionController extends Controller
     public function show(Transaction $transaction)
     {
         $transaction->load('order.user');
+
         return response()->json([
             'id'             => $transaction->id,
-            'transaction_id' => $transaction->transaction_id,
+            'transaction_id' => $transaction->transaction_id ?? '—',
             'gateway'        => $transaction->gateway,
             'amount'         => number_format($transaction->amount, 2),
             'currency'       => $transaction->currency,
             'status'         => $transaction->status,
             'order_id'       => $transaction->order_id,
             'order_number'   => optional($transaction->order)->order_number,
-            'customer'       => optional(optional($transaction->order)->user)->name,
-            'email'          => optional(optional($transaction->order)->user)->email,
+            'customer'       => optional(optional($transaction->order)->user)->name  ?? '—',
+            'email'          => optional(optional($transaction->order)->user)->email ?? '—',
             'payload'        => $transaction->payload,
             'created_at'     => $transaction->created_at->format('d M Y, H:i'),
         ]);
@@ -72,14 +73,14 @@ class TransactionController extends Controller
 
         $transaction->update(['status' => $request->status]);
 
-        return back()->with('success', 'Transaction #'.$transaction->id.' status updated to '.$request->status.'.');
+        return back()->with('success', 'Transaction status updated to '.$request->status.'.');
     }
 
     public function export(Request $request): StreamedResponse
     {
         $transactions = Transaction::with(['order.user'])
-            ->when($request->gateway, fn($q) => $q->where('gateway', $request->gateway))
-            ->when($request->status,  fn($q) => $q->where('status',  $request->status))
+            ->when($request->gateway,  fn($q) => $q->where('gateway', $request->gateway))
+            ->when($request->status,   fn($q) => $q->where('status',  $request->status))
             ->when($request->date_from, fn($q) => $q->whereDate('created_at', '>=', $request->date_from))
             ->when($request->date_to,   fn($q) => $q->whereDate('created_at', '<=', $request->date_to))
             ->latest()
