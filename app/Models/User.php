@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,7 +24,6 @@ class User extends Authenticatable
     ];
 
     // ── Role checks ────────────────────────────────────────────
-
     public function isAdmin(): bool       { return $this->role === 'admin'; }
     public function isManager(): bool     { return $this->role === 'manager'; }
     public function isPosOperator(): bool { return $this->role === 'pos_operator'; }
@@ -65,7 +65,7 @@ class User extends Authenticatable
     }
 
     // ── Relationships ──────────────────────────────────────────
-
+    public function employee()  { return $this->hasOne(Employee::class); }
     public function orders()    { return $this->hasMany(Order::class); }
     public function wishlist()  { return $this->hasMany(Wishlist::class); }
     public function cart()      { return $this->hasMany(Cart::class); }
