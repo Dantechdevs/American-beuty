@@ -1,5 +1,3 @@
-php
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -284,20 +282,28 @@ php
 
     <nav class="sb-nav">
 
-        {{-- Dashboard --}}
+        {{-- ── Dashboard ── --}}
         <a href="{{ route('admin.dashboard') }}"
            class="sb-link {{ request()->routeIs('admin.dashboard') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-gauge-high"></i></span>
             <span class="sb-txt">Dashboard</span>
         </a>
 
-        {{-- ── Product & Stock ── --}}
+        {{-- ══════════════════════════════════════════════════════
+             PRODUCT & STOCK
+        ══════════════════════════════════════════════════════ --}}
         <div class="sb-section">Product &amp; Stock</div>
 
         <a href="{{ route('admin.products.index') }}"
            class="sb-link {{ request()->routeIs('admin.products.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-box-open"></i></span>
             <span class="sb-txt">Products</span>
+        </a>
+
+        <a href="{{ route('admin.categories.index') }}"
+           class="sb-link {{ request()->routeIs('admin.categories.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-layer-group"></i></span>
+            <span class="sb-txt">Categories</span>
         </a>
 
         <a href="{{ route('admin.purchase.index') }}"
@@ -344,7 +350,9 @@ php
             <span class="sb-txt">Damaged / Expired</span>
         </a>
 
-        {{-- ── POS & Orders ── --}}
+        {{-- ══════════════════════════════════════════════════════
+             POS & ORDERS
+        ══════════════════════════════════════════════════════ --}}
         <div class="sb-section">POS &amp; Orders</div>
 
         <a href="{{ route('admin.pos.index') }}"
@@ -365,16 +373,19 @@ php
             <span class="sb-txt">Online Orders</span>
         </a>
 
-        <a href="{{ route('admin.return-orders.index') }}" class="sb-link">
-           <span class="sb-ico"><i class="fas fa-rotate-left"></i></span>
-           <span class="sb-txt">Return Orders</span>
-        </a>
-        <a href="{{ route('customer.return-orders.index') }}" class="sb-link">
+        <a href="{{ route('admin.return-orders.index') }}"
+           class="sb-link {{ request()->routeIs('admin.return-orders.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-rotate-left"></i></span>
-            <span class="sb-txt">My Returns</span>
+            <span class="sb-txt">Return Orders</span>
+            @php $pendingReturns = \App\Models\ReturnOrder::where('status','pending')->count() ?? 0; @endphp
+            @if($pendingReturns > 0)
+                <span class="sb-badge">{{ $pendingReturns }}</span>
+            @endif
         </a>
 
-        {{-- ── Promo ── --}}
+        {{-- ══════════════════════════════════════════════════════
+             PROMO
+        ══════════════════════════════════════════════════════ --}}
         <div class="sb-section">Promo</div>
 
         <a href="{{ route('admin.coupons.index') }}"
@@ -397,40 +408,9 @@ php
             @endif
         </a>
 
-        <a href="{{ route('admin.categories.index') }}"
-           class="sb-link {{ request()->routeIs('admin.categories.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-layer-group"></i></span>
-            <span class="sb-txt">Product Sections</span>
-        </a>
-
-        {{-- ── Logs ── --}}
-        <div class="sb-section">Logs</div>
-
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-mobile-screen-button"></i></span>
-            <span class="sb-txt">M-Pesa Logs</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
-
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-users-viewfinder"></i></span>
-            <span class="sb-txt">Customer Logs</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
-
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-user-tie"></i></span>
-            <span class="sb-txt">Manager Logs</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
-
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-computer"></i></span>
-            <span class="sb-txt">POS Operator Logs</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
-
-        {{-- ── Communications ── --}}
+        {{-- ══════════════════════════════════════════════════════
+             COMMUNICATIONS
+        ══════════════════════════════════════════════════════ --}}
         <div class="sb-section">Communications</div>
 
         <a href="{{ route('admin.notifications.index') }}"
@@ -438,21 +418,17 @@ php
             <span class="sb-ico"><i class="fas fa-bell"></i></span>
             <span class="sb-txt">Push Notifications</span>
         </a>
-        {{-- For future implementation of SMS notifications via Twilio --}}
-       <label style="display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--text);cursor:pointer">
-         <input type="checkbox" name="send_sms" value="1"
-           style="width:16px;height:16px;accent-color:var(--pink);cursor:pointer">
-         <span>Also send SMS via Twilio</span>
-         <span class="badge badge-success" style="font-size:.65rem">Live</span>
-         </label>
 
+        {{-- ❌ NOT BUILT --}}
         <a href="#" class="sb-link soon">
             <span class="sb-ico"><i class="fas fa-envelope-open-text"></i></span>
             <span class="sb-txt">Subscribers</span>
             <span class="sb-soon-pill">Soon</span>
         </a>
 
-        {{-- ── Users ── --}}
+        {{-- ══════════════════════════════════════════════════════
+             USERS
+        ══════════════════════════════════════════════════════ --}}
         <div class="sb-section">Users</div>
 
         <a href="{{ route('admin.users.administrators') }}"
@@ -489,23 +465,16 @@ php
             <span class="sb-txt">Customers</span>
         </a>
 
-        <a href="{{ route('admin.employees.index') }}"
-           class="sb-link {{ request()->routeIs('admin.employees.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-id-badge"></i></span>
-            <span class="sb-txt">Employees</span>
-        </a>
-
-        {{-- ── Accounts ── --}}
-        <div class="sb-section">Accounts</div>
+        {{-- ══════════════════════════════════════════════════════
+             ACCOUNTS & REPORTS
+        ══════════════════════════════════════════════════════ --}}
+        <div class="sb-section">Accounts &amp; Reports</div>
 
         <a href="{{ route('admin.transactions.index') }}"
            class="sb-link {{ request()->routeIs('admin.transactions.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-arrow-right-arrow-left"></i></span>
             <span class="sb-txt">Transactions</span>
         </a>
-
-        {{-- ── Reports ── --}}
-        <div class="sb-section">Reports</div>
 
         <a href="{{ route('admin.reports.sales') }}"
            class="sb-link {{ request()->routeIs('admin.reports.sales*') ? 'active':'' }}">
@@ -519,13 +488,39 @@ php
             <span class="sb-txt">Products Report</span>
         </a>
 
+
+        {{-- ══════════════════════════════════════════════════════
+             LOGS
+        ══════════════════════════════════════════════════════ --}}
+        <div class="sb-section">Logs</div>
+
         <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-file-invoice-dollar"></i></span>
-            <span class="sb-txt">Credit Balance Report</span>
+            <span class="sb-ico"><i class="fas fa-mobile-screen-button"></i></span>
+            <span class="sb-txt">M-Pesa Logs</span>
             <span class="sb-soon-pill">Soon</span>
         </a>
 
-        {{-- ── Attendance ── --}}
+        <a href="#" class="sb-link soon">
+            <span class="sb-ico"><i class="fas fa-users-viewfinder"></i></span>
+            <span class="sb-txt">Customer Logs</span>
+            <span class="sb-soon-pill">Soon</span>
+        </a>
+
+        <a href="#" class="sb-link soon">
+            <span class="sb-ico"><i class="fas fa-user-tie"></i></span>
+            <span class="sb-txt">Manager Logs</span>
+            <span class="sb-soon-pill">Soon</span>
+        </a>
+
+        <a href="#" class="sb-link soon">
+            <span class="sb-ico"><i class="fas fa-computer"></i></span>
+            <span class="sb-txt">POS Operator Logs</span>
+            <span class="sb-soon-pill">Soon</span>
+        </a>
+
+        {{-- ══════════════════════════════════════════════════════
+             ATTENDANCE
+        ══════════════════════════════════════════════════════ --}}
         <div class="sb-section">Attendance</div>
 
         <a href="{{ route('admin.attendance.terminal') }}"
@@ -549,7 +544,7 @@ php
         <a href="{{ route('admin.attendance.report') }}"
            class="sb-link {{ request()->routeIs('admin.attendance.report') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-chart-gantt"></i></span>
-            <span class="sb-txt">Report</span>
+            <span class="sb-txt">Attendance Report</span>
         </a>
 
         <a href="{{ route('admin.shifts.index') }}"
@@ -558,7 +553,15 @@ php
             <span class="sb-txt">Shifts</span>
         </a>
 
-        {{-- ── Setup ── --}}
+        <a href="{{ route('admin.employees.index') }}"
+           class="sb-link {{ request()->routeIs('admin.employees.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-id-badge"></i></span>
+            <span class="sb-txt">Employees</span>
+        </a>
+
+        {{-- ══════════════════════════════════════════════════════
+             SETUP
+        ══════════════════════════════════════════════════════ --}}
         <div class="sb-section">Setup</div>
 
         <a href="{{ route('admin.settings.index') }}"
@@ -675,7 +678,7 @@ php
                             @endif
                             <div>
                                 <div class="tb-drop-name">{{ auth()->user()->name ?? 'Admin' }}</div>
-                                <div class="tb-drop-email">{{ auth()->user()->email ?? 'admin@americanbeauty.com' }}</div>
+                                <div class="tb-drop-email">{{ auth()->user()->email ?? '' }}</div>
                                 <div class="tb-drop-badge">
                                     <i class="fas fa-crown"></i>
                                     {{ auth()->user()->role_label ?? 'Administrator' }}
