@@ -438,6 +438,13 @@ php
             <span class="sb-ico"><i class="fas fa-bell"></i></span>
             <span class="sb-txt">Push Notifications</span>
         </a>
+        {{-- For future implementation of SMS notifications via Twilio --}}
+       <label style="display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--text);cursor:pointer">
+         <input type="checkbox" name="send_sms" value="1"
+           style="width:16px;height:16px;accent-color:var(--pink);cursor:pointer">
+         <span>Also send SMS via Twilio</span>
+         <span class="badge badge-success" style="font-size:.65rem">Live</span>
+         </label>
 
         <a href="#" class="sb-link soon">
             <span class="sb-ico"><i class="fas fa-envelope-open-text"></i></span>
