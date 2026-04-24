@@ -30,12 +30,12 @@
     {{-- Stats Cards --}}
     <div class="row g-3 mb-4">
         @foreach([
-            ['label' => 'Total', 'value' => $stats['total'], 'icon' => 'fa-users', 'color' => 'primary'],
-            ['label' => 'Active', 'value' => $stats['active'], 'icon' => 'fa-check-circle', 'color' => 'success'],
-            ['label' => 'Email', 'value' => $stats['email'], 'icon' => 'fa-envelope', 'color' => 'info'],
-            ['label' => 'SMS', 'value' => $stats['sms'], 'icon' => 'fa-sms', 'color' => 'warning'],
-            ['label' => 'WhatsApp', 'value' => $stats['whatsapp'], 'icon' => 'fa-whatsapp', 'color' => 'success'],
-            ['label' => 'Push', 'value' => $stats['push'], 'icon' => 'fa-bell', 'color' => 'danger'],
+            ['label' => 'Total',     'value' => $stats['total'],    'icon' => 'fa-users',              'color' => 'primary'],
+            ['label' => 'Active',    'value' => $stats['active'],   'icon' => 'fa-check-circle',       'color' => 'success'],
+            ['label' => 'Email',     'value' => $stats['email'],    'icon' => 'fa-envelope',           'color' => 'info'],
+            ['label' => 'SMS',       'value' => $stats['sms'],      'icon' => 'fa-comment-sms',        'color' => 'warning'],
+            ['label' => 'WhatsApp',  'value' => $stats['whatsapp'], 'icon' => 'fa-brands fa-whatsapp', 'color' => 'success'],
+            ['label' => 'Push',      'value' => $stats['push'],     'icon' => 'fa-bell',               'color' => 'danger'],
         ] as $stat)
         <div class="col-6 col-md-2">
             <div class="card border-0 shadow-sm text-center py-3">
@@ -66,16 +66,16 @@
                 <div class="col-md-2">
                     <select name="source" class="form-select form-select-sm">
                         <option value="">All Sources</option>
-                        <option value="footer_form" {{ request('source') == 'footer_form' ? 'selected' : '' }}>Footer Form</option>
-                        <option value="checkout" {{ request('source') == 'checkout' ? 'selected' : '' }}>Checkout</option>
-                        <option value="manual" {{ request('source') == 'manual' ? 'selected' : '' }}>Manual</option>
-                        <option value="registration" {{ request('source') == 'registration' ? 'selected' : '' }}>Registration</option>
+                        <option value="footer_form"   {{ request('source') == 'footer_form'   ? 'selected' : '' }}>Footer Form</option>
+                        <option value="checkout"      {{ request('source') == 'checkout'      ? 'selected' : '' }}>Checkout</option>
+                        <option value="manual"        {{ request('source') == 'manual'        ? 'selected' : '' }}>Manual</option>
+                        <option value="registration"  {{ request('source') == 'registration'  ? 'selected' : '' }}>Registration</option>
                     </select>
                 </div>
                 <div class="col-md-2">
                     <select name="status" class="form-select form-select-sm">
                         <option value="">All Status</option>
-                        <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                        <option value="active"   {{ request('status') == 'active'   ? 'selected' : '' }}>Active</option>
                         <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Unsubscribed</option>
                     </select>
                 </div>

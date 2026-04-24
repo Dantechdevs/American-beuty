@@ -379,20 +379,20 @@
     {{-- FOOTER --}}
     <footer>
 
-        {{-- Newsletter strip --}}
-        <div class="footer-newsletter-strip">
-            <div class="footer-newsletter-inner">
-                <div class="newsletter-text-group">
-                    <div class="newsletter-label">Stay in the glow</div>
-                    <p class="newsletter-sub">Exclusive deals, new arrivals & beauty tips — straight to your inbox.</p>
-                </div>
-                <form class="newsletter-form" onsubmit="handleNewsletter(event)">
-                    @csrf
-                    <input type="email" name="newsletter_email" placeholder="your@email.com" required>
-                    <button type="submit">Subscribe</button>
-                </form>
-            </div>
+      {{-- Newsletter strip --}}
+<div class="footer-newsletter-strip">
+    <div class="footer-newsletter-inner">
+        <div class="newsletter-text-group">
+            <div class="newsletter-label">Stay in the glow</div>
+            <p class="newsletter-sub">Exclusive deals, new arrivals & beauty tips — straight to your inbox.</p>
         </div>
+        <form action="{{ route('subscribers.subscribe') }}" method="POST" class="newsletter-form" onsubmit="handleNewsletter(event)">
+            @csrf
+            <input type="email" name="newsletter_email" placeholder="your@email.com" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+</div>
 
         {{-- Main columns --}}
         <div class="footer-grid">
