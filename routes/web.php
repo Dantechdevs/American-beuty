@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\ReturnOrderController as AdminReturnOrderControll
 use App\Http\Controllers\Customer\ReturnOrderController as CustomerReturnOrderController;
 use App\Http\Controllers\Admin\SalesReportController;
 use App\Http\Controllers\Admin\ProductsReportController;
+use App\Http\Controllers\Admin\NotificationController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -72,10 +73,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 
 // ─── Customer ────────────────────────────────────────────────
 Route::middleware(['auth'])->name('customer.')->group(function () {
-    Route::get('/my-returns',                  [CustomerReturnOrderController::class, 'index'])  ->name('return-orders.index');
-    Route::get('/orders/{order}/return',       [CustomerReturnOrderController::class, 'create']) ->name('return-orders.create');
-    Route::post('/my-returns',                 [CustomerReturnOrderController::class, 'store'])  ->name('return-orders.store');
-    Route::get('/my-returns/{returnOrder}',    [CustomerReturnOrderController::class, 'show'])   ->name('return-orders.show');
+    Route::get('/my-returns',               [CustomerReturnOrderController::class, 'index'])  ->name('return-orders.index');
+    Route::get('/orders/{order}/return',    [CustomerReturnOrderController::class, 'create']) ->name('return-orders.create');
+    Route::post('/my-returns',              [CustomerReturnOrderController::class, 'store'])  ->name('return-orders.store');
+    Route::get('/my-returns/{returnOrder}', [CustomerReturnOrderController::class, 'show'])   ->name('return-orders.show');
 });
 
 // ─── Admin ───────────────────────────────────────────────────
@@ -98,11 +99,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
 
     // ─── Return Orders ────────────────────────────────────────
-    Route::get('/return-orders',                          [AdminReturnOrderController::class, 'index'])       ->name('return-orders.index');
-    Route::post('/return-orders',                         [AdminReturnOrderController::class, 'store'])       ->name('return-orders.store');
-    Route::get('/return-orders/{returnOrder}',            [AdminReturnOrderController::class, 'show'])        ->name('return-orders.show');
-    Route::patch('/return-orders/{returnOrder}/status',   [AdminReturnOrderController::class, 'updateStatus'])->name('return-orders.update-status');
-    Route::delete('/return-orders/{returnOrder}',         [AdminReturnOrderController::class, 'destroy'])     ->name('return-orders.destroy');
+    Route::get('/return-orders',                        [AdminReturnOrderController::class, 'index'])        ->name('return-orders.index');
+    Route::post('/return-orders',                       [AdminReturnOrderController::class, 'store'])        ->name('return-orders.store');
+    Route::get('/return-orders/{returnOrder}',          [AdminReturnOrderController::class, 'show'])         ->name('return-orders.show');
+    Route::patch('/return-orders/{returnOrder}/status', [AdminReturnOrderController::class, 'updateStatus']) ->name('return-orders.update-status');
+    Route::delete('/return-orders/{returnOrder}',       [AdminReturnOrderController::class, 'destroy'])      ->name('return-orders.destroy');
 
     // ─── Categories ───────────────────────────────────────────
     Route::get('/categories',                 [CategoryController::class, 'index'])->name('categories.index');
@@ -113,17 +114,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/categories/{category}',   [CategoryController::class, 'destroy'])->name('categories.destroy');
 
     // ─── Users ────────────────────────────────────────────────
-    Route::get('/users/administrators',        [UserController::class, 'administrators'])->name('users.administrators');
-    Route::get('/users/managers',              [UserController::class, 'managers'])      ->name('users.managers');
-    Route::get('/users/pos-operators',         [UserController::class, 'posOperators'])  ->name('users.pos-operators');
-    Route::get('/users/delivery',              [UserController::class, 'delivery'])      ->name('users.delivery');
-    Route::get('/users/create',                [UserController::class, 'create'])        ->name('users.create');
-    Route::post('/users',                      [UserController::class, 'store'])         ->name('users.store');
-    Route::get('/users/{user}/edit',           [UserController::class, 'edit'])          ->name('users.edit');
-    Route::put('/users/{user}',                [UserController::class, 'update'])        ->name('users.update');
-    Route::patch('/users/{user}/toggle',       [UserController::class, 'toggleStatus'])  ->name('users.toggle');
-    Route::delete('/users/{user}',             [UserController::class, 'destroy'])       ->name('users.destroy');
-    Route::get('/users',                       [UserController::class, 'index'])         ->name('users.index');
+    Route::get('/users/administrators',  [UserController::class, 'administrators'])->name('users.administrators');
+    Route::get('/users/managers',        [UserController::class, 'managers'])      ->name('users.managers');
+    Route::get('/users/pos-operators',   [UserController::class, 'posOperators'])  ->name('users.pos-operators');
+    Route::get('/users/delivery',        [UserController::class, 'delivery'])      ->name('users.delivery');
+    Route::get('/users/create',          [UserController::class, 'create'])        ->name('users.create');
+    Route::post('/users',                [UserController::class, 'store'])         ->name('users.store');
+    Route::get('/users/{user}/edit',     [UserController::class, 'edit'])          ->name('users.edit');
+    Route::put('/users/{user}',          [UserController::class, 'update'])        ->name('users.update');
+    Route::patch('/users/{user}/toggle', [UserController::class, 'toggleStatus'])  ->name('users.toggle');
+    Route::delete('/users/{user}',       [UserController::class, 'destroy'])       ->name('users.destroy');
+    Route::get('/users',                 [UserController::class, 'index'])         ->name('users.index');
 
     // ─── Profile ──────────────────────────────────────────────
     Route::get('/profile/edit',     [ProfileController::class, 'edit'])          ->name('profile.edit');
@@ -153,10 +154,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/promotions/{promotion}',       [PromotionController::class, 'destroy'])->name('promotions.destroy');
 
     // ─── Transactions ─────────────────────────────────────────
-    Route::get('/transactions/export',                 [TransactionController::class, 'export'])      ->name('transactions.export');
-    Route::get('/transactions',                        [TransactionController::class, 'index'])       ->name('transactions.index');
-    Route::get('/transactions/{transaction}',          [TransactionController::class, 'show'])        ->name('transactions.show');
-    Route::patch('/transactions/{transaction}/status', [TransactionController::class, 'updateStatus'])->name('transactions.updateStatus');
+    Route::get('/transactions/export',                 [TransactionController::class, 'export'])       ->name('transactions.export');
+    Route::get('/transactions',                        [TransactionController::class, 'index'])        ->name('transactions.index');
+    Route::get('/transactions/{transaction}',          [TransactionController::class, 'show'])         ->name('transactions.show');
+    Route::patch('/transactions/{transaction}/status', [TransactionController::class, 'updateStatus']) ->name('transactions.updateStatus');
+
+    // ─── Notifications ────────────────────────────────────────
+    Route::get('/notifications/unread-count',                    [NotificationController::class, 'unreadCount'])     ->name('notifications.unread-count');
+    Route::get('/notifications/recent',                          [NotificationController::class, 'recent'])          ->name('notifications.recent');
+    Route::get('/notifications',                                 [NotificationController::class, 'index'])           ->name('notifications.index');
+    Route::post('/notifications/send',                           [NotificationController::class, 'sendNow'])         ->name('notifications.send');
+    Route::post('/notifications/schedule',                       [NotificationController::class, 'schedule'])        ->name('notifications.schedule');
+    Route::post('/notifications/read-all',                       [NotificationController::class, 'markAllRead'])     ->name('notifications.read-all');
+    Route::post('/notifications/{notification}/read',            [NotificationController::class, 'markRead'])        ->name('notifications.mark-read');
+    Route::patch('/notifications/scheduled/{scheduled}/cancel',  [NotificationController::class, 'cancelScheduled']) ->name('notifications.scheduled.cancel');
+    Route::delete('/notifications/scheduled/{scheduled}',        [NotificationController::class, 'destroyScheduled'])->name('notifications.scheduled.destroy');
 
     // ─── Reports ──────────────────────────────────────────────
     Route::get('/reports/sales',        [SalesReportController::class, 'index'])    ->name('reports.sales');
