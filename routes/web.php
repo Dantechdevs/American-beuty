@@ -28,6 +28,7 @@ use App\Http\Controllers\Customer\ReturnOrderController as CustomerReturnOrderCo
 use App\Http\Controllers\Admin\SalesReportController;
 use App\Http\Controllers\Admin\ProductsReportController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\SubscriberController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -44,6 +45,9 @@ Route::post('/cart/add',       [CartController::class, 'add'])->name('cart.add')
 Route::patch('/cart/{id}',     [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/{id}',    [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart/count',      [CartController::class, 'count'])->name('cart.count');
+
+// Newsletter Signup (public — no auth required)
+Route::post('/subscribe', [SubscriberController::class, 'publicSubscribe'])->name('subscribers.subscribe');
 
 // Checkout (auth required)
 Route::middleware('auth')->group(function () {
@@ -243,5 +247,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/attendance/{attendance}',       [AttendanceController::class, 'destroy'])   ->name('attendance.destroy');
     Route::get('/attendance',                       [AttendanceController::class, 'index'])     ->name('attendance.index');
     Route::get('/attendance/{employee}',            [AttendanceController::class, 'show'])      ->name('attendance.show');
+
+    // ─── Subscribers ──────────────────────────────────────────
+    Route::get('/subscribers/export',          [SubscriberController::class, 'export'])      ->name('subscribers.export');
+    Route::post('/subscribers/send-message',   [SubscriberController::class, 'sendMessage']) ->name('subscribers.send-message');
+    Route::get('/subscribers',                 [SubscriberController::class, 'index'])       ->name('subscribers.index');
+    Route::get('/subscribers/create',          [SubscriberController::class, 'create'])      ->name('subscribers.create');
+    Route::post('/subscribers',                [SubscriberController::class, 'store'])        ->name('subscribers.store');
+    Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])     ->name('subscribers.destroy');
 
 });
