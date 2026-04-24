@@ -115,4 +115,23 @@ class SubscriberController extends Controller
 
         return back()->with('success', 'Message broadcast queued successfully.');
     }
+
+    public function publicSubscribe(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+    ]);
+
+    Subscriber::firstOrCreate(
+        ['email' => $request->email],
+        [
+            'type'          => 'email',
+            'source'        => $request->source ?? 'footer_form',
+            'is_active'     => true,
+            'subscribed_at' => now(),
+        ]
+    );
+
+    return back()->with('subscribed', true);
+}
 }
