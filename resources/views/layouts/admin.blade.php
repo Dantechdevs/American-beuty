@@ -1,3 +1,5 @@
+php
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,7 +31,6 @@
             --gold:        #F59E0B;
             --gold-soft:   #fffbeb;
 
-            /* ── Body/content: pink/white ── */
             --border:      #fce4f3;
             --bg:          #fff8fb;
             --card:        #ffffff;
@@ -41,7 +42,6 @@
             --r:           14px;
             --r-sm:        9px;
 
-            /* ── Sidebar: purple-tinted ── */
             --sb:          #f8f5ff;
             --sb-border:   #ede8f5;
             --sb-text:     #3d2060;
@@ -60,149 +60,36 @@
         ::-webkit-scrollbar-thumb{background:rgba(124,58,237,.2);border-radius:4px;}
 
         /* ════ SIDEBAR ════ */
-        .sidebar{
-            width:var(--sb-w);
-            background:var(--sb);
-            position:fixed;top:0;left:0;height:100vh;
-            display:flex;flex-direction:column;
-            z-index:200;overflow-y:auto;overflow-x:hidden;
-            border-right:1.5px solid var(--sb-border);
-            box-shadow:4px 0 24px rgba(124,58,237,.08);
-        }
-
-        /* Brand */
-        .sb-brand{
-            padding:1.4rem 1.3rem 1.3rem;
-            display:flex;flex-direction:column;gap:.15rem;
-            border-bottom:1.5px solid #ede8f5;
-            flex-shrink:0;position:relative;overflow:hidden;
-            background:linear-gradient(160deg,#f3eeff 0%,#f8f5ff 60%,#ffffff 100%);
-        }
-        .sb-brand::before{
-            content:'';position:absolute;
-            width:180px;height:180px;border-radius:50%;
-            background:radial-gradient(circle,rgba(124,58,237,.1) 0%,transparent 70%);
-            top:-60px;right:-50px;pointer-events:none;
-        }
-        .sb-brand::after{
-            content:'';position:absolute;
-            width:120px;height:120px;border-radius:50%;
-            background:radial-gradient(circle,rgba(124,58,237,.06) 0%,transparent 70%);
-            bottom:-30px;left:-20px;pointer-events:none;
-        }
-        .sb-logo-icon{
-            width:46px;height:46px;border-radius:14px;flex-shrink:0;
-            background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 100%);
-            display:flex;align-items:center;justify-content:center;
-            font-size:1.2rem;color:#fff;
-            box-shadow:0 6px 20px rgba(124,58,237,.35);
-            position:relative;z-index:1;margin-bottom:.6rem;
-        }
-        .sb-brand-line1{
-            font-family:'Playfair Display',serif;
-            font-size:1.75rem;font-weight:900;line-height:1;
-            letter-spacing:-.02em;color:#1a0a2e;
-            position:relative;z-index:1;
-        }
-        .sb-brand-line2{
-            font-family:'Playfair Display',serif;
-            font-size:1.75rem;font-weight:900;font-style:italic;line-height:1;
-            background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 100%);
-            -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-            background-clip:text;position:relative;z-index:1;
-        }
-        .sb-brand-sub{
-            font-size:.6rem;color:var(--sb-muted);
-            letter-spacing:.16em;text-transform:uppercase;
-            font-weight:600;margin-top:.35rem;position:relative;z-index:1;
-        }
-        .sb-brand-pill{
-            display:inline-flex;align-items:center;gap:.25rem;
-            background:rgba(124,58,237,.08);
-            border:1px solid rgba(124,58,237,.2);
-            border-radius:20px;padding:.18rem .65rem;
-            font-size:.57rem;font-weight:700;color:var(--purple);
-            letter-spacing:.08em;text-transform:uppercase;
-            margin-top:.35rem;width:fit-content;position:relative;z-index:1;
-        }
-
-        /* Nav */
+        .sidebar{width:var(--sb-w);background:var(--sb);position:fixed;top:0;left:0;height:100vh;display:flex;flex-direction:column;z-index:200;overflow-y:auto;overflow-x:hidden;border-right:1.5px solid var(--sb-border);box-shadow:4px 0 24px rgba(124,58,237,.08);}
+        .sb-brand{padding:1.4rem 1.3rem 1.3rem;display:flex;flex-direction:column;gap:.15rem;border-bottom:1.5px solid #ede8f5;flex-shrink:0;position:relative;overflow:hidden;background:linear-gradient(160deg,#f3eeff 0%,#f8f5ff 60%,#ffffff 100%);}
+        .sb-brand::before{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.1) 0%,transparent 70%);top:-60px;right:-50px;pointer-events:none;}
+        .sb-brand::after{content:'';position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.06) 0%,transparent 70%);bottom:-30px;left:-20px;pointer-events:none;}
+        .sb-logo-icon{width:46px;height:46px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 100%);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#fff;box-shadow:0 6px 20px rgba(124,58,237,.35);position:relative;z-index:1;margin-bottom:.6rem;}
+        .sb-brand-line1{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:900;line-height:1;letter-spacing:-.02em;color:#1a0a2e;position:relative;z-index:1;}
+        .sb-brand-line2{font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:900;font-style:italic;line-height:1;background:linear-gradient(135deg,var(--purple) 0%,var(--pink) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;position:relative;z-index:1;}
+        .sb-brand-sub{font-size:.6rem;color:var(--sb-muted);letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin-top:.35rem;position:relative;z-index:1;}
+        .sb-brand-pill{display:inline-flex;align-items:center;gap:.25rem;background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);border-radius:20px;padding:.18rem .65rem;font-size:.57rem;font-weight:700;color:var(--purple);letter-spacing:.08em;text-transform:uppercase;margin-top:.35rem;width:fit-content;position:relative;z-index:1;}
         .sb-nav{flex:1;padding:.55rem 0 1rem;overflow-y:auto;overflow-x:hidden;}
         .sb-nav::-webkit-scrollbar{width:3px;}
         .sb-nav::-webkit-scrollbar-thumb{background:rgba(124,58,237,.15);}
-
-        .sb-section{
-            display:flex;align-items:center;gap:.5rem;
-            padding:.9rem 1.25rem .28rem;
-            font-size:.59rem;font-weight:700;letter-spacing:.13em;
-            text-transform:uppercase;color:var(--sb-muted);user-select:none;
-        }
+        .sb-section{display:flex;align-items:center;gap:.5rem;padding:.9rem 1.25rem .28rem;font-size:.59rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--sb-muted);user-select:none;}
         .sb-section::after{content:'';flex:1;height:1px;background:#ede8f5;}
-
-        .sb-link{
-            display:flex;align-items:center;gap:.68rem;
-            padding:.5rem .92rem;margin:.04rem .6rem;
-            border-radius:10px;color:var(--sb-text);
-            font-size:.83rem;font-weight:400;
-            transition:all .17s ease;position:relative;white-space:nowrap;
-        }
+        .sb-link{display:flex;align-items:center;gap:.68rem;padding:.5rem .92rem;margin:.04rem .6rem;border-radius:10px;color:var(--sb-text);font-size:.83rem;font-weight:400;transition:all .17s ease;position:relative;white-space:nowrap;}
         .sb-link:hover{background:var(--sb-hover);color:var(--purple);}
         .sb-link:hover .sb-ico{background:#ede8ff;color:var(--purple);}
-        .sb-link.active{
-            background:var(--sb-active-bg);
-            color:var(--sb-active-c);font-weight:600;
-            box-shadow:0 2px 12px rgba(124,58,237,.12);
-        }
-        .sb-link.active .sb-ico{
-            background:linear-gradient(135deg,var(--purple),var(--pink));
-            color:#fff;box-shadow:0 3px 10px rgba(124,58,237,.35);
-        }
-        .sb-link.active::after{
-            content:'';position:absolute;right:0;top:20%;bottom:20%;
-            width:3px;background:linear-gradient(to bottom,var(--purple),var(--pink));
-            border-radius:3px 0 0 3px;
-        }
+        .sb-link.active{background:var(--sb-active-bg);color:var(--sb-active-c);font-weight:600;box-shadow:0 2px 12px rgba(124,58,237,.12);}
+        .sb-link.active .sb-ico{background:linear-gradient(135deg,var(--purple),var(--pink));color:#fff;box-shadow:0 3px 10px rgba(124,58,237,.35);}
+        .sb-link.active::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:3px;background:linear-gradient(to bottom,var(--purple),var(--pink));border-radius:3px 0 0 3px;}
         .sb-link.soon{opacity:.5;cursor:default;}
         .sb-link.soon:hover{background:none;color:var(--sb-text);}
         .sb-link.soon:hover .sb-ico{background:rgba(124,58,237,.04);color:var(--sb-muted);}
-
-        .sb-ico{
-            width:28px;height:28px;border-radius:8px;flex-shrink:0;
-            background:rgba(124,58,237,.06);
-            display:flex;align-items:center;justify-content:center;
-            font-size:.77rem;color:var(--sb-muted);transition:all .17s;
-        }
+        .sb-ico{width:28px;height:28px;border-radius:8px;flex-shrink:0;background:rgba(124,58,237,.06);display:flex;align-items:center;justify-content:center;font-size:.77rem;color:var(--sb-muted);transition:all .17s;}
         .sb-txt{flex:1;line-height:1;}
-        .sb-badge{
-            background:linear-gradient(135deg,var(--pink),var(--tango));
-            color:#fff;font-size:.58rem;font-weight:700;
-            padding:.12rem .4rem;border-radius:20px;line-height:1.4;
-        }
-        .sb-soon-pill{
-            font-size:.56rem;font-weight:700;
-            background:#f3eeff;color:var(--purple);
-            border:1px solid rgba(124,58,237,.18);
-            border-radius:10px;padding:.1rem .38rem;letter-spacing:.05em;
-        }
-
-        /* Footer */
-        .sb-foot{
-            padding:.85rem 1.1rem;
-            border-top:1.5px solid #ede8f5;
-            flex-shrink:0;background:#f8f5ff;
-        }
-        .sb-user{
-            display:flex;align-items:center;gap:.7rem;
-            padding:.58rem .72rem;border-radius:11px;
-            background:#fff;border:1.5px solid #ede8f5;
-            box-shadow:0 1px 6px rgba(124,58,237,.06);
-        }
-        .sb-av{
-            width:33px;height:33px;border-radius:9px;flex-shrink:0;
-            background:linear-gradient(135deg,var(--purple),var(--pink));
-            display:flex;align-items:center;justify-content:center;
-            color:#fff;font-size:.86rem;font-weight:700;
-        }
+        .sb-badge{background:linear-gradient(135deg,var(--pink),var(--tango));color:#fff;font-size:.58rem;font-weight:700;padding:.12rem .4rem;border-radius:20px;line-height:1.4;}
+        .sb-soon-pill{font-size:.56rem;font-weight:700;background:#f3eeff;color:var(--purple);border:1px solid rgba(124,58,237,.18);border-radius:10px;padding:.1rem .38rem;letter-spacing:.05em;}
+        .sb-foot{padding:.85rem 1.1rem;border-top:1.5px solid #ede8f5;flex-shrink:0;background:#f8f5ff;}
+        .sb-user{display:flex;align-items:center;gap:.7rem;padding:.58rem .72rem;border-radius:11px;background:#fff;border:1.5px solid #ede8f5;box-shadow:0 1px 6px rgba(124,58,237,.06);}
+        .sb-av{width:33px;height:33px;border-radius:9px;flex-shrink:0;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.86rem;font-weight:700;}
         .sb-uname{display:block;font-size:.8rem;color:#1a0a2e;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;}
         .sb-urole{font-size:.67rem;color:var(--sb-muted);}
         .sb-logout{margin-left:auto;background:none;border:none;cursor:pointer;color:var(--sb-muted);font-size:.88rem;padding:.2rem;flex-shrink:0;transition:color .15s;}
@@ -233,8 +120,6 @@
         .tb-icon:hover{background:var(--pink-soft);border-color:rgba(247,37,133,.3);color:var(--pink);transform:translateY(-1px);box-shadow:0 4px 14px rgba(247,37,133,.12);}
         .tb-icon-label{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);white-space:nowrap;font-size:.6rem;font-weight:600;background:#1a0a12;color:#fff;padding:.18rem .45rem;border-radius:5px;opacity:0;pointer-events:none;transition:opacity .15s;letter-spacing:.03em;}
         .tb-icon:hover .tb-icon-label{opacity:1;}
-        .tb-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:linear-gradient(135deg,var(--tango),var(--pink));border-radius:50%;border:2px solid #fff;animation:notifPulse 2.5s ease-in-out infinite;}
-        @keyframes notifPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.25);}}
         .tb-pos{display:flex;align-items:center;gap:.45rem;padding:.38rem .9rem;border-radius:10px;background:linear-gradient(135deg,var(--pink),var(--pink-lt));color:#fff;font-size:.78rem;font-weight:700;border:none;cursor:pointer;text-decoration:none;box-shadow:0 3px 14px rgba(247,37,133,.3);transition:all .18s;white-space:nowrap;letter-spacing:.01em;}
         .tb-pos:hover{box-shadow:0 6px 22px rgba(247,37,133,.4);transform:translateY(-1px);color:#fff;}
         .tb-pos i{font-size:.78rem;}
@@ -348,6 +233,31 @@
         .page-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;}
         .page-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:.55rem;margin-bottom:.2rem;}
         .page-sub{font-size:.8rem;color:var(--muted);}
+
+        /* ════ NOTIFICATION BELL ════ */
+        .notif-bell-wrap{position:relative;}
+        .notif-bell-btn{position:relative;background:none;border:1.5px solid #fce4f3;width:38px;height:38px;border-radius:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.85rem;transition:all .18s;background:rgba(255,255,255,.9);box-shadow:0 1px 4px rgba(247,37,133,.04);}
+        .notif-bell-btn:hover{background:var(--pink-soft);border-color:rgba(247,37,133,.3);color:var(--pink);transform:translateY(-1px);box-shadow:0 4px 14px rgba(247,37,133,.12);}
+        .notif-count{position:absolute;top:2px;right:2px;background:linear-gradient(135deg,var(--tango),var(--pink));color:#fff;font-size:.6rem;font-weight:800;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px;border:2px solid #fff;pointer-events:none;}
+        .notif-dropdown{position:absolute;top:calc(100% + 10px);right:0;width:340px;background:#fff;border:1.5px solid #fce4f3;border-radius:var(--r);box-shadow:0 0 0 1px rgba(247,37,133,.04),0 10px 40px rgba(247,37,133,.12),0 2px 8px rgba(0,0,0,.06);z-index:9999;overflow:hidden;animation:dropIn .2s cubic-bezier(.16,1,.3,1);}
+        .notif-dropdown-header{padding:.85rem 1rem;border-bottom:1.5px solid #fce4f3;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(120deg,#fff 45%,var(--pink-soft) 100%);}
+        .notif-mark-all{font-size:.72rem;font-weight:700;color:var(--purple);background:none;border:none;cursor:pointer;padding:0;}
+        .notif-mark-all:hover{text-decoration:underline;}
+        .notif-dropdown-list{max-height:360px;overflow-y:auto;}
+        .notif-item{display:flex;gap:.75rem;padding:.85rem 1rem;border-bottom:1px solid #fff0f7;cursor:pointer;transition:background .13s;text-decoration:none;color:inherit;}
+        .notif-item:last-child{border-bottom:none;}
+        .notif-item:hover{background:#fff5f9;}
+        .notif-item.unread{background:#fff0f7;}
+        .notif-item.unread:hover{background:#fce4f3;}
+        .notif-item-icon{width:34px;height:34px;border-radius:50%;background:var(--pink-soft);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.78rem;color:var(--pink);}
+        .notif-item-body{flex:1;min-width:0;}
+        .notif-item-title{font-size:.82rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:.15rem;}
+        .notif-item-text{font-size:.75rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+        .notif-item-time{font-size:.68rem;color:#94a3b8;margin-top:.25rem;white-space:nowrap;}
+        .notif-unread-dot{width:7px;height:7px;border-radius:50%;background:var(--pink);flex-shrink:0;align-self:center;}
+        .notif-dropdown-footer{padding:.75rem 1rem;border-top:1.5px solid #fce4f3;text-align:center;background:#fff8fb;}
+        .notif-dropdown-footer a{font-size:.78rem;font-weight:700;color:var(--purple);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.4rem;}
+        .notif-dropdown-footer a:hover{text-decoration:underline;}
 
         @media(max-width:900px){
             .sidebar{transform:translateX(-100%);}
@@ -467,17 +377,16 @@
         {{-- ── Promo ── --}}
         <div class="sb-section">Promo</div>
 
-       <a href="{{ route('admin.coupons.index') }}"
-          class="sb-link {{ request()->routeIs('admin.coupons.*') ? 'active':'' }}">
-           <span class="sb-ico"><i class="fas fa-ticket"></i></span>
-           <span class="sb-txt">Coupons</span>
-           @php $activeCoupons = \App\Models\Coupon::where('is_active',true)->count(); @endphp
+        <a href="{{ route('admin.coupons.index') }}"
+           class="sb-link {{ request()->routeIs('admin.coupons.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-ticket"></i></span>
+            <span class="sb-txt">Coupons</span>
+            @php $activeCoupons = \App\Models\Coupon::where('is_active',true)->count(); @endphp
             @if($activeCoupons > 0)
-            <span class="sb-badge">{{ $activeCoupons }}</span>
-           @endif
+                <span class="sb-badge">{{ $activeCoupons }}</span>
+            @endif
         </a>
 
-         {{-- ✅ Promotions — LIVE --}}
         <a href="{{ route('admin.promotions.index') }}"
            class="sb-link {{ request()->routeIs('admin.promotions.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-percent"></i></span>
@@ -487,7 +396,6 @@
                 <span class="sb-badge">{{ $activePromos }}</span>
             @endif
         </a>
-
 
         <a href="{{ route('admin.categories.index') }}"
            class="sb-link {{ request()->routeIs('admin.categories.*') ? 'active':'' }}">
@@ -525,10 +433,10 @@
         {{-- ── Communications ── --}}
         <div class="sb-section">Communications</div>
 
-        <a href="#" class="sb-link soon">
+        <a href="{{ route('admin.notifications.index') }}"
+           class="sb-link {{ request()->routeIs('admin.notifications.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-bell"></i></span>
             <span class="sb-txt">Push Notifications</span>
-            <span class="sb-soon-pill">Soon</span>
         </a>
 
         <a href="#" class="sb-link soon">
@@ -581,25 +489,34 @@
         </a>
 
         {{-- ── Accounts ── --}}
-<div class="sb-section">Accounts</div>
+        <div class="sb-section">Accounts</div>
 
-<a href="{{ route('admin.transactions.index') }}"
-   class="sb-link {{ request()->routeIs('admin.transactions.*') ? 'active':'' }}">
-    <span class="sb-ico"><i class="fas fa-arrow-right-arrow-left"></i></span>
-    <span class="sb-txt">Transactions</span>
-</a>
+        <a href="{{ route('admin.transactions.index') }}"
+           class="sb-link {{ request()->routeIs('admin.transactions.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-arrow-right-arrow-left"></i></span>
+            <span class="sb-txt">Transactions</span>
+        </a>
+
         {{-- ── Reports ── --}}
-<div class="sb-section">Reports</div>
+        <div class="sb-section">Reports</div>
 
-<a href="{{ route('admin.reports.sales') }}" class="sb-link {{ request()->routeIs('admin.reports.sales*') ? 'active' : '' }}">
-    <span class="sb-ico"><i class="fas fa-chart-line"></i></span>
-    <span class="sb-txt">Sales Report</span>
-</a>
+        <a href="{{ route('admin.reports.sales') }}"
+           class="sb-link {{ request()->routeIs('admin.reports.sales*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-chart-line"></i></span>
+            <span class="sb-txt">Sales Report</span>
+        </a>
 
-<a href="{{ route('admin.reports.products') }}" class="sb-link {{ request()->routeIs('admin.reports.products*') ? 'active' : '' }}">
-    <span class="sb-ico"><i class="fas fa-chart-bar"></i></span>
-    <span class="sb-txt">Products Report</span>
-</a>
+        <a href="{{ route('admin.reports.products') }}"
+           class="sb-link {{ request()->routeIs('admin.reports.products*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-chart-bar"></i></span>
+            <span class="sb-txt">Products Report</span>
+        </a>
+
+        <a href="#" class="sb-link soon">
+            <span class="sb-ico"><i class="fas fa-file-invoice-dollar"></i></span>
+            <span class="sb-txt">Credit Balance Report</span>
+            <span class="sb-soon-pill">Soon</span>
+        </a>
 
         {{-- ── Attendance ── --}}
         <div class="sb-section">Attendance</div>
@@ -698,11 +615,31 @@
                 <i class="fas fa-store"></i>
                 <span class="tb-icon-label">View Store</span>
             </a>
-            <a href="#" class="tb-icon" title="Notifications">
-                <i class="fas fa-bell"></i>
-                <span class="tb-dot"></span>
-                <span class="tb-icon-label">Notifications</span>
-            </a>
+
+            {{-- ── Notification Bell ── --}}
+            <div class="notif-bell-wrap">
+                <button class="notif-bell-btn" id="notifBellBtn" onclick="toggleNotifDropdown()" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notif-count" id="notifCount" style="display:none">0</span>
+                </button>
+                <div class="notif-dropdown" id="notifDropdown" style="display:none">
+                    <div class="notif-dropdown-header">
+                        <span style="font-weight:700;font-size:.88rem">Notifications</span>
+                        <button onclick="markAllRead()" class="notif-mark-all">Mark all read</button>
+                    </div>
+                    <div class="notif-dropdown-list" id="notifList">
+                        <div style="padding:2rem;text-align:center;color:#94a3b8;font-size:.82rem">
+                            <i class="fas fa-spinner fa-spin"></i> Loading...
+                        </div>
+                    </div>
+                    <div class="notif-dropdown-footer">
+                        <a href="{{ route('admin.notifications.index') }}">
+                            <i class="fas fa-bell"></i> Manage Notifications
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <div class="tb-divider"></div>
             <div class="tb-user-wrap">
                 <div class="tb-user" id="tbUser" onclick="toggleDrop()">
@@ -789,6 +726,7 @@
 
 @stack('scripts')
 <script>
+/* ── User dropdown ── */
 function toggleDrop(){
     const u=document.getElementById('tbUser');
     const d=document.getElementById('tbDrop');
@@ -802,6 +740,8 @@ document.addEventListener('click',function(e){
         document.getElementById('tbUser').classList.remove('open');
     }
 });
+
+/* ── Flash auto-hide ── */
 document.querySelectorAll('.flash').forEach(function(el){
     setTimeout(function(){
         el.style.transition='opacity .4s';
@@ -809,6 +749,94 @@ document.querySelectorAll('.flash').forEach(function(el){
         setTimeout(function(){el.remove();},400);
     },5000);
 });
+
+/* ── Notification Bell ── */
+let notifOpen = false;
+
+function toggleNotifDropdown() {
+    notifOpen = !notifOpen;
+    const dropdown = document.getElementById('notifDropdown');
+    dropdown.style.display = notifOpen ? 'block' : 'none';
+    if (notifOpen) loadNotifications();
+}
+
+document.addEventListener('click', function(e) {
+    const wrap = document.querySelector('.notif-bell-wrap');
+    if (wrap && !wrap.contains(e.target) && notifOpen) {
+        notifOpen = false;
+        document.getElementById('notifDropdown').style.display = 'none';
+    }
+});
+
+async function loadNotifications() {
+    try {
+        const res  = await fetch('{{ route("admin.notifications.recent") }}');
+        const data = await res.json();
+        renderNotifications(data);
+    } catch (e) {
+        document.getElementById('notifList').innerHTML =
+            '<div style="padding:1.5rem;text-align:center;color:#94a3b8;font-size:.82rem">Failed to load.</div>';
+    }
+}
+
+function renderNotifications(items) {
+    const list = document.getElementById('notifList');
+    if (!items.length) {
+        list.innerHTML = '<div style="padding:2rem;text-align:center;color:#94a3b8;font-size:.82rem"><i class="fas fa-bell-slash" style="display:block;font-size:1.5rem;margin-bottom:.5rem;opacity:.3"></i>No notifications yet.</div>';
+        return;
+    }
+    list.innerHTML = items.map(n => `
+        <div class="notif-item ${!n.is_read ? 'unread' : ''}"
+             onclick="handleNotifClick(${n.id}, '${n.url || ''}')">
+            <div class="notif-item-icon"><i class="${n.icon}"></i></div>
+            <div class="notif-item-body">
+                <div class="notif-item-title">${n.title}</div>
+                <div class="notif-item-text">${n.body}</div>
+                <div class="notif-item-time">${timeAgo(n.created_at)}</div>
+            </div>
+            ${!n.is_read ? '<div class="notif-unread-dot"></div>' : ''}
+        </div>
+    `).join('');
+}
+
+async function handleNotifClick(id, url) {
+    await fetch(`/admin/notifications/${id}/read`, {
+        method: 'POST',
+        headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content }
+    });
+    updateCount();
+    if (url) window.location.href = url;
+}
+
+async function markAllRead() {
+    await fetch('{{ route("admin.notifications.read-all") }}', {
+        method: 'POST',
+        headers: { 'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content }
+    });
+    updateCount();
+    loadNotifications();
+}
+
+async function updateCount() {
+    try {
+        const res  = await fetch('{{ route("admin.notifications.unread-count") }}');
+        const data = await res.json();
+        const badge = document.getElementById('notifCount');
+        badge.textContent = data.count;
+        badge.style.display = data.count > 0 ? 'flex' : 'none';
+    } catch {}
+}
+
+function timeAgo(dateStr) {
+    const diff = Math.floor((Date.now() - new Date(dateStr)) / 1000);
+    if (diff < 60)    return 'Just now';
+    if (diff < 3600)  return Math.floor(diff / 60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
+    return Math.floor(diff / 86400) + 'd ago';
+}
+
+updateCount();
+setInterval(updateCount, 60000);
 </script>
 </body>
 </html>
