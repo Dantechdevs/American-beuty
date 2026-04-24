@@ -25,6 +25,13 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $user = auth()->user();
+
+            if (!$user->is_active) {
+                auth()->logout();
+                return back()->withErrors(['email' => 'Your account has been suspended.']);
+            }
+
             $request->session()->regenerate();
             app(CartService::class)->mergeSessionCart();
 
