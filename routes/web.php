@@ -225,7 +225,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/employees/{employee}',          [EmployeeController::class, 'update']) ->name('employees.update');
     Route::delete('/employees/{employee}',       [EmployeeController::class, 'destroy'])->name('employees.destroy');
     Route::patch('/employees/{employee}/toggle', [EmployeeController::class, 'toggle']) ->name('employees.toggle');
+   
 
+    // ─── Employee ↔ User account linking ──────────────────────
+    Route::post('/employees/{employee}/assign-user',   [EmployeeController::class, 'assignUser'])    ->name('employees.assign-user');
+    Route::post('/employees/{employee}/unlink-user',   [EmployeeController::class, 'unlinkUser'])    ->name('employees.unlink-user');
+    Route::post('/employees/{employee}/create-account',[EmployeeController::class, 'createAccount']) ->name('employees.create-account');
     // ─── Shifts ───────────────────────────────────────────────
     Route::get('/shifts',              [ShiftController::class, 'index'])  ->name('shifts.index');
     Route::get('/shifts/create',       [ShiftController::class, 'create']) ->name('shifts.create');
