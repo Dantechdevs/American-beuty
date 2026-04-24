@@ -8,7 +8,6 @@
    EMPLOYEES — MANAGER
    ═══════════════════════════════════════════════════════════ */
 
-/* Stats */
 .emp-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -18,7 +17,6 @@
 @media (max-width: 900px) { .emp-stats { grid-template-columns: repeat(2,1fr); } }
 @media (max-width: 500px) { .emp-stats { grid-template-columns: 1fr; } }
 
-/* Filters */
 .emp-filters {
     background: #fff;
     border: 1.5px solid var(--border);
@@ -51,7 +49,6 @@
     box-shadow: 0 0 0 3px rgba(124,58,237,.08);
 }
 
-/* Table card */
 .emp-card {
     background: #fff;
     border: 1.5px solid var(--border);
@@ -86,7 +83,6 @@
 .emp-table tbody tr:hover { background: #faf7ff; }
 .emp-table td { padding: .85rem 1rem; vertical-align: middle; }
 
-/* Employee cell */
 .emp-cell { display: flex; align-items: center; gap: .75rem; }
 .emp-photo {
     width: 40px; height: 40px; border-radius: 11px;
@@ -103,7 +99,22 @@
 .emp-name { font-weight: 600; color: var(--text); font-size: .85rem; }
 .emp-email { font-size: .71rem; color: var(--muted); margin-top: .1rem; }
 
-/* PIN badge */
+/* Account badge */
+.acc-badge {
+    display: inline-flex; align-items: center; gap: .28rem;
+    font-size: .68rem; font-weight: 700;
+    padding: .18rem .5rem; border-radius: 20px;
+    white-space: nowrap;
+}
+.acc-badge.linked {
+    background: #f0fdf4; color: #16a34a;
+    border: 1px solid #bbf7d0;
+}
+.acc-badge.unlinked {
+    background: #f5f5f5; color: #777;
+    border: 1px solid #e5e5e5;
+}
+
 .pin-badge {
     display: inline-flex; align-items: center; gap: .3rem;
     font-size: .72rem; font-weight: 700;
@@ -115,7 +126,6 @@
 }
 .pin-badge:hover { background: var(--purple); color: #fff; }
 
-/* Shift pill */
 .shift-pill {
     display: inline-flex; align-items: center; gap: .28rem;
     font-size: .72rem; font-weight: 600;
@@ -124,8 +134,7 @@
     padding: .2rem .6rem; white-space: nowrap;
 }
 
-/* Action buttons */
-.tbl-actions { display: flex; gap: .4rem; align-items: center; }
+.tbl-actions { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
 .tbl-btn {
     width: 30px; height: 30px; border-radius: 8px;
     border: 1.5px solid var(--border); background: #fff;
@@ -135,13 +144,12 @@
 }
 .tbl-btn:hover         { border-color: var(--purple); color: var(--purple); background: var(--purple-soft); }
 .tbl-btn.green:hover   { border-color: var(--green);  color: var(--green);  background: var(--green-soft); }
+.tbl-btn.pink:hover    { border-color: var(--pink);   color: var(--pink);   background: var(--pink-soft); }
 .tbl-btn.danger:hover  { border-color: var(--tango);  color: var(--tango);  background: var(--pink-soft); }
 
-/* Empty */
 .emp-empty { padding: 3.5rem 1rem; text-align: center; color: var(--muted); }
 .emp-empty i { font-size: 2.5rem; opacity: .15; color: var(--purple); display: block; margin-bottom: .75rem; }
 
-/* Pagination */
 .emp-pagination {
     padding: .85rem 1.25rem;
     border-top: 1.5px solid var(--border);
@@ -150,7 +158,7 @@
     background: #faf7ff; flex-wrap: wrap; gap: .5rem;
 }
 
-/* ── Modal shared styles ── */
+/* ── Modal shared ── */
 .em-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(10,1,20,.55); backdrop-filter: blur(4px);
@@ -159,7 +167,7 @@
 .em-overlay.show { display: flex; }
 .em-modal {
     background: #fff; border-radius: 20px;
-    padding: 1.75rem; width: 500px; max-width: 95vw;
+    padding: 1.75rem; width: 520px; max-width: 95vw;
     max-height: 90vh; overflow-y: auto;
     box-shadow: 0 20px 60px rgba(124,58,237,.2);
     animation: modalIn .2s ease;
@@ -190,6 +198,48 @@
     box-shadow: 0 0 0 3px rgba(124,58,237,.08);
 }
 .em-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+
+/* Account section inside modal */
+.em-account-section {
+    margin-top: 1.25rem;
+    padding: 1rem;
+    background: var(--purple-soft);
+    border: 1.5px solid #ddd6fe;
+    border-radius: var(--r-sm);
+}
+.em-account-toggle {
+    display: flex; align-items: center; gap: .65rem;
+    cursor: pointer; user-select: none;
+    font-size: .84rem; font-weight: 600; color: var(--purple);
+}
+.em-account-toggle input[type=checkbox] {
+    width: 16px; height: 16px;
+    accent-color: var(--purple); cursor: pointer;
+}
+.em-account-fields { margin-top: 1rem; display: none; }
+.em-account-fields.show { display: block; }
+
+/* Tab switcher inside account modal */
+.em-tabs {
+    display: flex; gap: .5rem;
+    margin-bottom: 1rem;
+    background: var(--purple-soft);
+    border: 1.5px solid #ddd6fe;
+    border-radius: 10px;
+    padding: .3rem;
+}
+.em-tab {
+    flex: 1; padding: .42rem .75rem;
+    border-radius: 8px; border: none;
+    font-size: .78rem; font-weight: 700;
+    cursor: pointer; background: transparent;
+    color: var(--sb-muted); transition: all .15s;
+    font-family: inherit;
+}
+.em-tab.active {
+    background: #fff; color: var(--purple);
+    box-shadow: 0 1px 6px rgba(124,58,237,.12);
+}
 </style>
 @endpush
 
@@ -201,7 +251,7 @@
         <h1 class="page-title">
             <i class="fas fa-id-badge" style="color:var(--purple)"></i> Employees
         </h1>
-        <p class="page-sub">Manage staff profiles, roles, PINs and shift assignments</p>
+        <p class="page-sub">Manage staff profiles, roles, PINs, shifts and system access</p>
     </div>
     <div style="display:flex;gap:.65rem;flex-wrap:wrap">
         <a href="{{ route('admin.attendance.terminal') }}" class="btn btn-outline btn-sm">
@@ -216,7 +266,6 @@
     </div>
 </div>
 
-{{-- Flash --}}
 @if(session('success'))
     <div class="flash flash-success" style="margin-bottom:1rem">
         <i class="fas fa-circle-check"></i> {{ session('success') }}
@@ -252,10 +301,10 @@
         </div>
     </div>
     <div class="stat-card">
-        <div class="stat-icon green"><i class="fas fa-circle-dot"></i></div>
+        <div class="stat-icon blue"><i class="fas fa-user-shield"></i></div>
         <div>
-            <div class="stat-label">Clocked In Now</div>
-            <div class="stat-value">{{ $stats['clocked_in'] }}</div>
+            <div class="stat-label">With System Login</div>
+            <div class="stat-value">{{ $stats['with_account'] }}</div>
         </div>
     </div>
 </div>
@@ -271,11 +320,11 @@
         <label>Role</label>
         <select name="role">
             <option value="">All Roles</option>
-            <option value="cashier"       {{ request('role') === 'cashier'       ? 'selected':'' }}>Cashier</option>
-            <option value="beautician"    {{ request('role') === 'beautician'    ? 'selected':'' }}>Beautician</option>
-            <option value="receptionist"  {{ request('role') === 'receptionist'  ? 'selected':'' }}>Receptionist</option>
-            <option value="manager"       {{ request('role') === 'manager'       ? 'selected':'' }}>Manager</option>
-            <option value="cleaner"       {{ request('role') === 'cleaner'       ? 'selected':'' }}>Cleaner</option>
+            @foreach(['cashier','beautician','receptionist','manager','cleaner','pos_operator','delivery'] as $r)
+                <option value="{{ $r }}" {{ request('role') === $r ? 'selected':'' }}>
+                    {{ ucfirst(str_replace('_',' ',$r)) }}
+                </option>
+            @endforeach
         </select>
     </div>
     <div class="fg" style="max-width:145px">
@@ -298,11 +347,19 @@
             <option value="inactive" {{ request('status') === 'inactive' ? 'selected':'' }}>Inactive</option>
         </select>
     </div>
+    <div class="fg" style="max-width:130px">
+        <label>Account</label>
+        <select name="account">
+            <option value="">All</option>
+            <option value="linked"   {{ request('account') === 'linked'   ? 'selected':'' }}>Has Login</option>
+            <option value="unlinked" {{ request('account') === 'unlinked' ? 'selected':'' }}>No Login</option>
+        </select>
+    </div>
     <div style="display:flex;gap:.5rem;align-items:flex-end;padding-bottom:1px">
         <button type="submit" class="btn btn-primary btn-sm">
             <i class="fas fa-filter"></i> Filter
         </button>
-        @if(request()->hasAny(['search','role','shift_id','status']))
+        @if(request()->hasAny(['search','role','shift_id','status','account']))
             <a href="{{ route('admin.employees.index') }}" class="btn btn-outline btn-sm">
                 <i class="fas fa-xmark"></i> Clear
             </a>
@@ -319,9 +376,7 @@
                 ({{ $employees->total() }})
             </span>
         </h3>
-        <span style="font-size:.78rem;color:var(--muted)">
-            Sorted by newest first
-        </span>
+        <span style="font-size:.78rem;color:var(--muted)">Sorted by newest first</span>
     </div>
 
     <div style="overflow-x:auto">
@@ -331,6 +386,7 @@
                     <th>Employee</th>
                     <th>Phone</th>
                     <th>Role</th>
+                    <th>System Access</th>
                     <th>Shift</th>
                     <th>PIN</th>
                     <th>Joined</th>
@@ -371,6 +427,24 @@
                         <span class="badge badge-purple" style="text-transform:capitalize">
                             {{ $emp->role_label }}
                         </span>
+                    </td>
+
+                    {{-- System Access --}}
+                    <td>
+                        @if($emp->user)
+                            <span class="acc-badge linked">
+                                <i class="fas fa-circle-check" style="font-size:.55rem"></i>
+                                {{ $emp->user->role_label }}
+                            </span>
+                            <div style="font-size:.68rem;color:var(--muted);margin-top:.2rem">
+                                {{ $emp->user->email }}
+                            </div>
+                        @else
+                            <span class="acc-badge unlinked">
+                                <i class="fas fa-circle-xmark" style="font-size:.55rem"></i>
+                                No Login
+                            </span>
+                        @endif
                     </td>
 
                     {{-- Shift --}}
@@ -428,6 +502,36 @@
                                class="tbl-btn green" title="View Attendance">
                                 <i class="fas fa-calendar-days"></i>
                             </a>
+
+                            {{-- Account management --}}
+                            @if($emp->user)
+                                <button type="button"
+                                        class="tbl-btn pink"
+                                        title="Manage Login Account"
+                                        onclick="openAccountModal(
+                                            {{ $emp->id }},
+                                            '{{ addslashes($emp->name) }}',
+                                            '{{ $emp->user->email }}',
+                                            '{{ $emp->user->role }}',
+                                            true
+                                        )">
+                                    <i class="fas fa-user-shield"></i>
+                                </button>
+                            @else
+                                <button type="button"
+                                        class="tbl-btn"
+                                        title="Assign / Create Login Account"
+                                        onclick="openAccountModal(
+                                            {{ $emp->id }},
+                                            '{{ addslashes($emp->name) }}',
+                                            '{{ $emp->email }}',
+                                            '',
+                                            false
+                                        )">
+                                    <i class="fas fa-user-plus"></i>
+                                </button>
+                            @endif
+
                             <button type="button" class="tbl-btn" title="Edit"
                                     onclick="openEditModal(
                                         {{ $emp->id }},
@@ -440,6 +544,7 @@
                                     )">
                                 <i class="fas fa-pen-to-square"></i>
                             </button>
+
                             <form method="POST"
                                   action="{{ route('admin.employees.toggle', $emp->id) }}"
                                   style="display:inline">
@@ -450,6 +555,7 @@
                                        style="color:{{ $emp->is_active ? 'var(--green)' : 'var(--muted)' }}"></i>
                                 </button>
                             </form>
+
                             <form method="POST"
                                   action="{{ route('admin.employees.destroy', $emp->id) }}"
                                   onsubmit="return confirm('Delete {{ addslashes($emp->name) }}? This cannot be undone.')"
@@ -464,7 +570,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8">
+                    <td colspan="9">
                         <div class="emp-empty">
                             <i class="fas fa-id-badge"></i>
                             <p style="font-size:.88rem;margin:.5rem 0 1rem">No employees found.</p>
@@ -490,7 +596,9 @@
     @endif
 </div>
 
-{{-- ── Create Modal ── --}}
+{{-- ══════════════════════════════════════════════════════════
+     CREATE MODAL
+══════════════════════════════════════════════════════════ --}}
 <div class="em-overlay" id="createModal">
     <div class="em-modal">
         <h3><i class="fas fa-plus"></i> Add New Employee</h3>
@@ -526,6 +634,8 @@
                         <option value="receptionist">Receptionist</option>
                         <option value="manager">Manager</option>
                         <option value="cleaner">Cleaner</option>
+                        <option value="pos_operator">POS Operator</option>
+                        <option value="delivery">Delivery Personnel</option>
                     </select>
                 </div>
                 <div class="em-field">
@@ -563,6 +673,42 @@
                        accept="image/jpeg,image/png,image/webp">
             </div>
 
+            {{-- ── System Login Account Section ── --}}
+            <div class="em-account-section">
+                <label class="em-account-toggle">
+                    <input type="checkbox" name="create_account" value="1"
+                           onchange="toggleCreateAccount(this)">
+                    <i class="fas fa-user-shield" style="color:var(--purple)"></i>
+                    Also create a system login account
+                </label>
+                <div class="em-account-fields" id="createAccountFields">
+                    <div style="height:.75rem"></div>
+                    <div class="em-field">
+                        <label class="em-label">System Role <span>*</span></label>
+                        <select name="account_role" class="em-select">
+                            <option value="manager">Manager</option>
+                            <option value="pos_operator">POS Operator</option>
+                            <option value="delivery">Delivery Personnel</option>
+                        </select>
+                    </div>
+                    <div class="em-field">
+                        <label class="em-label">Login Email <span>*</span></label>
+                        <input type="email" name="account_email" class="em-input"
+                               placeholder="Same as above or different">
+                    </div>
+                    <div class="em-field">
+                        <label class="em-label">Password <span>*</span></label>
+                        <input type="password" name="account_password" class="em-input"
+                               placeholder="Min 8 characters">
+                    </div>
+                    <p style="font-size:.72rem;color:var(--muted);margin-top:.25rem">
+                        <i class="fas fa-info-circle" style="color:var(--purple)"></i>
+                        This will create a login account linked to this employee.
+                        They can log in to the system with the role assigned above.
+                    </p>
+                </div>
+            </div>
+
             <div style="display:flex;gap:.65rem;margin-top:1.25rem">
                 <button type="submit" class="btn btn-primary" style="flex:1;justify-content:center">
                     <i class="fas fa-floppy-disk"></i> Save Employee
@@ -575,7 +721,9 @@
     </div>
 </div>
 
-{{-- ── Edit Modal ── --}}
+{{-- ══════════════════════════════════════════════════════════
+     EDIT MODAL
+══════════════════════════════════════════════════════════ --}}
 <div class="em-overlay" id="editModal">
     <div class="em-modal">
         <h3><i class="fas fa-pen-to-square"></i> Edit Employee</h3>
@@ -607,6 +755,8 @@
                         <option value="receptionist">Receptionist</option>
                         <option value="manager">Manager</option>
                         <option value="cleaner">Cleaner</option>
+                        <option value="pos_operator">POS Operator</option>
+                        <option value="delivery">Delivery Personnel</option>
                     </select>
                 </div>
                 <div class="em-field">
@@ -655,6 +805,106 @@
     </div>
 </div>
 
+{{-- ══════════════════════════════════════════════════════════
+     ACCOUNT MODAL — assign / create / unlink login account
+══════════════════════════════════════════════════════════ --}}
+<div class="em-overlay" id="accountModal">
+    <div class="em-modal" style="width:480px">
+        <h3>
+            <i class="fas fa-user-shield"></i>
+            System Login — <span id="accountEmpName"></span>
+        </h3>
+
+        {{-- Tab switcher --}}
+        <div class="em-tabs" id="accountTabs">
+            <button type="button" class="em-tab active" onclick="switchAccountTab('create')">
+                <i class="fas fa-plus"></i> Create Account
+            </button>
+            <button type="button" class="em-tab" onclick="switchAccountTab('link')">
+                <i class="fas fa-link"></i> Link Existing
+            </button>
+        </div>
+
+        {{-- ── Tab: Create new account ── --}}
+        <div id="accountTabCreate">
+            <form method="POST" id="createAccountForm">
+                @csrf
+                <div class="em-field">
+                    <label class="em-label">System Role <span>*</span></label>
+                    <select name="role" id="accCreateRole" class="em-select">
+                        <option value="manager">Manager</option>
+                        <option value="pos_operator">POS Operator</option>
+                        <option value="delivery">Delivery Personnel</option>
+                    </select>
+                </div>
+                <div class="em-field">
+                    <label class="em-label">Login Email <span>*</span></label>
+                    <input type="email" name="email" id="accCreateEmail"
+                           class="em-input" placeholder="login@americanbeauty.com" required>
+                </div>
+                <div class="em-field">
+                    <label class="em-label">Password <span>*</span></label>
+                    <input type="password" name="password" class="em-input"
+                           placeholder="Min 8 characters" required>
+                </div>
+                <p style="font-size:.72rem;color:var(--muted);margin-bottom:1rem">
+                    <i class="fas fa-info-circle" style="color:var(--purple)"></i>
+                    Creates a new login account and links it to this employee.
+                </p>
+                <div style="display:flex;gap:.65rem">
+                    <button type="submit" class="btn btn-primary" style="flex:1;justify-content:center">
+                        <i class="fas fa-user-plus"></i> Create &amp; Link
+                    </button>
+                    <button type="button" class="btn btn-outline" onclick="closeAccountModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        {{-- ── Tab: Link existing user ── --}}
+        <div id="accountTabLink" style="display:none">
+            <form method="POST" id="linkAccountForm">
+                @csrf
+                <div class="em-field">
+                    <label class="em-label">Select User Account <span>*</span></label>
+                    <select name="user_id" class="em-select" required>
+                        <option value="">— Choose a user —</option>
+                        @foreach($availableUsers as $u)
+                            <option value="{{ $u->id }}">
+                                {{ $u->name }} ({{ $u->email }}) — {{ $u->role_label }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <p style="font-size:.72rem;color:var(--muted);margin-bottom:1rem">
+                    <i class="fas fa-info-circle" style="color:var(--purple)"></i>
+                    Only shows users not yet linked to another employee.
+                </p>
+                <div style="display:flex;gap:.65rem">
+                    <button type="submit" class="btn btn-primary" style="flex:1;justify-content:center">
+                        <i class="fas fa-link"></i> Link Account
+                    </button>
+                    <button type="button" class="btn btn-outline" onclick="closeAccountModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        {{-- ── Unlink section (shown when account exists) ── --}}
+        <div id="accountUnlinkSection" style="display:none;margin-top:1.25rem;
+             padding-top:1rem;border-top:1.5px solid var(--border)">
+            <p style="font-size:.82rem;color:var(--muted);margin-bottom:.75rem">
+                <i class="fas fa-triangle-exclamation" style="color:var(--tango)"></i>
+                Unlinking removes system access but keeps the user account.
+            </p>
+            <form method="POST" id="unlinkAccountForm">
+                @csrf
+                <button type="submit" class="btn btn-danger btn-sm">
+                    <i class="fas fa-user-slash"></i> Remove System Access
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @push('scripts')
@@ -666,13 +916,17 @@ function openCreateModal() {
 function closeCreateModal() {
     document.getElementById('createModal').classList.remove('show');
 }
+function toggleCreateAccount(cb) {
+    const fields = document.getElementById('createAccountFields');
+    fields.classList.toggle('show', cb.checked);
+}
 
 /* ── Edit modal ── */
 function openEditModal(id, name, email, phone, role, shiftId, joinedDate) {
     document.getElementById('editName').value   = name;
     document.getElementById('editEmail').value  = email  || '';
     document.getElementById('editPhone').value  = phone  || '';
-    document.getElementById('editPin').value    = '';        // never pre-fill PIN
+    document.getElementById('editPin').value    = '';
     document.getElementById('editRole').value   = role;
     document.getElementById('editShift').value  = shiftId || '';
     document.getElementById('editJoined').value = joinedDate || '';
@@ -681,6 +935,42 @@ function openEditModal(id, name, email, phone, role, shiftId, joinedDate) {
 }
 function closeEditModal() {
     document.getElementById('editModal').classList.remove('show');
+}
+
+/* ── Account modal ── */
+function openAccountModal(empId, name, email, role, hasAccount) {
+    document.getElementById('accountEmpName').textContent = name;
+    document.getElementById('accCreateEmail').value = email || '';
+    if (role) document.getElementById('accCreateRole').value = role;
+
+    // Set form actions
+    document.getElementById('createAccountForm').action =
+        '/admin/employees/' + empId + '/create-account';
+    document.getElementById('linkAccountForm').action =
+        '/admin/employees/' + empId + '/assign-user';
+    document.getElementById('unlinkAccountForm').action =
+        '/admin/employees/' + empId + '/unlink-user';
+
+    // Show/hide unlink section
+    document.getElementById('accountUnlinkSection').style.display =
+        hasAccount ? 'block' : 'none';
+
+    // Reset to create tab
+    switchAccountTab('create');
+    document.getElementById('accountModal').classList.add('show');
+}
+function closeAccountModal() {
+    document.getElementById('accountModal').classList.remove('show');
+}
+
+function switchAccountTab(tab) {
+    const tabs = document.querySelectorAll('.em-tab');
+    tabs[0].classList.toggle('active', tab === 'create');
+    tabs[1].classList.toggle('active', tab === 'link');
+    document.getElementById('accountTabCreate').style.display =
+        tab === 'create' ? 'block' : 'none';
+    document.getElementById('accountTabLink').style.display =
+        tab === 'link' ? 'block' : 'none';
 }
 
 /* ── Copy PIN ── */
@@ -699,7 +989,7 @@ function copyPin(pin, el) {
 }
 
 /* ── Close on backdrop click ── */
-['createModal', 'editModal'].forEach(id => {
+['createModal','editModal','accountModal'].forEach(id => {
     document.getElementById(id).addEventListener('click', function(e) {
         if (e.target === this) this.classList.remove('show');
     });

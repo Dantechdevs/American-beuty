@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -25,6 +24,8 @@ class EmployeeController extends Controller
             ->when($request->shift_id, fn($q) => $q->where('shift_id', $request->shift_id))
             ->when($request->status === 'active',   fn($q) => $q->where('is_active', true))
             ->when($request->status === 'inactive', fn($q) => $q->where('is_active', false))
+            ->when(request('account') === 'linked',   fn($q) => $q->whereNotNull('user_id'))
+            ->when(request('account') === 'unlinked', fn($q) => $q->whereNull('user_id'))
             ->latest()
             ->paginate(20)
             ->withQueryString();
@@ -38,7 +39,12 @@ class EmployeeController extends Controller
             'with_account' => Employee::whereNotNull('user_id')->count(),
         ];
 
-        return view('admin.employees.index', compact('employees', 'shifts', 'stats'));
+        $availableUsers = User::whereDoesntHave('employee')
+            ->whereIn('role', ['manager', 'pos_operator', 'delivery'])
+            ->orderBy('name')
+            ->get();
+
+        return view('admin.employees.index', compact('employees', 'shifts', 'stats', 'availableUsers'));
     }
 
     // ── Create ────────────────────────────────────────────────
@@ -46,7 +52,6 @@ class EmployeeController extends Controller
     {
         $shifts = Shift::where('is_active', true)->orderBy('name')->get();
 
-        // Users without an employee record linked yet
         $availableUsers = User::whereDoesntHave('employee')
             ->whereIn('role', ['manager', 'pos_operator', 'delivery'])
             ->orderBy('name')
