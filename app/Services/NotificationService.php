@@ -6,6 +6,7 @@ use App\Models\Notification;
 use App\Models\ScheduledNotification;
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Twilio\Rest\Client as TwilioClient;
 
 class NotificationService
 {
@@ -49,7 +50,7 @@ class NotificationService
         ?string $url    = null,
         bool $sendSms   = false
     ): int {
-        $icon = Notification::$typeIcons[$type] ?? 'fas fa-bell';
+        $icon  = Notification::$typeIcons[$type] ?? 'fas fa-bell';
         $count = 0;
 
         foreach ($users as $user) {
@@ -114,7 +115,7 @@ class NotificationService
             "/orders/{$orderId}",
             'App\Models\Order',
             $orderId,
-            false // set true when Twilio is ready
+            false
         );
     }
 
@@ -163,29 +164,55 @@ class NotificationService
         );
     }
 
-    // ── Twilio SMS (stubbed — wire up when credentials are ready) ──
+    // ── Twilio SMS ────────────────────────────────────────────
     public function sendSms(Notification $notification): void
     {
-        // ── Uncomment and fill in when Twilio account is ready ──
-        //
-        // $user = $notification->user;
-        // if (! $user->phone) return;
-        //
-        // $sid   = config('services.twilio.sid');
-        // $token = config('services.twilio.token');
-        // $from  = config('services.twilio.from');
-        //
-        // if (! $sid || ! $token || ! $from) return;
-        //
-        // try {
-        //     $client = new \Twilio\Rest\Client($sid, $token);
-        //     $message = $client->messages->create(
-        //         '+254' . ltrim($user->phone, '0'),
-        //         ['from' => $from, 'body' => $notification->title . "\n" . $notification->body]
-        //     );
-        //     $notification->update(['sms_sent' => true, 'sms_sid' => $message->sid]);
-        // } catch (\Exception $e) {
-        //     \Log::error('Twilio SMS failed: ' . $e->getMessage());
-        // }
+        $user = $notification->user;
+
+        // Skip if user has no phone number
+        if (!$user || !$user->phone) {
+            return;
+        }
+
+        $sid   = config('services.twilio.sid');
+        $token = config('services.twilio.token');
+        $from  = config('services.twilio.from');
+
+        // Skip if Twilio credentials are not set
+        if (!$sid || !$token || !$from) {
+            \Log::warning('Twilio SMS skipped — credentials not configured.');
+            return;
+        }
+
+        // Normalise Kenyan number: 07XXXXXXXX → +2547XXXXXXXX
+        $phone = $user->phone;
+        if (str_starts_with($phone, '0')) {
+            $phone = '+254' . substr($phone, 1);
+        } elseif (!str_starts_with($phone, '+')) {
+            $phone = '+254' . $phone;
+        }
+
+        $smsBody = $notification->title . "\n" . $notification->body;
+
+        try {
+            $client = new TwilioClient($sid, $token);
+            $message = $client->messages->create($phone, [
+                'from' => $from,
+                'body' => $smsBody,
+            ]);
+
+            // Optionally persist SMS delivery info if columns exist
+            if (\Schema::hasColumn('notifications', 'sms_sent')) {
+                $notification->update([
+                    'sms_sent' => true,
+                    'sms_sid'  => $message->sid,
+                ]);
+            }
+
+            \Log::info("SMS sent to {$phone} | SID: {$message->sid}");
+
+        } catch (\Exception $e) {
+            \Log::error('Twilio SMS failed: ' . $e->getMessage());
+        }
     }
 }
