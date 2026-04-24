@@ -419,12 +419,12 @@
             <span class="sb-txt">Push Notifications</span>
         </a>
 
-        {{-- ❌ NOT BUILT --}}
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-envelope-open-text"></i></span>
-            <span class="sb-txt">Subscribers</span>
-            <span class="sb-soon-pill">Soon</span>
+    <li class="nav-item">
+        <a class="nav-link {{ request()->routeIs('admin.subscribers*') ? 'active' : '' }}"
+        href="{{ route('admin.subscribers.index') }}">
+            <i class="fas fa-envelope-open-text me-2"></i> Subscribers
         </a>
+    </li>
 
         {{-- ══════════════════════════════════════════════════════
              USERS
