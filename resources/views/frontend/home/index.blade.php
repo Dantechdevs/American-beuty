@@ -26,17 +26,23 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 /* ── HERO ── */
 .hero {
   min-height: 90vh;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
   padding: 5rem clamp(1.5rem,6vw,6rem);
+  gap: 4rem;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, #FAF4FF 0%, #F5E0FC 40%, #EFF8F0 100%);
 }
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 /* Background video — sharp, no blur */
 .hero-video-bg {
 =======
+=======
+>>>>>>> d91e951 (feat: create bookings table migration)
 .hero::before {
   content: '';
   position: absolute; inset: 0;
@@ -49,56 +55,48 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 
 .hero::after {
   content: '';
+<<<<<<< HEAD
 >>>>>>> 427d5ae (feat(home): add circular autoplay video in hero section from public/videos/american.mp4)
+=======
+>>>>>>> d91e951 (feat: create bookings table migration)
   position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-.hero-video-bg video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  filter: none;
-  opacity: 1;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  will-change: transform;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,53,157,.10) 0%, transparent 70%);
+  top: -150px; right: -150px;
+  pointer-events: none;
 }
 
-/* Text content sits above video */
-.hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 620px;
-  background: linear-gradient(to right, rgba(10,5,20,0.70) 60%, rgba(10,5,20,0.0) 100%);
-  padding: 2.5rem 4rem 2.5rem 2rem;
-  border-radius: 16px;
+.hero-blob2 {
+  position: absolute;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(61,181,74,.10) 0%, transparent 70%);
+  bottom: -100px; left: -80px;
+  pointer-events: none;
 }
 
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: .5rem;
   font-size: .75rem; letter-spacing: .22em; text-transform: uppercase;
-  color: #f9c8ef; font-weight: 600; margin-bottom: 1.2rem;
-  background: rgba(200,53,157,.25);
+  color: var(--magenta); font-weight: 600; margin-bottom: 1.2rem;
+  background: var(--magenta-lt);
   padding: .35rem 1rem; border-radius: 40px;
-  border: 1px solid rgba(200,53,157,.4);
+  border: 1px solid rgba(200,53,157,.2);
 }
 
 .hero-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2.6rem,5vw,4.4rem);
   line-height: 1.1; font-weight: 700;
-  color: #fff;
+  color: var(--charcoal);
   margin-bottom: 1.4rem;
 }
-.hero-title .t-purple { color: #d89ef8; }
-.hero-title .t-green  { color: #7de888; font-style: italic; }
+.hero-title .t-purple { color: var(--purple); }
+.hero-title .t-green  { color: var(--green); font-style: italic; }
 
 .hero-sub {
-  font-size: 1rem; color: rgba(255,255,255,.92);
+  font-size: 1rem; color: var(--gray);
   line-height: 1.75; max-width: 460px; margin-bottom: 2.4rem;
 }
 
@@ -115,14 +113,13 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(123,47,190,.45); }
 
 .btn-outline {
-  border: 2px solid #fff;
-  color: #fff; padding: .88rem 2.2rem;
+  border: 2px solid var(--purple);
+  color: var(--purple); padding: .88rem 2.2rem;
   border-radius: 50px; font-size: .9rem; font-weight: 600;
   cursor: pointer; transition: all .25s; display: inline-block; text-decoration: none;
-  background: rgba(255,255,255,.1);
-  backdrop-filter: blur(4px);
+  background: transparent;
 }
-.btn-outline:hover { background: #fff; color: var(--purple); }
+.btn-outline:hover { background: var(--purple); color: #fff; }
 
 .btn-green {
   background: linear-gradient(135deg, var(--green), #28a035);
@@ -137,13 +134,14 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .hero-stats {
   display: flex; gap: 2.5rem;
   padding-top: 2rem;
-  border-top: 1px solid rgba(255,255,255,.25);
+  border-top: 1px solid var(--border);
 }
 .hero-stat strong {
   font-family: 'Playfair Display', serif;
-  font-size: 1.8rem; font-weight: 700; color: #d89ef8;
+  font-size: 1.8rem; font-weight: 700; color: var(--purple);
   display: block;
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 .hero-stat span { font-size: .78rem; color: rgba(255,255,255,.80); margin-top: .1rem; }
 =======
@@ -156,12 +154,24 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   width: clamp(300px,40vw,460px);
   height: clamp(300px,40vw,460px);
   border-radius: 50%;
+=======
+.hero-stat span { font-size: .78rem; color: var(--gray); margin-top: .1rem; }
+
+/* ── Hero image side ── */
+.hero-image { position: relative; display: flex; justify-content: center; align-items: center; }
+
+.hero-img-ring {
+  width: 100%;
+  height: 75vh;
+  border-radius: 24px;
+>>>>>>> d91e951 (feat: create bookings table migration)
   overflow: hidden;
   position: relative;
   box-shadow: 0 30px 80px rgba(123,47,190,.25);
   border: 3px solid rgba(123,47,190,.2);
 }
 
+<<<<<<< HEAD
 .hero-img-ring::before {
   content: '';
   position: absolute; inset: -14px;
@@ -181,6 +191,71 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   display: block;
 }
 
+=======
+.hero-img-ring::before { display: none; }
+
+.hero-img-ring video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── BOOKING OVERLAY ON VIDEO ── */
+.book-overlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, rgba(180,30,120,.88) 0%, rgba(200,53,157,.55) 55%, transparent 100%);
+  padding: 2.8rem 1.8rem 2rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  z-index: 2;
+}
+
+.book-card { text-align: center; }
+
+.book-label {
+  font-size: .7rem;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.85);
+  font-weight: 600;
+  margin-bottom: .35rem;
+}
+
+.book-sub {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 1.1rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+
+.book-btn {
+  display: inline-block;
+  background: #fff;
+  color: var(--magenta);
+  padding: .78rem 2.1rem;
+  border-radius: 50px;
+  font-size: .9rem;
+  font-weight: 700;
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 6px 24px rgba(200,53,157,.45);
+  border: 2px solid rgba(255,255,255,.5);
+  transition: all .25s;
+  letter-spacing: .02em;
+}
+.book-btn:hover {
+  background: var(--magenta);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(200,53,157,.55);
+}
+
+>>>>>>> d91e951 (feat: create bookings table migration)
 .hero-badge {
   position: absolute; bottom: 30px; left: -10px;
   background: #fff;
@@ -199,7 +274,10 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   font-size: .78rem; color: #fff; font-weight: 600;
   z-index: 3;
 }
+<<<<<<< HEAD
 >>>>>>> 427d5ae (feat(home): add circular autoplay video in hero section from public/videos/american.mp4)
+=======
+>>>>>>> d91e951 (feat: create bookings table migration)
 
 /* ── FEATURES ── */
 .features {
@@ -256,11 +334,13 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 
 /* ── PRODUCTS ── */
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 1.5rem; }
+
 .product-card {
   background: #fff; border-radius: 20px; overflow: hidden;
   transition: all .25s; border: 1px solid var(--border);
 }
 .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(123,47,190,.12); }
+
 .product-img {
   height: 240px;
   background: linear-gradient(135deg, var(--purple-lt), var(--magenta-lt));
@@ -268,6 +348,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 }
 .product-img img { width: 100%; height: 100%; object-fit: cover; }
 .product-img-placeholder { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--purple); letter-spacing: .05em; }
+
 .badge-sale {
   position: absolute; top: .8rem; left: .8rem;
   background: linear-gradient(135deg, var(--magenta), #a02070);
@@ -288,6 +369,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
 .product-wish:hover { color: var(--magenta); transform: scale(1.1); }
+
 .product-body { padding: 1.1rem; }
 .product-category { font-size: .7rem; color: var(--purple); text-transform: uppercase; letter-spacing: .12em; margin-bottom: .3rem; font-weight: 600; }
 .product-name { font-size: .95rem; font-weight: 500; line-height: 1.4; margin-bottom: .6rem; }
@@ -297,6 +379,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .price-current { font-size: 1.05rem; font-weight: 700; color: var(--purple); }
 .price-original { font-size: .85rem; color: #aaa; text-decoration: line-through; }
 .stars { color: #f4b942; font-size: .75rem; display: flex; gap: .1rem; }
+
 .btn-add-cart {
   width: 100%; border: none; padding: .7rem;
   border-radius: 12px; font-size: .85rem; cursor: pointer;
@@ -361,10 +444,10 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .promo-bar span { opacity: .8; margin: 0 1rem; }
 
 @media(max-width:768px){
-  .hero { min-height: 80vh; padding: 3rem 1.5rem; }
-  .hero-content { padding: 2rem 1.5rem; background: rgba(10,5,20,0.65); border-radius: 12px; }
-  .hero-btns { justify-content: flex-start; }
-  .hero-stats { justify-content: flex-start; }
+  .hero { grid-template-columns: 1fr; min-height: auto; padding: 3rem 1.5rem; text-align: center; }
+  .hero-image { display: none; }
+  .hero-btns { justify-content: center; }
+  .hero-stats { justify-content: center; }
   .features { grid-template-columns: 1fr 1fr; }
   .feature { border-right: none; border-bottom: 1px solid rgba(255,255,255,.15); }
 }
@@ -380,15 +463,8 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 
 <!-- HERO -->
 <section class="hero">
+  <div class="hero-blob2"></div>
 
-  {{-- Full background video — sharp, no blur --}}
-  <div class="hero-video-bg">
-    <video id="hero-video" autoplay muted playsinline>
-      <source src="{{ asset('videos/american.mp4') }}" type="video/mp4">
-    </video>
-  </div>
-
-  {{-- Text content over video --}}
   <div class="hero-content">
     <p class="hero-eyebrow">✦ New Season Collection</p>
     <h1 class="hero-title">
@@ -399,7 +475,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
     <div class="hero-btns">
       <a href="{{ route('products.index') }}" class="btn-primary">Shop Now →</a>
       <a href="{{ route('products.index', ['filter'=>'new']) }}" class="btn-outline">New Arrivals</a>
-      <a href="#book-appointment" class="btn-green">📅 Book Appointment</a>
     </div>
     <div class="hero-stats">
       <div class="hero-stat"><strong>500+</strong><span>Products</span></div>
@@ -409,6 +484,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   {{-- ── HERO VIDEO CIRCLE ── --}}
   <div class="hero-image">
@@ -417,6 +493,27 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
         <source src="{{ asset('videos/american.mp4') }}" type="video/mp4">
       </video>
     </div>
+=======
+  {{-- ── HERO VIDEO RECTANGLE ── --}}
+  <div class="hero-image">
+    <div class="hero-img-ring">
+
+      <video id="hero-video" autoplay muted playsinline>
+        <source src="{{ asset('videos/american.mp4') }}" type="video/mp4">
+      </video>
+
+      {{-- ── BOOKING OVERLAY ON VIDEO ── --}}
+      <div class="book-overlay">
+        <div class="book-card">
+          <p class="book-label">✦ Complimentary Session</p>
+          <p class="book-sub">Free Skin Consultation</p>
+          <a href="#book-appointment" class="book-btn">📅 Book Appointment</a>
+        </div>
+      </div>
+
+    </div>
+
+>>>>>>> d91e951 (feat: create bookings table migration)
     <div class="hero-badge">
       <strong>⭐ 4.9 / 5</strong>
       <span>Trusted by thousands</span>
@@ -424,7 +521,10 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
     <div class="hero-badge2">🌿 100% Natural</div>
   </div>
 
+<<<<<<< HEAD
 >>>>>>> 427d5ae (feat(home): add circular autoplay video in hero section from public/videos/american.mp4)
+=======
+>>>>>>> d91e951 (feat: create bookings table migration)
 </section>
 
 <!-- FEATURES -->
@@ -486,7 +586,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   </div>
 
   <div style="text-align:center;margin-top:3rem">
-    <a href="{{ route('products.index') }}" class="btn-outline" style="color:var(--purple);border-color:var(--purple);background:transparent;">View All Products →</a>
+    <a href="{{ route('products.index') }}" class="btn-outline">View All Products →</a>
   </div>
 </div>
 
@@ -516,7 +616,7 @@ function showTab(name, btn) {
 // Video playlist — cycles american.mp4 → americanB.mp4 → repeat
 const videos = [
   '{{ asset("videos/american.mp4") }}',
-  '{{ asset("videos/americanB.mp4") }}'
+  '{{ asset("videos/americanB.MOV") }}'
 ];
 let current = 0;
 const vid = document.getElementById('hero-video');
