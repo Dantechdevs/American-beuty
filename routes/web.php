@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\SalesReportController;
 use App\Http\Controllers\Admin\ProductsReportController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Admin\LogController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -174,6 +175,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/notifications/scheduled/{scheduled}/cancel',  [NotificationController::class, 'cancelScheduled']) ->name('notifications.scheduled.cancel');
     Route::delete('/notifications/scheduled/{scheduled}',        [NotificationController::class, 'destroyScheduled'])->name('notifications.scheduled.destroy');
 
+    // ─── Logs ─────────────────────────────────────────────────
+    Route::get('/logs/mpesa',         [LogController::class, 'mpesa'])       ->name('logs.mpesa');
+    Route::get('/logs/customers',     [LogController::class, 'customers'])   ->name('logs.customers');
+    Route::get('/logs/managers',      [LogController::class, 'managers'])    ->name('logs.managers');
+    Route::get('/logs/pos-operators', [LogController::class, 'posOperators'])->name('logs.pos-operators');
+
     // ─── Reports ──────────────────────────────────────────────
     Route::get('/reports/sales',        [SalesReportController::class, 'index'])    ->name('reports.sales');
     Route::get('/reports/sales/export', [SalesReportController::class, 'export'])   ->name('reports.sales.export');
@@ -225,12 +232,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/employees/{employee}',          [EmployeeController::class, 'update']) ->name('employees.update');
     Route::delete('/employees/{employee}',       [EmployeeController::class, 'destroy'])->name('employees.destroy');
     Route::patch('/employees/{employee}/toggle', [EmployeeController::class, 'toggle']) ->name('employees.toggle');
-   
 
     // ─── Employee ↔ User account linking ──────────────────────
-    Route::post('/employees/{employee}/assign-user',   [EmployeeController::class, 'assignUser'])    ->name('employees.assign-user');
-    Route::post('/employees/{employee}/unlink-user',   [EmployeeController::class, 'unlinkUser'])    ->name('employees.unlink-user');
-    Route::post('/employees/{employee}/create-account',[EmployeeController::class, 'createAccount']) ->name('employees.create-account');
+    Route::post('/employees/{employee}/assign-user',    [EmployeeController::class, 'assignUser'])    ->name('employees.assign-user');
+    Route::post('/employees/{employee}/unlink-user',    [EmployeeController::class, 'unlinkUser'])    ->name('employees.unlink-user');
+    Route::post('/employees/{employee}/create-account', [EmployeeController::class, 'createAccount']) ->name('employees.create-account');
+
     // ─── Shifts ───────────────────────────────────────────────
     Route::get('/shifts',              [ShiftController::class, 'index'])  ->name('shifts.index');
     Route::get('/shifts/create',       [ShiftController::class, 'create']) ->name('shifts.create');
@@ -258,7 +265,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/subscribers/send-message',   [SubscriberController::class, 'sendMessage']) ->name('subscribers.send-message');
     Route::get('/subscribers',                 [SubscriberController::class, 'index'])       ->name('subscribers.index');
     Route::get('/subscribers/create',          [SubscriberController::class, 'create'])      ->name('subscribers.create');
-    Route::post('/subscribers',                [SubscriberController::class, 'store'])        ->name('subscribers.store');
+    Route::post('/subscribers',                [SubscriberController::class, 'store'])       ->name('subscribers.store');
     Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])     ->name('subscribers.destroy');
 
 });
