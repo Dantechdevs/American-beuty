@@ -507,7 +507,10 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
         <div class="book-card">
           <p class="book-label">✦ Complimentary Session</p>
           <p class="book-sub">Free Skin Consultation</p>
-          <a href="#book-appointment" class="book-btn">📅 Book Appointment</a>
+          <a href="https://book.squareup.com/appointments/dc17b7d0-4c12-4dd8-84a8-83dded962fbf/location/30A37SC9JWAKF/services"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="book-btn">📅 Book Appointment</a>
         </div>
       </div>
 
