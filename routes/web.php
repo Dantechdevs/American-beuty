@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\ProductsReportController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\LogController;
+use App\Http\Controllers\Admin\BookingController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -64,6 +65,11 @@ Route::middleware('auth')->group(function () {
 // M-PESA Callback (no CSRF — Safaricom posts here)
 Route::post('/mpesa/callback', [MpesaCallbackController::class, 'handle'])
     ->name('mpesa.callback')
+    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
+
+// Square Webhook (no CSRF — Square posts here)
+Route::post('/webhooks/square', [App\Http\Controllers\SquareWebhookController::class, 'handle'])
+    ->name('webhooks.square')
     ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
 
 // ─── Auth ────────────────────────────────────────────────────
@@ -267,5 +273,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/subscribers/create',          [SubscriberController::class, 'create'])      ->name('subscribers.create');
     Route::post('/subscribers',                [SubscriberController::class, 'store'])       ->name('subscribers.store');
     Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])     ->name('subscribers.destroy');
+
+    // ─── Bookings (Square) ────────────────────────────────────
+    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
 
 });
