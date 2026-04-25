@@ -304,7 +304,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: 
 
   {{-- Actions --}}
   <div class="actions">
-    <a href="https://wa.me/254700000000?text={{ urlencode('Hi American Beauty! I just booked an appointment for '.$appointment->service_name.' on '.$appointment->appointment_date->format('M j, Y').' at '.$appointment->appointment_time.'. My name is '.$appointment->client_name.'. Booking #'.str_pad($appointment->id,5,'0',STR_PAD_LEFT)) }}"
+    <a href="https://wa.me/254722794265?text={{ urlencode('Hi American Beauty! I just booked an appointment for '.$appointment->service_name.' on '.$appointment->appointment_date->format('M j, Y').' at '.$appointment->appointment_time.'. My name is '.$appointment->client_name.'. Booking #'.str_pad($appointment->id,5,'0',STR_PAD_LEFT)) }}"
        target="_blank" class="btn-whatsapp">
       💬 WhatsApp Us
     </a>

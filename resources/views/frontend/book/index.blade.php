@@ -22,6 +22,134 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: var(--charcoal); }
 
+/* ── HAMBURGER TOPBAR ── */
+.book-topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .9rem 1.5rem;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+}
+.book-topbar-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; font-weight: 700;
+  color: var(--charcoal);
+}
+.book-topbar-logo span { color: var(--magenta); }
+.hamburger-btn {
+  width: 40px; height: 40px; border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: #fff; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 5px; padding: 8px;
+  transition: border-color .2s;
+}
+.hamburger-btn:hover { border-color: var(--purple); }
+.hamburger-btn span {
+  display: block; width: 18px; height: 2px;
+  background: var(--charcoal); border-radius: 2px;
+  transition: all .3s;
+}
+
+/* ── INFO PANEL (slide-in) ── */
+.info-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(30,18,37,.45);
+  opacity: 0; pointer-events: none;
+  transition: opacity .3s;
+}
+.info-overlay.open { opacity: 1; pointer-events: all; }
+
+.info-panel {
+  position: fixed; top: 0; right: -420px; bottom: 0;
+  width: 380px; max-width: 92vw;
+  background: #fff; z-index: 201;
+  box-shadow: -8px 0 40px rgba(30,18,37,.18);
+  transition: right .35s cubic-bezier(.4,0,.2,1);
+  display: flex; flex-direction: column;
+  overflow-y: auto;
+}
+.info-panel.open { right: 0; }
+
+.info-panel-close {
+  position: absolute; top: 1rem; right: 1rem;
+  width: 36px; height: 36px; border-radius: 10px;
+  border: 1.5px solid var(--border); background: #fff;
+  cursor: pointer; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--charcoal); transition: all .2s;
+}
+.info-panel-close:hover { background: var(--purple-lt); border-color: var(--purple); color: var(--purple); }
+
+.info-panel-body { padding: 2.5rem 1.8rem 2rem; }
+
+.info-spa-name {
+  font-size: 1.25rem; font-weight: 800; letter-spacing: .04em;
+  text-transform: uppercase; color: var(--charcoal);
+  margin-bottom: 2rem; padding-right: 3rem; line-height: 1.3;
+}
+
+.info-row {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.info-row:last-of-type { border-bottom: none; }
+.info-row-left {}
+.info-row-label { font-size: .72rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: .1em; margin-bottom: .3rem; }
+.info-row-value { font-size: .88rem; color: var(--charcoal); line-height: 1.6; }
+.info-row-value a { color: var(--charcoal); text-decoration: none; }
+.info-row-value a:hover { color: var(--purple); }
+.info-row-value .open-badge {
+  display: inline-block; font-size: .7rem; font-weight: 700;
+  background: var(--green-lt); color: var(--green);
+  padding: .15rem .6rem; border-radius: 20px;
+  margin-bottom: .25rem;
+}
+.info-row-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0; cursor: pointer;
+  transition: all .2s; text-decoration: none; color: var(--charcoal);
+}
+.info-row-icon:hover { border-color: var(--purple); background: var(--purple-lt); color: var(--purple); }
+
+.hours-toggle { cursor: pointer; }
+.hours-list { display: none; margin-top: .5rem; }
+.hours-list.open { display: block; }
+.hours-list li {
+  display: flex; justify-content: space-between;
+  font-size: .8rem; padding: .2rem 0; color: var(--gray);
+}
+.hours-list li.today { color: var(--charcoal); font-weight: 600; }
+
+.info-social { display: flex; gap: .6rem; margin-top: 1.5rem; }
+.social-btn {
+  width: 40px; height: 40px; border-radius: 10px;
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; text-decoration: none; color: var(--charcoal);
+  transition: all .2s;
+}
+.social-btn:hover { border-color: var(--purple); background: var(--purple-lt); }
+
+.info-panel-footer { margin-top: auto; padding: 1.5rem 1.8rem; border-top: 1px solid var(--border); }
+.btn-signin {
+  display: block; width: 100%; padding: 1rem;
+  background: #C9A84C;
+  color: #fff; text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: .95rem; font-weight: 700;
+  border-radius: 10px; text-decoration: none;
+  letter-spacing: .03em;
+  transition: background .2s, transform .2s;
+  box-shadow: 0 4px 16px rgba(201,168,76,.3);
+}
+.btn-signin:hover { background: #b8942e; transform: translateY(-1px); }
+.info-panel-footer p { font-size: .75rem; color: var(--gray); text-align: center; }
+
 /* ── PAGE HERO ── */
 .book-hero {
   background: linear-gradient(135deg, #FAF4FF 0%, #F5E0FC 40%, #EFF8F0 100%);
@@ -86,24 +214,16 @@ body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: 
   display: flex; gap: 0; margin-bottom: 2rem;
   border-bottom: 2px solid var(--border); padding-bottom: 1.2rem;
 }
-.step {
-  flex: 1; text-align: center; position: relative;
-}
+.step { flex: 1; text-align: center; position: relative; }
 .step-num {
   width: 32px; height: 32px; border-radius: 50%;
   background: var(--purple-lt); color: var(--purple);
   font-size: .82rem; font-weight: 700;
   display: flex; align-items: center; justify-content: center;
-  margin: 0 auto .4rem;
-  transition: all .3s;
+  margin: 0 auto .4rem; transition: all .3s;
 }
-.step.active .step-num {
-  background: linear-gradient(135deg, var(--purple), var(--magenta));
-  color: #fff;
-}
-.step.done .step-num {
-  background: var(--green); color: #fff;
-}
+.step.active .step-num { background: linear-gradient(135deg, var(--purple), var(--magenta)); color: #fff; }
+.step.done .step-num   { background: var(--green); color: #fff; }
 .step-label { font-size: .72rem; color: var(--gray); font-weight: 500; }
 .step.active .step-label { color: var(--purple); font-weight: 600; }
 
@@ -114,25 +234,19 @@ body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: 
   color: var(--magenta); font-weight: 600; margin-bottom: 1rem;
   display: flex; align-items: center; gap: .5rem;
 }
-.field-section-title::after {
-  content: ''; flex: 1; height: 1px; background: var(--border);
-}
+.field-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
 /* ── FIELDS ── */
 .field-group { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .field { margin-bottom: 1rem; }
-.field label {
-  display: block; font-size: .82rem; font-weight: 600;
-  color: var(--charcoal); margin-bottom: .4rem;
-}
+.field label { display: block; font-size: .82rem; font-weight: 600; color: var(--charcoal); margin-bottom: .4rem; }
 .field label span { color: var(--magenta); }
 .field input, .field select, .field textarea {
   width: 100%; padding: .75rem 1rem;
   border: 1.5px solid var(--border); border-radius: 12px;
   font-family: 'Poppins', sans-serif; font-size: .88rem;
   color: var(--charcoal); background: #fff;
-  transition: border-color .2s, box-shadow .2s;
-  outline: none;
+  transition: border-color .2s, box-shadow .2s; outline: none;
 }
 .field input:focus, .field select:focus, .field textarea:focus {
   border-color: var(--purple);
@@ -142,9 +256,7 @@ body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: 
 .field-error { font-size: .75rem; color: #e53e3e; margin-top: .3rem; }
 
 /* ── CATEGORY TABS ── */
-.cat-tabs {
-  display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem;
-}
+.cat-tabs { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
 .cat-tab {
   padding: .4rem 1rem; border-radius: 30px; font-size: .78rem;
   font-weight: 600; cursor: pointer; border: 1.5px solid var(--border);
@@ -152,67 +264,91 @@ body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: 
   font-family: 'Poppins', sans-serif;
 }
 .cat-tab:hover { border-color: var(--purple); color: var(--purple); }
-.cat-tab.active {
-  background: linear-gradient(135deg, var(--purple), var(--magenta));
-  color: #fff; border-color: transparent;
-}
+.cat-tab.active { background: linear-gradient(135deg, var(--purple), var(--magenta)); color: #fff; border-color: transparent; }
 
-/* ── SERVICE CARDS ── */
-.services-grid {
-  display: grid; grid-template-columns: 1fr 1fr; gap: .75rem;
-  max-height: 320px; overflow-y: auto;
-  padding-right: .3rem; margin-bottom: 1rem;
+/* ── SERVICE LIST (Square-style) ── */
+.services-list {
+  display: flex;
+  flex-direction: column;
+  max-height: 480px;
+  overflow-y: auto;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 1rem;
 }
-.services-grid::-webkit-scrollbar { width: 4px; }
-.services-grid::-webkit-scrollbar-track { background: var(--purple-lt); border-radius: 4px; }
-.services-grid::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 4px; }
+.services-list::-webkit-scrollbar { width: 4px; }
+.services-list::-webkit-scrollbar-track { background: var(--purple-lt); border-radius: 4px; }
+.services-list::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 4px; }
 
-.service-card {
-  border: 1.5px solid var(--border); border-radius: 14px;
-  padding: .9rem; cursor: pointer; transition: all .2s;
-  background: #fff; position: relative;
-}
-.service-card:hover { border-color: var(--purple); transform: translateY(-2px); }
-.service-card.selected {
-  border-color: var(--purple);
+/* ── CATEGORY GROUP HEADER ── */
+.service-group-header {
+  padding: .55rem 1.3rem;
   background: var(--purple-lt);
-  box-shadow: 0 4px 16px rgba(123,47,190,.15);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--purple);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
+
+/* ── SERVICE ROW ── */
+.service-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.3rem;
+  cursor: pointer;
+  transition: background .15s;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.service-card:last-child { border-bottom: none; }
+.service-card:hover { background: #FAF4FF; }
+.service-card.selected { background: var(--purple-lt); }
 .service-card input[type="radio"] { display: none; }
-.service-name { font-size: .83rem; font-weight: 600; color: var(--charcoal); margin-bottom: .4rem; }
-.service-meta { display: flex; justify-content: space-between; align-items: center; }
-.service-price { font-size: .82rem; font-weight: 700; color: var(--purple); }
+
+.service-card-body { flex: 1; min-width: 0; }
+.service-name { font-size: .88rem; font-weight: 600; color: var(--charcoal); margin-bottom: .2rem; line-height: 1.4; }
+.service-desc { font-size: .76rem; color: var(--gray); line-height: 1.5; margin-bottom: .4rem; }
+.service-meta { display: flex; align-items: center; gap: 0; }
+.service-price { font-size: .8rem; font-weight: 700; color: var(--charcoal); }
 .service-price.free { color: var(--green); }
 .service-duration {
-  font-size: .72rem; color: var(--gray);
-  background: var(--purple-lt); padding: .2rem .6rem;
-  border-radius: 20px;
+  font-size: .76rem;
+  color: var(--gray);
+  padding-left: .6rem;
+  margin-left: .5rem;
+  border-left: 1px solid var(--border);
 }
+
 .service-check {
-  position: absolute; top: .6rem; right: .6rem;
-  width: 20px; height: 20px; border-radius: 50%;
-  background: var(--purple); color: #fff;
-  font-size: .7rem; display: none;
-  align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: .1rem;
+  transition: all .2s; color: transparent; font-size: .65rem;
+  background: #fff;
 }
-.service-card.selected .service-check { display: flex; }
+.service-card.selected .service-check {
+  background: linear-gradient(135deg, var(--purple), var(--magenta));
+  border-color: transparent; color: #fff;
+}
 
 /* ── TIME SLOTS ── */
-.time-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem;
-}
+.time-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .5rem; }
 .time-slot {
   padding: .55rem; border: 1.5px solid var(--border);
   border-radius: 10px; text-align: center; cursor: pointer;
   font-size: .8rem; font-weight: 500; transition: all .2s;
-  background: #fff; color: var(--charcoal);
-  font-family: 'Poppins', sans-serif;
+  background: #fff; color: var(--charcoal); font-family: 'Poppins', sans-serif;
 }
 .time-slot:hover { border-color: var(--purple); color: var(--purple); }
-.time-slot.selected {
-  background: linear-gradient(135deg, var(--purple), var(--magenta));
-  color: #fff; border-color: transparent;
-}
+.time-slot.selected { background: linear-gradient(135deg, var(--purple), var(--magenta)); color: #fff; border-color: transparent; }
 
 /* ── SUBMIT BTN ── */
 .btn-book {
@@ -235,40 +371,24 @@ body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: 
   box-shadow: 0 8px 30px rgba(123,47,190,.06);
   overflow: hidden; position: sticky; top: 1.5rem;
 }
-.summary-header {
-  background: linear-gradient(135deg, var(--charcoal), #2D1050);
-  padding: 1.2rem 1.5rem; color: #fff;
-}
-.summary-header h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1rem; font-weight: 700;
-}
+.summary-header { background: linear-gradient(135deg, var(--charcoal), #2D1050); padding: 1.2rem 1.5rem; color: #fff; }
+.summary-header h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; }
 .summary-body { padding: 1.5rem; }
 .summary-row {
   display: flex; justify-content: space-between; align-items: flex-start;
-  padding: .6rem 0; border-bottom: 1px solid var(--border);
-  font-size: .85rem;
+  padding: .6rem 0; border-bottom: 1px solid var(--border); font-size: .85rem;
 }
 .summary-row:last-child { border-bottom: none; }
 .summary-row .label { color: var(--gray); font-size: .78rem; }
 .summary-row .value { font-weight: 600; color: var(--charcoal); text-align: right; max-width: 60%; }
 .summary-row .value.price { color: var(--purple); font-size: 1rem; }
-.summary-empty {
-  text-align: center; padding: 2rem 1rem;
-  color: var(--gray); font-size: .85rem;
-}
+.summary-empty { text-align: center; padding: 2rem 1rem; color: var(--gray); font-size: .85rem; }
 .summary-empty .icon { font-size: 2.5rem; margin-bottom: .5rem; }
 
-.info-card {
-  background: var(--green-lt); border-radius: 16px;
-  padding: 1.2rem; border: 1px solid rgba(61,181,74,.2);
-}
+.info-card { background: var(--green-lt); border-radius: 16px; padding: 1.2rem; border: 1px solid rgba(61,181,74,.2); }
 .info-card h4 { font-size: .85rem; font-weight: 700; color: var(--green); margin-bottom: .6rem; }
 .info-card ul { list-style: none; }
-.info-card ul li {
-  font-size: .8rem; color: #2d7a35; padding: .25rem 0;
-  display: flex; align-items: flex-start; gap: .4rem;
-}
+.info-card ul li { font-size: .8rem; color: #2d7a35; padding: .25rem 0; display: flex; align-items: flex-start; gap: .4rem; }
 
 /* ── ALERTS ── */
 .alert-error {
@@ -281,7 +401,6 @@ body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: 
 @media(max-width: 768px) {
   .book-wrap { grid-template-columns: 1fr; }
   .field-group { grid-template-columns: 1fr; }
-  .services-grid { grid-template-columns: 1fr; }
   .time-grid { grid-template-columns: repeat(3, 1fr); }
   .sidebar { order: -1; }
   .summary-card { position: static; }
@@ -290,6 +409,96 @@ body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: 
 @endpush
 
 @section('content')
+
+{{-- ── INFO PANEL OVERLAY ── --}}
+<div class="info-overlay" id="info-overlay" onclick="closePanel()"></div>
+
+{{-- ── INFO PANEL ── --}}
+<div class="info-panel" id="info-panel">
+  <button class="info-panel-close" onclick="closePanel()">✕</button>
+  <div class="info-panel-body">
+
+    <div class="info-spa-name">American Beauty Studio Spa</div>
+
+    {{-- Address --}}
+    <div class="info-row">
+      <div class="info-row-left">
+        <div class="info-row-label">Address</div>
+        <div class="info-row-value">
+          Nairobi, Kenya<br>
+          <small style="color:var(--gray)">Exact location shared on confirmation</small>
+        </div>
+      </div>
+      <a href="https://maps.google.com/?q=Nairobi+Kenya" target="_blank" class="info-row-icon" title="Get directions">📍</a>
+    </div>
+
+    {{-- Phone --}}
+    <div class="info-row">
+      <div class="info-row-left">
+        <div class="info-row-label">Phone</div>
+        <div class="info-row-value">
+          <a href="tel:+254722794265">+254 722 794 265</a>
+        </div>
+      </div>
+      <a href="tel:+254722794265" class="info-row-icon" title="Call us">📞</a>
+    </div>
+
+    {{-- Hours --}}
+    <div class="info-row">
+      <div class="info-row-left" style="flex:1">
+        <div class="info-row-label">Hours</div>
+        <div class="info-row-value">
+          <span class="open-badge">Open Today</span><br>
+          <span class="hours-toggle" onclick="toggleHours()" style="cursor:pointer; font-size:.85rem;">
+            Mon – Sat: 8:00 AM – 7:00 PM &nbsp;▾
+          </span>
+          <ul class="hours-list" id="hours-list">
+            <li class="today"><span>Monday</span><span>8:00 AM – 7:00 PM</span></li>
+            <li class="today"><span>Tuesday</span><span>8:00 AM – 7:00 PM</span></li>
+            <li class="today"><span>Wednesday</span><span>8:00 AM – 7:00 PM</span></li>
+            <li class="today"><span>Thursday</span><span>8:00 AM – 7:00 PM</span></li>
+            <li class="today"><span>Friday</span><span>8:00 AM – 7:00 PM</span></li>
+            <li class="today"><span>Saturday</span><span>9:00 AM – 6:00 PM</span></li>
+            <li><span>Sunday</span><span>Closed</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {{-- WhatsApp --}}
+    <div class="info-row">
+      <div class="info-row-left">
+        <div class="info-row-label">WhatsApp</div>
+        <div class="info-row-value">
+          <a href="https://wa.me/254722794265" target="_blank">+254 722 794 265</a>
+        </div>
+      </div>
+      <a href="https://wa.me/254722794265" target="_blank" class="info-row-icon" title="WhatsApp">💬</a>
+    </div>
+
+    {{-- Social --}}
+    <div class="info-row-label" style="margin-top:1.2rem; margin-bottom:.6rem;">Follow Us</div>
+    <div class="info-social">
+      <a href="#" class="social-btn" title="Website">🌐</a>
+      <a href="#" class="social-btn" title="Instagram">📸</a>
+      <a href="#" class="social-btn" title="Facebook">📘</a>
+      <a href="#" class="social-btn" title="TikTok">🎵</a>
+    </div>
+
+  </div>
+  <div class="info-panel-footer">
+    <a href="{{ route('login') }}" class="btn-signin">Sign In</a>
+    <p style="margin-top:.8rem;">© {{ date('Y') }} American Beauty Studio Spa · All rights reserved</p>
+  </div>
+</div>
+
+{{-- ── TOPBAR ── --}}
+<div class="book-topbar">
+  <div class="book-topbar-logo">American<span>Beauty</span></div>
+  <button class="hamburger-btn" onclick="openPanel()" title="Spa info">
+    <span></span><span></span><span></span>
+  </button>
+</div>
 
 {{-- Hero --}}
 <div class="book-hero">
@@ -353,22 +562,43 @@ body { font-family: 'Poppins', sans-serif; background: var(--off-white); color: 
               @endforeach
             </div>
 
-            {{-- Services grid --}}
-            <div class="services-grid" id="services-grid">
+            {{-- Services list (Square-style) --}}
+            <div class="services-list" id="services-list">
+              @php $lastCat = null; @endphp
               @foreach($services as $svc)
-              <label class="service-card" data-cat="{{ $svc['category'] }}" data-price="{{ $svc['price'] }}" data-duration="{{ $svc['duration'] }}" data-name="{{ $svc['name'] }}">
-                <input type="radio" name="service_name" value="{{ $svc['name'] }}" {{ old('service_name') === $svc['name'] ? 'checked' : '' }}>
-                <div class="service-check">✓</div>
-                <div class="service-name">{{ $svc['name'] }}</div>
-                <div class="service-meta">
-                  <span class="service-price {{ $svc['price'] == 0 ? 'free' : '' }}">
-                    {{ $svc['price'] == 0 ? 'Free' : 'KSh ' . number_format($svc['price']) }}
-                  </span>
-                  <span class="service-duration">{{ $svc['duration'] >= 60 ? floor($svc['duration']/60).'hr'.($svc['duration']%60 ? ' '.($svc['duration']%60).'min' : '') : $svc['duration'].'min' }}</span>
-                </div>
-              </label>
+                @if($svc['category'] !== $lastCat)
+                  <div class="service-group-header" data-cat-header="{{ $svc['category'] }}">
+                    {{ $svc['category'] }}
+                  </div>
+                  @php $lastCat = $svc['category']; @endphp
+                @endif
+                <label class="service-card"
+                  data-cat="{{ $svc['category'] }}"
+                  data-price="{{ $svc['price'] }}"
+                  data-duration="{{ $svc['duration'] }}"
+                  data-name="{{ $svc['name'] }}"
+                  data-price-label="{{ $svc['price_label'] }}">
+                  <input type="radio" name="service_name" value="{{ $svc['name'] }}"
+                    {{ old('service_name') === $svc['name'] ? 'checked' : '' }}>
+                  <div class="service-card-body">
+                    <div class="service-name">{{ $svc['name'] }}</div>
+                    @if(!empty($svc['description']))
+                      <div class="service-desc">{{ $svc['description'] }}</div>
+                    @endif
+                    <div class="service-meta">
+                      <span class="service-price {{ $svc['price'] == 0 ? 'free' : '' }}">
+                        {{ $svc['price_label'] }}
+                      </span>
+                      <span class="service-duration">
+                        {{ $svc['duration_label'] }}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="service-check">✓</div>
+                </label>
               @endforeach
             </div>
+
             @error('service_name')
               <div class="field-error">{{ $message }}</div>
             @enderror
@@ -507,8 +737,15 @@ document.querySelectorAll('.cat-tab').forEach(tab => {
     document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
     this.classList.add('active');
     const cat = this.dataset.cat;
+
+    // Show/hide service cards
     document.querySelectorAll('.service-card').forEach(card => {
-      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'block' : 'none';
+      card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'flex' : 'none';
+    });
+
+    // Show/hide category group headers
+    document.querySelectorAll('.service-group-header').forEach(header => {
+      header.style.display = (cat === 'all' || header.dataset.catHeader === cat) ? 'block' : 'none';
     });
   });
 });
@@ -520,10 +757,11 @@ document.querySelectorAll('.service-card').forEach(card => {
     this.classList.add('selected');
     this.querySelector('input[type="radio"]').checked = true;
 
-    const name     = this.dataset.name;
-    const price    = parseInt(this.dataset.price);
-    const duration = parseInt(this.dataset.duration);
-    const category = this.dataset.cat;
+    const name      = this.dataset.name;
+    const priceLabel= this.dataset.priceLabel;
+    const durationEl= this.querySelector('.service-duration');
+    const duration  = durationEl ? durationEl.textContent.trim() : '';
+    const category  = this.dataset.cat;
 
     // Update step indicator
     document.getElementById('step-1').classList.add('done');
@@ -535,12 +773,8 @@ document.querySelectorAll('.service-card').forEach(card => {
     document.getElementById('summary-content').style.display = 'block';
     document.getElementById('sum-service').textContent  = name;
     document.getElementById('sum-category').textContent = category;
-    document.getElementById('sum-duration').textContent = duration >= 60
-      ? Math.floor(duration/60) + 'hr' + (duration%60 ? ' ' + duration%60 + 'min' : '')
-      : duration + ' min';
-    document.getElementById('sum-price').textContent = price === 0
-      ? 'Free'
-      : 'KSh ' + price.toLocaleString();
+    document.getElementById('sum-duration').textContent = duration;
+    document.getElementById('sum-price').textContent    = priceLabel;
   });
 });
 
@@ -561,7 +795,7 @@ document.querySelectorAll('.time-slot').forEach(slot => {
 
 // ── Date change ──────────────────────────────────────────────
 document.getElementById('date-input').addEventListener('change', function () {
-  const date = new Date(this.value);
+  const date = new Date(this.value + 'T00:00:00');
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   document.getElementById('sum-date').textContent = date.toLocaleDateString('en-KE', options);
 });
@@ -579,5 +813,22 @@ if (oldTime) {
     if (slot.dataset.time === oldTime) slot.click();
   });
 }
+
+// ── Info Panel ───────────────────────────────────────────────
+function openPanel() {
+  document.getElementById('info-panel').classList.add('open');
+  document.getElementById('info-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePanel() {
+  document.getElementById('info-panel').classList.remove('open');
+  document.getElementById('info-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function toggleHours() {
+  document.getElementById('hours-list').classList.toggle('open');
+}
+// Close on Escape key
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
 </script>
 @endpush

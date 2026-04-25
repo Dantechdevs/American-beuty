@@ -23,7 +23,6 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: var(--off-white); }
 
-/* ── HERO ── */
 .hero {
   min-height: 90vh;
   display: grid;
@@ -35,6 +34,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   overflow: hidden;
   background: linear-gradient(135deg, #FAF4FF 0%, #F5E0FC 40%, #EFF8F0 100%);
 }
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -43,6 +43,8 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 =======
 =======
 >>>>>>> d91e951 (feat: create bookings table migration)
+=======
+>>>>>>> abccd8b (debuggig appointment)
 .hero::before {
   content: '';
   position: absolute; inset: 0;
@@ -52,7 +54,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   background-size: 60px 60px;
   pointer-events: none;
 }
-
 .hero::after {
   content: '';
 <<<<<<< HEAD
@@ -66,7 +67,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   top: -150px; right: -150px;
   pointer-events: none;
 }
-
 .hero-blob2 {
   position: absolute;
   width: 400px; height: 400px;
@@ -75,7 +75,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   bottom: -100px; left: -80px;
   pointer-events: none;
 }
-
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: .5rem;
   font-size: .75rem; letter-spacing: .22em; text-transform: uppercase;
@@ -84,7 +83,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   padding: .35rem 1rem; border-radius: 40px;
   border: 1px solid rgba(200,53,157,.2);
 }
-
 .hero-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2.6rem,5vw,4.4rem);
@@ -94,14 +92,11 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 }
 .hero-title .t-purple { color: var(--purple); }
 .hero-title .t-green  { color: var(--green); font-style: italic; }
-
 .hero-sub {
   font-size: 1rem; color: var(--gray);
   line-height: 1.75; max-width: 460px; margin-bottom: 2.4rem;
 }
-
 .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.8rem; }
-
 .btn-primary {
   background: linear-gradient(135deg, var(--purple), var(--magenta));
   color: #fff; padding: .9rem 2.2rem;
@@ -111,7 +106,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   box-shadow: 0 6px 24px rgba(123,47,190,.35);
 }
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(123,47,190,.45); }
-
 .btn-outline {
   border: 2px solid var(--purple);
   color: var(--purple); padding: .88rem 2.2rem;
@@ -120,7 +114,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   background: transparent;
 }
 .btn-outline:hover { background: var(--purple); color: #fff; }
-
 .btn-green {
   background: linear-gradient(135deg, var(--green), #28a035);
   color: #fff; padding: .9rem 2.2rem;
@@ -130,7 +123,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   box-shadow: 0 6px 24px rgba(61,181,74,.35);
 }
 .btn-green:hover { transform: translateY(-2px); }
-
 .hero-stats {
   display: flex; gap: 2.5rem;
   padding-top: 2rem;
@@ -156,11 +148,9 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   border-radius: 50%;
 =======
 .hero-stat span { font-size: .78rem; color: var(--gray); margin-top: .1rem; }
-
-/* ── Hero image side ── */
 .hero-image { position: relative; display: flex; justify-content: center; align-items: center; }
-
 .hero-img-ring {
+<<<<<<< HEAD
   width: 100%;
   height: 75vh;
   border-radius: 24px;
@@ -192,128 +182,95 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 }
 
 =======
-.hero-img-ring::before { display: none; }
-
-.hero-img-ring video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+=======
+  width: 100%; height: 75vh;
+  border-radius: 24px; overflow: hidden; position: relative;
+  box-shadow: 0 30px 80px rgba(123,47,190,.25);
+  border: 3px solid rgba(123,47,190,.2);
 }
-
-/* ── BOOKING OVERLAY ON VIDEO ── */
+>>>>>>> abccd8b (debuggig appointment)
+.hero-img-ring::before { display: none; }
+.hero-img-ring video { width: 100%; height: 100%; object-fit: cover; display: block; }
 .book-overlay {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
+  position: absolute; bottom: 0; left: 0; right: 0;
   background: linear-gradient(to top, rgba(180,30,120,.88) 0%, rgba(200,53,157,.55) 55%, transparent 100%);
   padding: 2.8rem 1.8rem 2rem;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  z-index: 2;
+  display: flex; align-items: flex-end; justify-content: center; z-index: 2;
 }
-
 .book-card { text-align: center; }
-
 .book-label {
-  font-size: .7rem;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.85);
-  font-weight: 600;
-  margin-bottom: .35rem;
+  font-size: .7rem; letter-spacing: .22em; text-transform: uppercase;
+  color: rgba(255,255,255,.85); font-weight: 600; margin-bottom: .35rem;
 }
-
 .book-sub {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #fff;
-  font-family: 'Playfair Display', serif;
-  margin-bottom: 1.1rem;
+  font-size: 1.15rem; font-weight: 700; color: #fff;
+  font-family: 'Playfair Display', serif; margin-bottom: 1.1rem;
   text-shadow: 0 2px 8px rgba(0,0,0,.2);
 }
-
 .book-btn {
-  display: inline-block;
-  background: #fff;
-  color: var(--magenta);
-  padding: .78rem 2.1rem;
-  border-radius: 50px;
-  font-size: .9rem;
-  font-weight: 700;
-  text-decoration: none;
-  font-family: 'Poppins', sans-serif;
+  display: inline-block; background: #fff; color: var(--magenta);
+  padding: .78rem 2.1rem; border-radius: 50px; font-size: .9rem; font-weight: 700;
+  text-decoration: none; font-family: 'Poppins', sans-serif;
   box-shadow: 0 6px 24px rgba(200,53,157,.45);
-  border: 2px solid rgba(255,255,255,.5);
-  transition: all .25s;
-  letter-spacing: .02em;
+  border: 2px solid rgba(255,255,255,.5); transition: all .25s; letter-spacing: .02em;
 }
 .book-btn:hover {
-  background: var(--magenta);
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(200,53,157,.55);
+  background: var(--magenta); color: #fff;
+  transform: translateY(-2px); box-shadow: 0 12px 32px rgba(200,53,157,.55);
 }
+<<<<<<< HEAD
 
 >>>>>>> d91e951 (feat: create bookings table migration)
+=======
+>>>>>>> abccd8b (debuggig appointment)
 .hero-badge {
-  position: absolute; bottom: 30px; left: -10px;
-  background: #fff;
+  position: absolute; bottom: 30px; left: -10px; background: #fff;
   border-radius: 16px; padding: .9rem 1.3rem;
   box-shadow: 0 12px 36px rgba(123,47,190,.18);
-  font-size: .82rem; border: 1px solid var(--border);
-  z-index: 3;
+  font-size: .82rem; border: 1px solid var(--border); z-index: 3;
 }
 .hero-badge strong { display: block; color: var(--purple); font-size: 1rem; margin-bottom: .1rem; }
-
 .hero-badge2 {
   position: absolute; top: 20px; right: -10px;
   background: linear-gradient(135deg, var(--green), #28a035);
   border-radius: 16px; padding: .7rem 1.1rem;
   box-shadow: 0 8px 24px rgba(61,181,74,.35);
-  font-size: .78rem; color: #fff; font-weight: 600;
-  z-index: 3;
+  font-size: .78rem; color: #fff; font-weight: 600; z-index: 3;
 }
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 427d5ae (feat(home): add circular autoplay video in hero section from public/videos/american.mp4)
 =======
 >>>>>>> d91e951 (feat: create bookings table migration)
 
 /* ── FEATURES ── */
+=======
+>>>>>>> abccd8b (debuggig appointment)
 .features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-  gap: 0;
-  background: linear-gradient(135deg, var(--purple), var(--magenta));
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 0; background: linear-gradient(135deg, var(--purple), var(--magenta));
   margin: 0; padding: 0;
 }
 .feature {
   text-align: center; padding: 2.2rem 1.5rem;
-  border-right: 1px solid rgba(255,255,255,.15);
-  transition: background .25s;
+  border-right: 1px solid rgba(255,255,255,.15); transition: background .25s;
 }
 .feature:last-child { border-right: none; }
 .feature:hover { background: rgba(255,255,255,.08); }
 .feature-icon { font-size: 1.8rem; margin-bottom: .8rem; color: #fff; }
 .feature h4 { font-weight: 600; margin-bottom: .3rem; font-size: .92rem; color: #fff; }
 .feature p { font-size: .8rem; color: rgba(255,255,255,.72); line-height: 1.5; }
-
-/* ── SECTION ── */
 .section { max-width: 1280px; margin: 5rem auto; padding: 0 1.5rem; }
 .section-header { text-align: center; margin-bottom: 3rem; }
 .section-eyebrow {
   font-size: .75rem; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--magenta); font-weight: 600; margin-bottom: .6rem;
-  display: inline-block;
+  color: var(--magenta); font-weight: 600; margin-bottom: .6rem; display: inline-block;
 }
 .section-title {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem,3.5vw,2.8rem); font-weight: 700;
-  color: var(--charcoal);
+  font-size: clamp(2rem,3.5vw,2.8rem); font-weight: 700; color: var(--charcoal);
 }
 .section-title span { color: var(--purple); }
-
-/* ── CATEGORIES ── */
 .cat-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap: 1rem; }
 .cat-card {
   background: #fff; border-radius: 20px; padding: 1.8rem 1rem;
@@ -331,16 +288,12 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .cat-icon { font-size: 2.2rem; margin-bottom: .8rem; position: relative; }
 .cat-name { font-size: .88rem; font-weight: 600; position: relative; }
 .cat-count { font-size: .75rem; color: var(--magenta); margin-top: .2rem; position: relative; font-weight: 500; }
-
-/* ── PRODUCTS ── */
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 1.5rem; }
-
 .product-card {
   background: #fff; border-radius: 20px; overflow: hidden;
   transition: all .25s; border: 1px solid var(--border);
 }
 .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(123,47,190,.12); }
-
 .product-img {
   height: 240px;
   background: linear-gradient(135deg, var(--purple-lt), var(--magenta-lt));
@@ -348,18 +301,15 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 }
 .product-img img { width: 100%; height: 100%; object-fit: cover; }
 .product-img-placeholder { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--purple); letter-spacing: .05em; }
-
 .badge-sale {
   position: absolute; top: .8rem; left: .8rem;
   background: linear-gradient(135deg, var(--magenta), #a02070);
-  color: #fff; font-size: .7rem; font-weight: 700;
-  padding: .25rem .65rem; border-radius: 20px;
+  color: #fff; font-size: .7rem; font-weight: 700; padding: .25rem .65rem; border-radius: 20px;
 }
 .badge-new {
   position: absolute; top: .8rem; left: .8rem;
   background: linear-gradient(135deg, var(--green), #28a035);
-  color: #fff; font-size: .7rem; font-weight: 700;
-  padding: .25rem .65rem; border-radius: 20px;
+  color: #fff; font-size: .7rem; font-weight: 700; padding: .25rem .65rem; border-radius: 20px;
 }
 .product-wish {
   position: absolute; top: .8rem; right: .8rem;
@@ -369,7 +319,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
 .product-wish:hover { color: var(--magenta); transform: scale(1.1); }
-
 .product-body { padding: 1.1rem; }
 .product-category { font-size: .7rem; color: var(--purple); text-transform: uppercase; letter-spacing: .12em; margin-bottom: .3rem; font-weight: 600; }
 .product-name { font-size: .95rem; font-weight: 500; line-height: 1.4; margin-bottom: .6rem; }
@@ -379,50 +328,39 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .price-current { font-size: 1.05rem; font-weight: 700; color: var(--purple); }
 .price-original { font-size: .85rem; color: #aaa; text-decoration: line-through; }
 .stars { color: #f4b942; font-size: .75rem; display: flex; gap: .1rem; }
-
 .btn-add-cart {
-  width: 100%; border: none; padding: .7rem;
-  border-radius: 12px; font-size: .85rem; cursor: pointer;
+  width: 100%; border: none; padding: .7rem; border-radius: 12px; font-size: .85rem; cursor: pointer;
   font-family: 'Poppins', sans-serif; transition: all .2s; margin-top: .8rem;
   background: linear-gradient(135deg, var(--purple), var(--magenta));
-  color: #fff; font-weight: 600;
-  box-shadow: 0 4px 14px rgba(123,47,190,.25);
+  color: #fff; font-weight: 600; box-shadow: 0 4px 14px rgba(123,47,190,.25);
 }
 .btn-add-cart:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(123,47,190,.35); }
-
-/* ── TABS ── */
 .tabs {
   display: flex; gap: 0; justify-content: center;
-  background: var(--purple-lt);
-  border-radius: 50px; padding: .4rem;
+  background: var(--purple-lt); border-radius: 50px; padding: .4rem;
   width: fit-content; margin: 0 auto 2.5rem;
 }
 .tab {
   padding: .6rem 1.8rem; font-size: .88rem; font-weight: 600;
   cursor: pointer; border-radius: 50px; transition: all .2s;
-  color: var(--purple); background: none; border: none;
-  font-family: 'Poppins', sans-serif;
+  color: var(--purple); background: none; border: none; font-family: 'Poppins', sans-serif;
 }
 .tab.active { background: linear-gradient(135deg, var(--purple), var(--magenta)); color: #fff; box-shadow: 0 4px 14px rgba(123,47,190,.3); }
 .tab:hover:not(.active) { background: rgba(123,47,190,.1); }
-
-/* ── BANNER ── */
 .banner-strip {
   background: linear-gradient(135deg, var(--charcoal) 0%, #2D1050 50%, #1A0C35 100%);
   padding: 5rem 1.5rem; text-align: center; margin: 4rem 0;
   position: relative; overflow: hidden;
 }
 .banner-strip::before {
-  content: '';
-  position: absolute; inset: 0;
+  content: ''; position: absolute; inset: 0;
   background-image:
     linear-gradient(rgba(123,47,190,.15) 1px, transparent 1px),
     linear-gradient(90deg, rgba(123,47,190,.15) 1px, transparent 1px);
   background-size: 50px 50px;
 }
 .banner-strip::after {
-  content: '';
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
   width: 600px; height: 600px; border-radius: 50%;
   background: radial-gradient(circle, rgba(200,53,157,.15) 0%, transparent 70%);
 }
@@ -434,15 +372,12 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .banner-strip h2 em { color: var(--green); font-style: italic; }
 .banner-strip p { color: rgba(255,255,255,.65); margin-bottom: 2rem; font-size: .95rem; position: relative; z-index: 1; }
 .banner-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
-
-/* ── PROMO BAR ── */
 .promo-bar {
   background: linear-gradient(135deg, var(--green), #28a035);
   padding: .7rem 1.5rem; text-align: center;
   font-size: .82rem; font-weight: 600; color: #fff; letter-spacing: .05em;
 }
 .promo-bar span { opacity: .8; margin: 0 1rem; }
-
 @media(max-width:768px){
   .hero { grid-template-columns: 1fr; min-height: auto; padding: 3rem 1.5rem; text-align: center; }
   .hero-image { display: none; }
@@ -474,7 +409,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
     <p class="hero-sub">Discover premium skincare, makeup & beauty essentials curated for every skin type. Authentic products. Pay easily with M-PESA.</p>
     <div class="hero-btns">
       <a href="{{ route('products.index') }}" class="btn-primary">Shop Now →</a>
-      <a href="{{ route('products.index', ['filter'=>'new']) }}" class="btn-outline">New Arrivals</a>
+      <a href="{{ route('book.index') }}" class="btn-outline">📅 Book Appointment</a>
     </div>
     <div class="hero-stats">
       <div class="hero-stat"><strong>500+</strong><span>Products</span></div>
@@ -507,10 +442,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
         <div class="book-card">
           <p class="book-label">✦ Complimentary Session</p>
           <p class="book-sub">Free Skin Consultation</p>
-          <a href="https://book.squareup.com/appointments/dc17b7d0-4c12-4dd8-84a8-83dded962fbf/location/30A37SC9JWAKF/services"
-             target="_blank"
-             rel="noopener noreferrer"
-             class="book-btn">📅 Book Appointment</a>
+          <a href="{{ route('book.index') }}" class="book-btn">📅 Book Appointment</a>
         </div>
       </div>
 
@@ -595,10 +527,11 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 
 <!-- BANNER -->
 <div class="banner-strip">
-  <h2>Ready for Your Skincare <em>Glow-Up?</em></h2>
-  <p>Shop our bestselling serums, moisturizers & SPF — starting from KSh 1,500</p>
+  <h2>Ready for Your <em>Glow-Up?</em></h2>
+  <p>Book a service or shop our bestselling serums, moisturizers & SPF — starting from KSh 1,500</p>
   <div class="banner-btns">
-    <a href="{{ route('products.index', ['category'=>'skincare']) }}" class="btn-primary">Shop Skincare Now</a>
+    <a href="{{ route('book.index') }}" class="btn-primary">📅 Book Appointment</a>
+    <a href="{{ route('products.index', ['category'=>'skincare']) }}" class="btn-outline" style="border-color:#fff;color:#fff">Shop Skincare</a>
     <a href="{{ route('products.index') }}" class="btn-green">View All Products</a>
   </div>
 </div>
@@ -616,7 +549,6 @@ function showTab(name, btn) {
   btn.classList.add('active');
 }
 
-// Video playlist — cycles american.mp4 → americanB.mp4 → repeat
 const videos = [
   '{{ asset("videos/american.mp4") }}',
   '{{ asset("videos/americanB.MOV") }}'
