@@ -26,66 +26,64 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 /* ── HERO ── */
 .hero {
   min-height: 90vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   align-items: center;
   padding: 5rem clamp(1.5rem,6vw,6rem);
-  gap: 4rem;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #FAF4FF 0%, #F5E0FC 40%, #EFF8F0 100%);
 }
 
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(123,47,190,.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(123,47,190,.06) 1px, transparent 1px);
-  background-size: 60px 60px;
-  pointer-events: none;
-}
-
-.hero::after {
-  content: '';
+/* Background video — sharp, no blur */
+.hero-video-bg {
   position: absolute;
-  width: 600px; height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(200,53,157,.10) 0%, transparent 70%);
-  top: -150px; right: -150px;
-  pointer-events: none;
+  inset: 0;
+  z-index: 0;
+}
+.hero-video-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: none;
+  opacity: 1;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
 }
 
-.hero-blob2 {
-  position: absolute;
-  width: 400px; height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(61,181,74,.10) 0%, transparent 70%);
-  bottom: -100px; left: -80px;
-  pointer-events: none;
+/* Text content sits above video */
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  background: linear-gradient(to right, rgba(10,5,20,0.70) 60%, rgba(10,5,20,0.0) 100%);
+  padding: 2.5rem 4rem 2.5rem 2rem;
+  border-radius: 16px;
 }
 
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: .5rem;
   font-size: .75rem; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--magenta); font-weight: 600; margin-bottom: 1.2rem;
-  background: var(--magenta-lt);
+  color: #f9c8ef; font-weight: 600; margin-bottom: 1.2rem;
+  background: rgba(200,53,157,.25);
   padding: .35rem 1rem; border-radius: 40px;
-  border: 1px solid rgba(200,53,157,.2);
+  border: 1px solid rgba(200,53,157,.4);
 }
 
 .hero-title {
   font-family: 'Playfair Display', serif;
   font-size: clamp(2.6rem,5vw,4.4rem);
   line-height: 1.1; font-weight: 700;
-  color: var(--charcoal);
+  color: #fff;
   margin-bottom: 1.4rem;
 }
-.hero-title .t-purple { color: var(--purple); }
-.hero-title .t-green  { color: var(--green); font-style: italic; }
+.hero-title .t-purple { color: #d89ef8; }
+.hero-title .t-green  { color: #7de888; font-style: italic; }
 
 .hero-sub {
-  font-size: 1rem; color: var(--gray);
+  font-size: 1rem; color: rgba(255,255,255,.92);
   line-height: 1.75; max-width: 460px; margin-bottom: 2.4rem;
 }
 
@@ -102,13 +100,14 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(123,47,190,.45); }
 
 .btn-outline {
-  border: 2px solid var(--purple);
-  color: var(--purple); padding: .88rem 2.2rem;
+  border: 2px solid #fff;
+  color: #fff; padding: .88rem 2.2rem;
   border-radius: 50px; font-size: .9rem; font-weight: 600;
   cursor: pointer; transition: all .25s; display: inline-block; text-decoration: none;
-  background: transparent;
+  background: rgba(255,255,255,.1);
+  backdrop-filter: blur(4px);
 }
-.btn-outline:hover { background: var(--purple); color: #fff; }
+.btn-outline:hover { background: #fff; color: var(--purple); }
 
 .btn-green {
   background: linear-gradient(135deg, var(--green), #28a035);
@@ -123,65 +122,14 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .hero-stats {
   display: flex; gap: 2.5rem;
   padding-top: 2rem;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(255,255,255,.25);
 }
 .hero-stat strong {
   font-family: 'Playfair Display', serif;
-  font-size: 1.8rem; font-weight: 700; color: var(--purple);
+  font-size: 1.8rem; font-weight: 700; color: #d89ef8;
   display: block;
 }
-.hero-stat span { font-size: .78rem; color: var(--gray); margin-top: .1rem; }
-
-/* Hero image side */
-.hero-image { position: relative; display: flex; justify-content: center; align-items: center; }
-
-.hero-img-ring {
-  width: clamp(300px,40vw,460px);
-  height: clamp(300px,40vw,460px);
-  border-radius: 50%;
-  overflow: hidden;
-  position: relative;
-  box-shadow: 0 30px 80px rgba(123,47,190,.25);
-  border: 3px solid rgba(123,47,190,.2);
-}
-
-.hero-img-ring::before {
-  content: '';
-  position: absolute; inset: -14px;
-  border-radius: 50%;
-  border: 2px dashed rgba(200,53,157,.3);
-  animation: spin 20s linear infinite;
-  z-index: 2;
-  pointer-events: none;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.hero-img-ring video {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  display: block;
-}
-
-.hero-badge {
-  position: absolute; bottom: 30px; left: -10px;
-  background: #fff;
-  border-radius: 16px; padding: .9rem 1.3rem;
-  box-shadow: 0 12px 36px rgba(123,47,190,.18);
-  font-size: .82rem; border: 1px solid var(--border);
-  z-index: 3;
-}
-.hero-badge strong { display: block; color: var(--purple); font-size: 1rem; margin-bottom: .1rem; }
-
-.hero-badge2 {
-  position: absolute; top: 20px; right: -10px;
-  background: linear-gradient(135deg, var(--green), #28a035);
-  border-radius: 16px; padding: .7rem 1.1rem;
-  box-shadow: 0 8px 24px rgba(61,181,74,.35);
-  font-size: .78rem; color: #fff; font-weight: 600;
-  z-index: 3;
-}
+.hero-stat span { font-size: .78rem; color: rgba(255,255,255,.80); margin-top: .1rem; }
 
 /* ── FEATURES ── */
 .features {
@@ -238,13 +186,11 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 
 /* ── PRODUCTS ── */
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 1.5rem; }
-
 .product-card {
   background: #fff; border-radius: 20px; overflow: hidden;
   transition: all .25s; border: 1px solid var(--border);
 }
 .product-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(123,47,190,.12); }
-
 .product-img {
   height: 240px;
   background: linear-gradient(135deg, var(--purple-lt), var(--magenta-lt));
@@ -252,7 +198,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 }
 .product-img img { width: 100%; height: 100%; object-fit: cover; }
 .product-img-placeholder { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--purple); letter-spacing: .05em; }
-
 .badge-sale {
   position: absolute; top: .8rem; left: .8rem;
   background: linear-gradient(135deg, var(--magenta), #a02070);
@@ -273,7 +218,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   box-shadow: 0 2px 8px rgba(0,0,0,.1);
 }
 .product-wish:hover { color: var(--magenta); transform: scale(1.1); }
-
 .product-body { padding: 1.1rem; }
 .product-category { font-size: .7rem; color: var(--purple); text-transform: uppercase; letter-spacing: .12em; margin-bottom: .3rem; font-weight: 600; }
 .product-name { font-size: .95rem; font-weight: 500; line-height: 1.4; margin-bottom: .6rem; }
@@ -283,7 +227,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .price-current { font-size: 1.05rem; font-weight: 700; color: var(--purple); }
 .price-original { font-size: .85rem; color: #aaa; text-decoration: line-through; }
 .stars { color: #f4b942; font-size: .75rem; display: flex; gap: .1rem; }
-
 .btn-add-cart {
   width: 100%; border: none; padding: .7rem;
   border-radius: 12px; font-size: .85rem; cursor: pointer;
@@ -339,7 +282,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .banner-strip p { color: rgba(255,255,255,.65); margin-bottom: 2rem; font-size: .95rem; position: relative; z-index: 1; }
 .banner-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
 
-/* ── PROMO PILLS ── */
+/* ── PROMO BAR ── */
 .promo-bar {
   background: linear-gradient(135deg, var(--green), #28a035);
   padding: .7rem 1.5rem; text-align: center;
@@ -348,10 +291,10 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .promo-bar span { opacity: .8; margin: 0 1rem; }
 
 @media(max-width:768px){
-  .hero { grid-template-columns: 1fr; min-height: auto; padding: 3rem 1.5rem; text-align: center; }
-  .hero-image { display: none; }
-  .hero-btns { justify-content: center; }
-  .hero-stats { justify-content: center; }
+  .hero { min-height: 80vh; padding: 3rem 1.5rem; }
+  .hero-content { padding: 2rem 1.5rem; background: rgba(10,5,20,0.65); border-radius: 12px; }
+  .hero-btns { justify-content: flex-start; }
+  .hero-stats { justify-content: flex-start; }
   .features { grid-template-columns: 1fr 1fr; }
   .feature { border-right: none; border-bottom: 1px solid rgba(255,255,255,.15); }
 }
@@ -367,8 +310,15 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-blob2"></div>
 
+  {{-- Full background video — sharp, no blur --}}
+  <div class="hero-video-bg">
+    <video id="hero-video" autoplay muted playsinline>
+      <source src="{{ asset('videos/american.mp4') }}" type="video/mp4">
+    </video>
+  </div>
+
+  {{-- Text content over video --}}
   <div class="hero-content">
     <p class="hero-eyebrow">✦ New Season Collection</p>
     <h1 class="hero-title">
@@ -379,26 +329,13 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
     <div class="hero-btns">
       <a href="{{ route('products.index') }}" class="btn-primary">Shop Now →</a>
       <a href="{{ route('products.index', ['filter'=>'new']) }}" class="btn-outline">New Arrivals</a>
+      <a href="#book-appointment" class="btn-green">📅 Book Appointment</a>
     </div>
     <div class="hero-stats">
       <div class="hero-stat"><strong>500+</strong><span>Products</span></div>
       <div class="hero-stat"><strong>10K+</strong><span>Happy Clients</span></div>
       <div class="hero-stat"><strong>100%</strong><span>Authentic</span></div>
     </div>
-  </div>
-
-  {{-- ── HERO VIDEO CIRCLE ── --}}
-  <div class="hero-image">
-    <div class="hero-img-ring">
-      <video autoplay muted loop playsinline>
-        <source src="{{ asset('videos/american.mp4') }}" type="video/mp4">
-      </video>
-    </div>
-    <div class="hero-badge">
-      <strong>⭐ 4.9 / 5</strong>
-      <span>Trusted by thousands</span>
-    </div>
-    <div class="hero-badge2">🌿 100% Natural</div>
   </div>
 
 </section>
@@ -462,7 +399,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   </div>
 
   <div style="text-align:center;margin-top:3rem">
-    <a href="{{ route('products.index') }}" class="btn-outline">View All Products →</a>
+    <a href="{{ route('products.index') }}" class="btn-outline" style="color:var(--purple);border-color:var(--purple);background:transparent;">View All Products →</a>
   </div>
 </div>
 
@@ -488,6 +425,20 @@ function showTab(name, btn) {
   document.getElementById('tab-'+name).style.display = 'grid';
   btn.classList.add('active');
 }
+
+// Video playlist — cycles american.mp4 → americanB.mp4 → repeat
+const videos = [
+  '{{ asset("videos/american.mp4") }}',
+  '{{ asset("videos/americanB.mp4") }}'
+];
+let current = 0;
+const vid = document.getElementById('hero-video');
+vid.addEventListener('ended', function () {
+  current = (current + 1) % videos.length;
+  vid.src = videos[current];
+  vid.play();
+});
+
 document.querySelectorAll('.btn-add-cart').forEach(btn => {
   btn.addEventListener('click', function() {
     const id = this.dataset.id;
