@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\ActivityLogService;
 use App\Services\CartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+
 
 class AuthController extends Controller
 {
@@ -27,21 +29,24 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $user = auth()->user();
 
+            // ── Block suspended accounts ───────────────────────
             if (!$user->is_active) {
-                auth()->logout();
+                Auth::logout();
                 return back()->withErrors(['email' => 'Your account has been suspended.']);
             }
 
             $request->session()->regenerate();
-            app(CartService::class)->mergeSessionCart();
 
-            if (Auth::user()->isAdmin()) {
-                return redirect()->route('admin.dashboard');
-            }
-            return redirect()->intended(route('home'))->with('success', 'Welcome back, ' . Auth::user()->name . '!');
+            // ── Log the login event ────────────────────────────
+            ActivityLogService::login($user);
+
+            // ── Redirect based on role ─────────────────────────
+            return $this->redirectAfterLogin($user, $request);
         }
 
-        return back()->withErrors(['email' => 'Invalid email or password.'])->withInput($request->only('email'));
+        return back()
+            ->withErrors(['email' => 'Invalid email or password.'])
+            ->withInput($request->only('email'));
     }
 
     public function showRegister()
@@ -70,19 +75,46 @@ class AuthController extends Controller
         $request->session()->regenerate();
         app(CartService::class)->mergeSessionCart();
 
-        return redirect()->route('home')->with('success', 'Account created! Welcome to American Beauty.');
+        // ── Log registration ───────────────────────────────────
+        ActivityLogService::login($user);
+
+        return redirect()->route('home')
+            ->with('success', 'Account created! Welcome to American Beauty.');
     }
 
     public function logout(Request $request)
     {
+        // ── Log logout event ───────────────────────────────────
+        if (Auth::check()) {
+            ActivityLogService::logout(Auth::user());
+        }
+
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('home')->with('success', 'Logged out successfully.');
+
+        return redirect()->route('home')
+            ->with('success', 'Logged out successfully.');
     }
 
     public function showForgotPassword()
     {
         return view('auth.forgot-password');
+    }
+
+    // ── Role-based redirect ────────────────────────────────────
+    private function redirectAfterLogin(User $user, Request $request): \Illuminate\Http\RedirectResponse
+    {
+        return match($user->role) {
+            'admin'        => redirect()->route('admin.dashboard'),
+            'manager'      => redirect()->route('admin.dashboard'),
+            'pos_operator' => redirect()->route('admin.pos.index'),
+            'delivery'     => redirect()->route('admin.orders.index'),
+            default        => tap(
+                redirect()->intended(route('home'))
+                    ->with('success', 'Welcome back, ' . $user->name . '!'),
+                fn() => app(CartService::class)->mergeSessionCart()
+            ),
+        };
     }
 }
