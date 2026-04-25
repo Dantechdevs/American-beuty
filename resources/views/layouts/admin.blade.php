@@ -489,34 +489,38 @@
         </a>
 
 
-        {{-- ══════════════════════════════════════════════════════
-             LOGS
-        ══════════════════════════════════════════════════════ --}}
-        <div class="sb-section">Logs</div>
+        {{-- ══════════════════════════════════════════════════════════
+     LOGS
+══════════════════════════════════════════════════════════ --}}
+<div class="sb-section">Logs</div>
 
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-mobile-screen-button"></i></span>
-            <span class="sb-txt">M-Pesa Logs</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
+<a href="{{ route('admin.logs.mpesa') }}"
+   class="sb-link {{ request()->routeIs('admin.logs.mpesa') ? 'active':'' }}">
+    <span class="sb-ico"><i class="fas fa-mobile-screen-button"></i></span>
+    <span class="sb-txt">M-Pesa Logs</span>
+    @php $failedMpesa = \App\Models\MpesaTransaction::where('status','failed')->count(); @endphp
+    @if($failedMpesa > 0)
+        <span class="sb-badge">{{ $failedMpesa }}</span>
+    @endif
+</a>
 
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-users-viewfinder"></i></span>
-            <span class="sb-txt">Customer Logs</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
+<a href="{{ route('admin.logs.customers') }}"
+   class="sb-link {{ request()->routeIs('admin.logs.customers') ? 'active':'' }}">
+    <span class="sb-ico"><i class="fas fa-users-viewfinder"></i></span>
+    <span class="sb-txt">Customer Logs</span>
+</a>
 
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-user-tie"></i></span>
-            <span class="sb-txt">Manager Logs</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
+<a href="{{ route('admin.logs.managers') }}"
+   class="sb-link {{ request()->routeIs('admin.logs.managers') ? 'active':'' }}">
+    <span class="sb-ico"><i class="fas fa-user-tie"></i></span>
+    <span class="sb-txt">Manager Logs</span>
+</a>
 
-        <a href="#" class="sb-link soon">
-            <span class="sb-ico"><i class="fas fa-computer"></i></span>
-            <span class="sb-txt">POS Operator Logs</span>
-            <span class="sb-soon-pill">Soon</span>
-        </a>
+<a href="{{ route('admin.logs.pos-operators') }}"
+   class="sb-link {{ request()->routeIs('admin.logs.pos-operators') ? 'active':'' }}">
+    <span class="sb-ico"><i class="fas fa-computer"></i></span>
+    <span class="sb-txt">POS Operator Logs</span>
+</a>
 
         {{-- ══════════════════════════════════════════════════════
              ATTENDANCE
