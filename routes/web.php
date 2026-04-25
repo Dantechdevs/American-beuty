@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\MpesaCallbackController;
 use App\Http\Controllers\Frontend\ProductController;
+use App\Http\Controllers\Frontend\AppointmentController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\OrderController;
@@ -31,6 +32,7 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -47,6 +49,11 @@ Route::post('/cart/add',       [CartController::class, 'add'])->name('cart.add')
 Route::patch('/cart/{id}',     [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/{id}',    [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/cart/count',      [CartController::class, 'count'])->name('cart.count');
+
+// ─── Booking (public — no auth required) ─────────────────────
+Route::get('/book',                     [AppointmentController::class, 'index'])  ->name('book.index');
+Route::post('/book',                    [AppointmentController::class, 'store'])  ->name('book.store');
+Route::get('/book/success/{appointment}',[AppointmentController::class, 'success'])->name('book.success');
 
 // Newsletter Signup (public — no auth required)
 Route::post('/subscribe', [SubscriberController::class, 'publicSubscribe'])->name('subscribers.subscribe');
@@ -65,11 +72,6 @@ Route::middleware('auth')->group(function () {
 // M-PESA Callback (no CSRF — Safaricom posts here)
 Route::post('/mpesa/callback', [MpesaCallbackController::class, 'handle'])
     ->name('mpesa.callback')
-    ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
-
-// Square Webhook (no CSRF — Square posts here)
-Route::post('/webhooks/square', [App\Http\Controllers\SquareWebhookController::class, 'handle'])
-    ->name('webhooks.square')
     ->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
 
 // ─── Auth ────────────────────────────────────────────────────
@@ -274,7 +276,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/subscribers',                [SubscriberController::class, 'store'])       ->name('subscribers.store');
     Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])     ->name('subscribers.destroy');
 
-    // ─── Bookings (Square) ────────────────────────────────────
+    // ─── Bookings (Square — legacy) ───────────────────────────
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
+
+    // ─── Appointments (custom booking system) ─────────────────
+    Route::get('/appointments',                              [AdminAppointmentController::class, 'index'])   ->name('appointments.index');
+    Route::get('/appointments/{appointment}',                [AdminAppointmentController::class, 'show'])    ->name('appointments.show');
+    Route::patch('/appointments/{appointment}/status',       [AdminAppointmentController::class, 'status'])  ->name('appointments.status');
+    Route::patch('/appointments/{appointment}/payment',      [AdminAppointmentController::class, 'payment']) ->name('appointments.payment');
+    Route::delete('/appointments/{appointment}',             [AdminAppointmentController::class, 'destroy']) ->name('appointments.destroy');
 
 });
