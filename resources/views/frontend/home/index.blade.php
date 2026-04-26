@@ -34,17 +34,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   overflow: hidden;
   background: linear-gradient(135deg, #FAF4FF 0%, #F5E0FC 40%, #EFF8F0 100%);
 }
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-/* Background video — sharp, no blur */
-.hero-video-bg {
-=======
-=======
->>>>>>> d91e951 (feat: create bookings table migration)
-=======
->>>>>>> abccd8b (debuggig appointment)
 .hero::before {
   content: '';
   position: absolute; inset: 0;
@@ -56,10 +45,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 }
 .hero::after {
   content: '';
-<<<<<<< HEAD
->>>>>>> 427d5ae (feat(home): add circular autoplay video in hero section from public/videos/american.mp4)
-=======
->>>>>>> d91e951 (feat: create bookings table migration)
   position: absolute;
   width: 600px; height: 600px;
   border-radius: 50%;
@@ -123,74 +108,50 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   box-shadow: 0 6px 24px rgba(61,181,74,.35);
 }
 .btn-green:hover { transform: translateY(-2px); }
+
+/* Stats row — now includes the rating */
 .hero-stats {
-  display: flex; gap: 2.5rem;
+  display: flex; gap: 2rem; flex-wrap: wrap;
   padding-top: 2rem;
   border-top: 1px solid var(--border);
+  align-items: center;
 }
 .hero-stat strong {
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem; font-weight: 700; color: var(--purple);
   display: block;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-.hero-stat span { font-size: .78rem; color: rgba(255,255,255,.80); margin-top: .1rem; }
-=======
 .hero-stat span { font-size: .78rem; color: var(--gray); margin-top: .1rem; }
+
+/* Rating pill inside stats row */
+.hero-stat-rating {
+  display: flex; flex-direction: column; align-items: flex-start;
+  background: #fff; border-radius: 14px;
+  padding: .65rem 1.1rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 20px rgba(123,47,190,.10);
+}
+.hero-stat-rating strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem; font-weight: 700; color: var(--purple);
+  display: block; line-height: 1;
+}
+.hero-stat-rating span { font-size: .78rem; color: var(--gray); margin-top: .25rem; }
 
 /* Hero image side */
 .hero-image { position: relative; display: flex; justify-content: center; align-items: center; }
-
 .hero-img-ring {
-  width: clamp(300px,40vw,460px);
-  height: clamp(300px,40vw,460px);
-  border-radius: 50%;
-=======
-.hero-stat span { font-size: .78rem; color: var(--gray); margin-top: .1rem; }
-.hero-image { position: relative; display: flex; justify-content: center; align-items: center; }
-.hero-img-ring {
-<<<<<<< HEAD
   width: 100%;
   height: 75vh;
   border-radius: 24px;
->>>>>>> d91e951 (feat: create bookings table migration)
   overflow: hidden;
   position: relative;
   box-shadow: 0 30px 80px rgba(123,47,190,.25);
   border: 3px solid rgba(123,47,190,.2);
 }
-
-<<<<<<< HEAD
-.hero-img-ring::before {
-  content: '';
-  position: absolute; inset: -14px;
-  border-radius: 50%;
-  border: 2px dashed rgba(200,53,157,.3);
-  animation: spin 20s linear infinite;
-  z-index: 2;
-  pointer-events: none;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.hero-img-ring video {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  display: block;
-}
-
-=======
-=======
-  width: 100%; height: 75vh;
-  border-radius: 24px; overflow: hidden; position: relative;
-  box-shadow: 0 30px 80px rgba(123,47,190,.25);
-  border: 3px solid rgba(123,47,190,.2);
-}
->>>>>>> abccd8b (debuggig appointment)
-.hero-img-ring::before { display: none; }
 .hero-img-ring video { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Booking overlay on video */
 .book-overlay {
   position: absolute; bottom: 0; left: 0; right: 0;
   background: linear-gradient(to top, rgba(180,30,120,.88) 0%, rgba(200,53,157,.55) 55%, transparent 100%);
@@ -218,18 +179,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   background: var(--magenta); color: #fff;
   transform: translateY(-2px); box-shadow: 0 12px 32px rgba(200,53,157,.55);
 }
-<<<<<<< HEAD
 
->>>>>>> d91e951 (feat: create bookings table migration)
-=======
->>>>>>> abccd8b (debuggig appointment)
-.hero-badge {
-  position: absolute; bottom: 30px; left: -10px; background: #fff;
-  border-radius: 16px; padding: .9rem 1.3rem;
-  box-shadow: 0 12px 36px rgba(123,47,190,.18);
-  font-size: .82rem; border: 1px solid var(--border); z-index: 3;
-}
-.hero-badge strong { display: block; color: var(--purple); font-size: 1rem; margin-bottom: .1rem; }
 .hero-badge2 {
   position: absolute; top: 20px; right: -10px;
   background: linear-gradient(135deg, var(--green), #28a035);
@@ -237,15 +187,8 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   box-shadow: 0 8px 24px rgba(61,181,74,.35);
   font-size: .78rem; color: #fff; font-weight: 600; z-index: 3;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> 427d5ae (feat(home): add circular autoplay video in hero section from public/videos/american.mp4)
-=======
->>>>>>> d91e951 (feat: create bookings table migration)
 
 /* ── FEATURES ── */
-=======
->>>>>>> abccd8b (debuggig appointment)
 .features {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
   gap: 0; background: linear-gradient(135deg, var(--purple), var(--magenta));
@@ -378,6 +321,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   font-size: .82rem; font-weight: 600; color: #fff; letter-spacing: .05em;
 }
 .promo-bar span { opacity: .8; margin: 0 1rem; }
+
 @media(max-width:768px){
   .hero { grid-template-columns: 1fr; min-height: auto; padding: 3rem 1.5rem; text-align: center; }
   .hero-image { display: none; }
@@ -400,6 +344,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 <section class="hero">
   <div class="hero-blob2"></div>
 
+  {{-- Left: Text Content --}}
   <div class="hero-content">
     <p class="hero-eyebrow">✦ New Season Collection</p>
     <h1 class="hero-title">
@@ -409,27 +354,19 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
     <p class="hero-sub">Discover premium skincare, makeup & beauty essentials curated for every skin type. Authentic products. Pay easily with M-PESA.</p>
     <div class="hero-btns">
       <a href="{{ route('products.index') }}" class="btn-primary">Shop Now →</a>
-      <a href="{{ route('book.index') }}" class="btn-outline">📅 Book Appointment</a>
     </div>
     <div class="hero-stats">
       <div class="hero-stat"><strong>500+</strong><span>Products</span></div>
       <div class="hero-stat"><strong>10K+</strong><span>Happy Clients</span></div>
       <div class="hero-stat"><strong>100%</strong><span>Authentic</span></div>
+      <div class="hero-stat-rating">
+        <strong>⭐ 4.9 / 5</strong>
+        <span>Trusted by thousands</span>
+      </div>
     </div>
   </div>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  {{-- ── HERO VIDEO CIRCLE ── --}}
-  <div class="hero-image">
-    <div class="hero-img-ring">
-      <video autoplay muted loop playsinline>
-        <source src="{{ asset('videos/american.mp4') }}" type="video/mp4">
-      </video>
-    </div>
-=======
-  {{-- ── HERO VIDEO RECTANGLE ── --}}
+  {{-- Right: Video with booking overlay --}}
   <div class="hero-image">
     <div class="hero-img-ring">
 
@@ -437,7 +374,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
         <source src="{{ asset('videos/american.mp4') }}" type="video/mp4">
       </video>
 
-      {{-- ── BOOKING OVERLAY ON VIDEO ── --}}
+      {{-- Booking overlay on video — only Book Appointment button --}}
       <div class="book-overlay">
         <div class="book-card">
           <p class="book-label">✦ Complimentary Session</p>
@@ -448,18 +385,9 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 
     </div>
 
->>>>>>> d91e951 (feat: create bookings table migration)
-    <div class="hero-badge">
-      <strong>⭐ 4.9 / 5</strong>
-      <span>Trusted by thousands</span>
-    </div>
     <div class="hero-badge2">🌿 100% Natural</div>
   </div>
 
-<<<<<<< HEAD
->>>>>>> 427d5ae (feat(home): add circular autoplay video in hero section from public/videos/american.mp4)
-=======
->>>>>>> d91e951 (feat: create bookings table migration)
 </section>
 
 <!-- FEATURES -->
@@ -549,17 +477,20 @@ function showTab(name, btn) {
   btn.classList.add('active');
 }
 
+// Cycle between two videos when first ends
 const videos = [
   '{{ asset("videos/american.mp4") }}',
   '{{ asset("videos/americanB.MOV") }}'
 ];
 let current = 0;
 const vid = document.getElementById('hero-video');
-vid.addEventListener('ended', function () {
-  current = (current + 1) % videos.length;
-  vid.src = videos[current];
-  vid.play();
-});
+if (vid) {
+  vid.addEventListener('ended', function () {
+    current = (current + 1) % videos.length;
+    vid.src = videos[current];
+    vid.play();
+  });
+}
 
 document.querySelectorAll('.btn-add-cart').forEach(btn => {
   btn.addEventListener('click', function() {
