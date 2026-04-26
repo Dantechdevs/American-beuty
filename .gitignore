@@ -27,3 +27,4 @@ storage/app/public/
 vendor/
 public/videos/*.mp4
 public/videos/*.mp4
+public/videos/*.mp4
