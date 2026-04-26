@@ -373,6 +373,17 @@
             <span class="sb-txt">Online Orders</span>
         </a>
 
+        {{-- ── Appointments (NEW) ── --}}
+        <a href="{{ route('admin.appointments.index') }}"
+           class="sb-link {{ request()->routeIs('admin.appointments.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-calendar-check"></i></span>
+            <span class="sb-txt">Appointments</span>
+            @php $pendingAppts = \App\Models\Appointment::where('status','pending')->count(); @endphp
+            @if($pendingAppts > 0)
+                <span class="sb-badge">{{ $pendingAppts }}</span>
+            @endif
+        </a>
+
         <a href="{{ route('admin.return-orders.index') }}"
            class="sb-link {{ request()->routeIs('admin.return-orders.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-rotate-left"></i></span>
@@ -419,7 +430,6 @@
             <span class="sb-txt">Push Notifications</span>
         </a>
 
-            {{-- sunscribers --}}
         <a href="{{ route('admin.subscribers.index') }}"
            class="sb-link {{ request()->routeIs('admin.subscribers*') ? 'active' : '' }}">
             <span class="sb-ico"><i class="fas fa-envelope-open-text"></i></span>
@@ -488,39 +498,38 @@
             <span class="sb-txt">Products Report</span>
         </a>
 
+        {{-- ══════════════════════════════════════════════════════
+             LOGS
+        ══════════════════════════════════════════════════════ --}}
+        <div class="sb-section">Logs</div>
 
-        {{-- ══════════════════════════════════════════════════════════
-     LOGS
-══════════════════════════════════════════════════════════ --}}
-<div class="sb-section">Logs</div>
+        <a href="{{ route('admin.logs.mpesa') }}"
+           class="sb-link {{ request()->routeIs('admin.logs.mpesa') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-mobile-screen-button"></i></span>
+            <span class="sb-txt">M-Pesa Logs</span>
+            @php $failedMpesa = \App\Models\MpesaTransaction::where('status','failed')->count(); @endphp
+            @if($failedMpesa > 0)
+                <span class="sb-badge">{{ $failedMpesa }}</span>
+            @endif
+        </a>
 
-<a href="{{ route('admin.logs.mpesa') }}"
-   class="sb-link {{ request()->routeIs('admin.logs.mpesa') ? 'active':'' }}">
-    <span class="sb-ico"><i class="fas fa-mobile-screen-button"></i></span>
-    <span class="sb-txt">M-Pesa Logs</span>
-    @php $failedMpesa = \App\Models\MpesaTransaction::where('status','failed')->count(); @endphp
-    @if($failedMpesa > 0)
-        <span class="sb-badge">{{ $failedMpesa }}</span>
-    @endif
-</a>
+        <a href="{{ route('admin.logs.customers') }}"
+           class="sb-link {{ request()->routeIs('admin.logs.customers') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-users-viewfinder"></i></span>
+            <span class="sb-txt">Customer Logs</span>
+        </a>
 
-<a href="{{ route('admin.logs.customers') }}"
-   class="sb-link {{ request()->routeIs('admin.logs.customers') ? 'active':'' }}">
-    <span class="sb-ico"><i class="fas fa-users-viewfinder"></i></span>
-    <span class="sb-txt">Customer Logs</span>
-</a>
+        <a href="{{ route('admin.logs.managers') }}"
+           class="sb-link {{ request()->routeIs('admin.logs.managers') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-user-tie"></i></span>
+            <span class="sb-txt">Manager Logs</span>
+        </a>
 
-<a href="{{ route('admin.logs.managers') }}"
-   class="sb-link {{ request()->routeIs('admin.logs.managers') ? 'active':'' }}">
-    <span class="sb-ico"><i class="fas fa-user-tie"></i></span>
-    <span class="sb-txt">Manager Logs</span>
-</a>
-
-<a href="{{ route('admin.logs.pos-operators') }}"
-   class="sb-link {{ request()->routeIs('admin.logs.pos-operators') ? 'active':'' }}">
-    <span class="sb-ico"><i class="fas fa-computer"></i></span>
-    <span class="sb-txt">POS Operator Logs</span>
-</a>
+        <a href="{{ route('admin.logs.pos-operators') }}"
+           class="sb-link {{ request()->routeIs('admin.logs.pos-operators') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-computer"></i></span>
+            <span class="sb-txt">POS Operator Logs</span>
+        </a>
 
         {{-- ══════════════════════════════════════════════════════
              ATTENDANCE
