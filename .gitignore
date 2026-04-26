@@ -20,3 +20,7 @@ node_modules/
 dist/
 build/
 public/videos/
+vendor/
+storage/logs/
+storage/app/public/
+.env
