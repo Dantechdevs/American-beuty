@@ -24,3 +24,4 @@ vendor/
 storage/logs/
 storage/app/public/
 .env
+vendor/
