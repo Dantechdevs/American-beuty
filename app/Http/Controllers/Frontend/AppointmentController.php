@@ -320,19 +320,19 @@ class AppointmentController extends Controller
         ]);
 
         // Find the selected service to pull price, duration, category
-        $services       = $this->getServices();
-        $selectedService= collect($services)->firstWhere('name', $request->service_name);
+        $services        = $this->getServices();
+        $selectedService = collect($services)->firstWhere('name', $request->service_name);
 
         $appointment = Appointment::create([
             'client_name'      => $request->client_name,
             'client_phone'     => $request->client_phone,
             'client_email'     => $request->client_email,
             'service_name'     => $request->service_name,
-            'service_category' => $selectedService['category']   ?? null,
-            'service_price'    => $selectedService['price']      ?? 0,
-            'service_duration' => $selectedService['duration']   ?? 60,
+            'service_category' => $selectedService['category']  ?? null,
+            'service_price'    => $selectedService['price']     ?? 0,
+            'service_duration' => $selectedService['duration']  ?? 60,
             'appointment_date' => $request->appointment_date,
-            'appointment_time' => $request->appointment_time,
+            'appointment_time' => \Carbon\Carbon::createFromFormat('g:i A', $request->appointment_time)->format('H:i:s'),
             'notes'            => $request->notes,
             'status'           => 'pending',
             'payment_status'   => 'unpaid',
