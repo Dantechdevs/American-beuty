@@ -1,15 +1,15 @@
 <?php
 
-
 namespace App\Models;
 
+use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     protected $fillable = [
         'name', 'email', 'phone', 'password',
@@ -23,7 +23,7 @@ class User extends Authenticatable
         'is_active'         => 'boolean',
     ];
 
-    // ── Role checks ────────────────────────────────────────────
+    // ── Legacy role checks (kept for backward compatibility) ───
     public function isAdmin(): bool       { return $this->role === 'admin'; }
     public function isManager(): bool     { return $this->role === 'manager'; }
     public function isPosOperator(): bool { return $this->role === 'pos_operator'; }
@@ -33,11 +33,6 @@ class User extends Authenticatable
     public function isStaff(): bool
     {
         return in_array($this->role, ['admin', 'manager', 'pos_operator', 'delivery']);
-    }
-
-    public function hasRole(string|array $roles): bool
-    {
-        return in_array($this->role, (array) $roles);
     }
 
     public function getRoleLabelAttribute(): string
