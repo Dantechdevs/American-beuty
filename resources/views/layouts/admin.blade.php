@@ -289,23 +289,27 @@
             <span class="sb-txt">Dashboard</span>
         </a>
 
-        {{-- ══════════════════════════════════════════════════════
-             PRODUCT & STOCK
-        ══════════════════════════════════════════════════════ --}}
+        {{-- ══ PRODUCT & STOCK ══ --}}
+        @canany(['products.view','categories.view','purchases.view','suppliers.view','stock.view'])
         <div class="sb-section">Product &amp; Stock</div>
 
+        @can('products.view')
         <a href="{{ route('admin.products.index') }}"
            class="sb-link {{ request()->routeIs('admin.products.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-box-open"></i></span>
             <span class="sb-txt">Products</span>
         </a>
+        @endcan
 
+        @can('categories.view')
         <a href="{{ route('admin.categories.index') }}"
            class="sb-link {{ request()->routeIs('admin.categories.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-layer-group"></i></span>
             <span class="sb-txt">Categories</span>
         </a>
+        @endcan
 
+        @can('purchases.view')
         <a href="{{ route('admin.purchase.index') }}"
            class="sb-link {{ request()->routeIs('admin.purchase.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-cart-flatbed"></i></span>
@@ -315,25 +319,27 @@
                 <span class="sb-badge">{{ $unpaidCount }}</span>
             @endif
         </a>
+        @endcan
 
+        @can('suppliers.view')
         <a href="{{ route('admin.supplier.index') }}"
            class="sb-link {{ request()->routeIs('admin.supplier.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-building"></i></span>
             <span class="sb-txt">Suppliers</span>
         </a>
+        @endcan
 
+        @can('stock.view')
         <a href="{{ route('admin.stock.index') }}"
            class="sb-link {{ request()->routeIs('admin.stock.index') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-warehouse"></i></span>
             <span class="sb-txt">Stock</span>
         </a>
-
         <a href="{{ route('admin.stock.history') }}"
            class="sb-link {{ request()->routeIs('admin.stock.history') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-clock-rotate-left"></i></span>
             <span class="sb-txt">Stock History</span>
         </a>
-
         <a href="{{ route('admin.stock.low') }}"
            class="sb-link {{ request()->routeIs('admin.stock.low') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-triangle-exclamation"></i></span>
@@ -343,47 +349,38 @@
                 <span class="sb-badge">{{ $lowCount }}</span>
             @endif
         </a>
-
         <a href="{{ route('admin.stock.damaged') }}"
            class="sb-link {{ request()->routeIs('admin.stock.damaged') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-box-archive"></i></span>
             <span class="sb-txt">Damaged / Expired</span>
         </a>
+        @endcan
 
-        {{-- ══════════════════════════════════════════════════════
-             POS & ORDERS
-        ══════════════════════════════════════════════════════ --}}
+        @endcanany
+
+        {{-- ══ POS & ORDERS ══ --}}
+        @canany(['pos.access','orders.view','appointments.view'])
         <div class="sb-section">POS &amp; Orders</div>
 
+        @can('pos.access')
         <a href="{{ route('admin.pos.index') }}"
            class="sb-link {{ request()->routeIs('admin.pos.index') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-cash-register"></i></span>
             <span class="sb-txt">POS Terminal</span>
         </a>
-
         <a href="{{ route('admin.pos.orders') }}"
            class="sb-link {{ request()->routeIs('admin.pos.orders') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-receipt"></i></span>
             <span class="sb-txt">POS Orders</span>
         </a>
+        @endcan
 
+        @can('orders.view')
         <a href="{{ route('admin.orders.index') }}"
            class="sb-link {{ request()->routeIs('admin.orders.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-globe"></i></span>
             <span class="sb-txt">Online Orders</span>
         </a>
-
-        {{-- ── Appointments (NEW) ── --}}
-        <a href="{{ route('admin.appointments.index') }}"
-           class="sb-link {{ request()->routeIs('admin.appointments.*') ? 'active':'' }}">
-            <span class="sb-ico"><i class="fas fa-calendar-check"></i></span>
-            <span class="sb-txt">Appointments</span>
-            @php $pendingAppts = \App\Models\Appointment::where('status','pending')->count(); @endphp
-            @if($pendingAppts > 0)
-                <span class="sb-badge">{{ $pendingAppts }}</span>
-            @endif
-        </a>
-
         <a href="{{ route('admin.return-orders.index') }}"
            class="sb-link {{ request()->routeIs('admin.return-orders.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-rotate-left"></i></span>
@@ -393,12 +390,27 @@
                 <span class="sb-badge">{{ $pendingReturns }}</span>
             @endif
         </a>
+        @endcan
 
-        {{-- ══════════════════════════════════════════════════════
-             PROMO
-        ══════════════════════════════════════════════════════ --}}
+        @can('appointments.view')
+        <a href="{{ route('admin.appointments.index') }}"
+           class="sb-link {{ request()->routeIs('admin.appointments.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-calendar-check"></i></span>
+            <span class="sb-txt">Appointments</span>
+            @php $pendingAppts = \App\Models\Appointment::where('status','pending')->count(); @endphp
+            @if($pendingAppts > 0)
+                <span class="sb-badge">{{ $pendingAppts }}</span>
+            @endif
+        </a>
+        @endcan
+
+        @endcanany
+
+        {{-- ══ PROMO ══ --}}
+        @canany(['coupons.view','promotions.view'])
         <div class="sb-section">Promo</div>
 
+        @can('coupons.view')
         <a href="{{ route('admin.coupons.index') }}"
            class="sb-link {{ request()->routeIs('admin.coupons.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-ticket"></i></span>
@@ -408,7 +420,9 @@
                 <span class="sb-badge">{{ $activeCoupons }}</span>
             @endif
         </a>
+        @endcan
 
+        @can('promotions.view')
         <a href="{{ route('admin.promotions.index') }}"
            class="sb-link {{ request()->routeIs('admin.promotions.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-percent"></i></span>
@@ -418,29 +432,37 @@
                 <span class="sb-badge">{{ $activePromos }}</span>
             @endif
         </a>
+        @endcan
 
-        {{-- ══════════════════════════════════════════════════════
-             COMMUNICATIONS
-        ══════════════════════════════════════════════════════ --}}
+        @endcanany
+
+        {{-- ══ COMMUNICATIONS ══ --}}
+        @canany(['notifications.manage','subscribers.view'])
         <div class="sb-section">Communications</div>
 
+        @can('notifications.manage')
         <a href="{{ route('admin.notifications.index') }}"
            class="sb-link {{ request()->routeIs('admin.notifications.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-bell"></i></span>
             <span class="sb-txt">Push Notifications</span>
         </a>
+        @endcan
 
+        @can('subscribers.view')
         <a href="{{ route('admin.subscribers.index') }}"
            class="sb-link {{ request()->routeIs('admin.subscribers*') ? 'active' : '' }}">
             <span class="sb-ico"><i class="fas fa-envelope-open-text"></i></span>
             <span class="sb-txt">Subscribers</span>
         </a>
+        @endcan
 
-        {{-- ══════════════════════════════════════════════════════
-             USERS
-        ══════════════════════════════════════════════════════ --}}
+        @endcanany
+
+        {{-- ══ USERS ══ --}}
+        @canany(['users.view','roles.manage'])
         <div class="sb-section">Users</div>
 
+        @can('users.view')
         <a href="{{ route('admin.users.administrators') }}"
            class="sb-link {{ request()->routeIs('admin.users.administrators') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-user-shield"></i></span>
@@ -450,57 +472,70 @@
                 <span class="sb-badge">{{ $adminCount }}</span>
             @endif
         </a>
-
         <a href="{{ route('admin.users.managers') }}"
            class="sb-link {{ request()->routeIs('admin.users.managers') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-user-tie"></i></span>
             <span class="sb-txt">Managers</span>
         </a>
-
         <a href="{{ route('admin.users.pos-operators') }}"
            class="sb-link {{ request()->routeIs('admin.users.pos-operators') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-computer"></i></span>
             <span class="sb-txt">POS Operators</span>
         </a>
-
         <a href="{{ route('admin.users.delivery') }}"
            class="sb-link {{ request()->routeIs('admin.users.delivery') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-motorcycle"></i></span>
             <span class="sb-txt">Delivery Personnel</span>
         </a>
-
         <a href="{{ route('admin.users.index') }}"
            class="sb-link {{ request()->routeIs('admin.users.index') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-users"></i></span>
             <span class="sb-txt">Customers</span>
         </a>
+        @endcan
 
-        {{-- ══════════════════════════════════════════════════════
-             ACCOUNTS & REPORTS
-        ══════════════════════════════════════════════════════ --}}
+        @can('roles.manage')
+        <a href="{{ route('admin.roles.index') }}"
+           class="sb-link {{ request()->routeIs('admin.roles.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-shield-halved"></i></span>
+            <span class="sb-txt">Roles &amp; Permissions</span>
+        </a>
+        @endcan
+
+        @endcanany
+
+        {{-- ══ ACCOUNTS & REPORTS ══ --}}
+        @canany(['transactions.view','reports.sales','reports.products'])
         <div class="sb-section">Accounts &amp; Reports</div>
 
+        @can('transactions.view')
         <a href="{{ route('admin.transactions.index') }}"
            class="sb-link {{ request()->routeIs('admin.transactions.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-arrow-right-arrow-left"></i></span>
             <span class="sb-txt">Transactions</span>
         </a>
+        @endcan
 
+        @can('reports.sales')
         <a href="{{ route('admin.reports.sales') }}"
            class="sb-link {{ request()->routeIs('admin.reports.sales*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-chart-line"></i></span>
             <span class="sb-txt">Sales Report</span>
         </a>
+        @endcan
 
+        @can('reports.products')
         <a href="{{ route('admin.reports.products') }}"
            class="sb-link {{ request()->routeIs('admin.reports.products*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-chart-bar"></i></span>
             <span class="sb-txt">Products Report</span>
         </a>
+        @endcan
 
-        {{-- ══════════════════════════════════════════════════════
-             LOGS
-        ══════════════════════════════════════════════════════ --}}
+        @endcanany
+
+        {{-- ══ LOGS ══ --}}
+        @can('logs.view')
         <div class="sb-section">Logs</div>
 
         <a href="{{ route('admin.logs.mpesa') }}"
@@ -512,69 +547,73 @@
                 <span class="sb-badge">{{ $failedMpesa }}</span>
             @endif
         </a>
-
         <a href="{{ route('admin.logs.customers') }}"
            class="sb-link {{ request()->routeIs('admin.logs.customers') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-users-viewfinder"></i></span>
             <span class="sb-txt">Customer Logs</span>
         </a>
-
         <a href="{{ route('admin.logs.managers') }}"
            class="sb-link {{ request()->routeIs('admin.logs.managers') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-user-tie"></i></span>
             <span class="sb-txt">Manager Logs</span>
         </a>
-
         <a href="{{ route('admin.logs.pos-operators') }}"
            class="sb-link {{ request()->routeIs('admin.logs.pos-operators') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-computer"></i></span>
             <span class="sb-txt">POS Operator Logs</span>
         </a>
+        @endcan
 
-        {{-- ══════════════════════════════════════════════════════
-             ATTENDANCE
-        ══════════════════════════════════════════════════════ --}}
+        {{-- ══ ATTENDANCE ══ --}}
+        @canany(['attendance.terminal','attendance.view','shifts.view','employees.view'])
         <div class="sb-section">Attendance</div>
 
+        @can('attendance.terminal')
         <a href="{{ route('admin.attendance.terminal') }}"
            class="sb-link {{ request()->routeIs('admin.attendance.terminal') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-fingerprint"></i></span>
             <span class="sb-txt">Clock In / Out</span>
         </a>
+        @endcan
 
+        @can('attendance.view')
         <a href="{{ route('admin.attendance.today') }}"
            class="sb-link {{ request()->routeIs('admin.attendance.today') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-calendar-day"></i></span>
             <span class="sb-txt">Today</span>
         </a>
-
         <a href="{{ route('admin.attendance.index') }}"
            class="sb-link {{ request()->routeIs('admin.attendance.index') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-list-check"></i></span>
             <span class="sb-txt">All Records</span>
         </a>
-
         <a href="{{ route('admin.attendance.report') }}"
            class="sb-link {{ request()->routeIs('admin.attendance.report') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-chart-gantt"></i></span>
             <span class="sb-txt">Attendance Report</span>
         </a>
+        @endcan
 
+        @can('shifts.view')
         <a href="{{ route('admin.shifts.index') }}"
            class="sb-link {{ request()->routeIs('admin.shifts.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-clock"></i></span>
             <span class="sb-txt">Shifts</span>
         </a>
+        @endcan
 
+        @can('employees.view')
         <a href="{{ route('admin.employees.index') }}"
            class="sb-link {{ request()->routeIs('admin.employees.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-id-badge"></i></span>
             <span class="sb-txt">Employees</span>
         </a>
+        @endcan
 
-        {{-- ══════════════════════════════════════════════════════
-             SETUP
-        ══════════════════════════════════════════════════════ --}}
+        @endcanany
+
+        {{-- ══ SETUP ══ --}}
+        @can('settings.view')
         <div class="sb-section">Setup</div>
 
         <a href="{{ route('admin.settings.index') }}"
@@ -582,6 +621,7 @@
             <span class="sb-ico"><i class="fas fa-sliders"></i></span>
             <span class="sb-txt">Settings</span>
         </a>
+        @endcan
 
     </nav>
 
@@ -630,9 +670,13 @@
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Quick search…">
             </div>
+
+            @can('pos.access')
             <a href="{{ route('admin.pos.index') }}" class="tb-pos">
                 <i class="fas fa-cash-register"></i> POS
             </a>
+            @endcan
+
             <div class="tb-divider"></div>
             <a href="{{ route('home') }}" class="tb-icon" target="_blank" rel="noopener">
                 <i class="fas fa-store"></i>
@@ -656,9 +700,11 @@
                         </div>
                     </div>
                     <div class="notif-dropdown-footer">
+                        @can('notifications.manage')
                         <a href="{{ route('admin.notifications.index') }}">
                             <i class="fas fa-bell"></i> Manage Notifications
                         </a>
+                        @endcan
                     </div>
                 </div>
             </div>
@@ -709,9 +755,11 @@
                         <a href="{{ route('admin.profile.activity') }}" class="tb-drop-item">
                             <span class="tb-drop-icon"><i class="fas fa-clock-rotate-left"></i></span> Activity Log
                         </a>
+                        @can('settings.view')
                         <a href="{{ route('admin.settings.index') }}" class="tb-drop-item">
                             <span class="tb-drop-icon"><i class="fas fa-sliders"></i></span> Settings
                         </a>
+                        @endcan
                         <div class="tb-drop-sep"></div>
                         <form method="POST" action="{{ route('logout') }}" style="margin:0">
                             @csrf
