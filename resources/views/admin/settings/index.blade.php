@@ -106,4 +106,206 @@
         </div>
     </div>
 </div>
+
+{{-- ══════════════════════════════════════════════════════════
+     ACCESS CONTROL
+══════════════════════════════════════════════════════════ --}}
+<h2 style="font-size:1.3rem;font-weight:700;margin:2rem 0 1.25rem;display:flex;align-items:center;gap:.6rem">
+    <i class="fas fa-shield-halved" style="color:var(--purple)"></i> Access Control
+</h2>
+
+{{-- ── Tabs ── --}}
+<div style="display:flex;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap">
+    <button onclick="showTab('tab-roles')" id="btn-tab-roles"
+        class="ac-tab ac-tab-active">
+        <i class="fas fa-shield-halved"></i> Role Permissions
+    </button>
+    <button onclick="showTab('tab-users')" id="btn-tab-users"
+        class="ac-tab">
+        <i class="fas fa-users"></i> User Roles
+    </button>
+</div>
+
+<style>
+.ac-tab{display:inline-flex;align-items:center;gap:.4rem;padding:.48rem 1rem;border-radius:9px;font-size:.82rem;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:#fff;color:var(--muted);transition:all .15s;font-family:inherit;}
+.ac-tab:hover{border-color:var(--purple);color:var(--purple);background:var(--purple-soft);}
+.ac-tab-active{background:var(--purple-soft)!important;border-color:var(--purple)!important;color:var(--purple)!important;}
+.perm-group{margin-bottom:1.2rem;}
+.perm-group-title{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem;}
+.perm-group-title::after{content:'';flex:1;height:1px;background:var(--border);}
+.perm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.4rem;}
+.perm-item{display:flex;align-items:center;gap:.5rem;padding:.38rem .6rem;border-radius:8px;border:1.5px solid var(--border);background:#fff;cursor:pointer;transition:all .13s;font-size:.8rem;}
+.perm-item:hover{border-color:var(--purple);background:var(--purple-soft);}
+.perm-item input[type=checkbox]{accent-color:var(--purple);width:14px;height:14px;flex-shrink:0;cursor:pointer;}
+.perm-item.checked{border-color:var(--purple);background:var(--purple-soft);}
+.role-card{border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.25rem;}
+.role-card-header{padding:.85rem 1.1rem;display:flex;align-items:center;justify-content:space-between;gap:.75rem;cursor:pointer;user-select:none;background:#fff;}
+.role-card-header:hover{background:var(--purple-soft);}
+.role-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.role-card-body{padding:1.1rem;border-top:1.5px solid var(--border);background:#faf9ff;display:none;}
+.role-card-body.open{display:block;}
+.user-row{display:flex;align-items:center;gap:.75rem;padding:.7rem .9rem;border:1.5px solid var(--border);border-radius:var(--r-sm);background:#fff;margin-bottom:.6rem;}
+.user-av{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.82rem;font-weight:700;flex-shrink:0;}
+.role-chk{display:flex;align-items:center;gap:.35rem;padding:.28rem .6rem;border-radius:7px;border:1.5px solid var(--border);background:#fff;font-size:.77rem;font-weight:500;color:var(--text);cursor:pointer;transition:all .13s;}
+.role-chk:hover{border-color:var(--purple);background:var(--purple-soft);}
+.role-chk input{accent-color:var(--purple);width:13px;height:13px;cursor:pointer;}
+.role-chk.checked{border-color:var(--purple);background:var(--purple-soft);color:var(--purple);font-weight:600;}
+</style>
+
+{{-- ══ TAB: ROLE PERMISSIONS ══ --}}
+<div id="tab-roles">
+    @foreach($roles as $role)
+    @if($role->name !== 'super-admin')
+    <div class="role-card">
+        <div class="role-card-header" onclick="toggleRole('role-{{ $role->id }}')">
+            <div style="display:flex;align-items:center;gap:.65rem;flex:1">
+                <span class="role-dot" style="background:{{ $role->color ?? '#6366f1' }}"></span>
+                <div>
+                    <div style="font-weight:700;font-size:.9rem;color:var(--text)">{{ $role->display_name }}</div>
+                    @if($role->description)
+                    <div style="font-size:.73rem;color:var(--muted);margin-top:.1rem">{{ $role->description }}</div>
+                    @endif
+                </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:.75rem">
+                <span class="badge badge-purple">{{ $role->permissions->count() }} permissions</span>
+                <i class="fas fa-chevron-down" id="chev-role-{{ $role->id }}" style="color:var(--muted);font-size:.75rem;transition:transform .2s"></i>
+            </div>
+        </div>
+        <div class="role-card-body" id="role-{{ $role->id }}">
+            <form method="POST" action="{{ route('admin.settings.role-permissions', $role) }}">
+                @csrf @method('PATCH')
+
+                {{-- Select All / Deselect All --}}
+                <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap">
+                    <span style="font-size:.78rem;font-weight:600;color:var(--muted)">Quick select:</span>
+                    <button type="button" onclick="selectAll('role-form-{{ $role->id }}')"
+                        style="font-size:.74rem;color:var(--purple);background:none;border:none;cursor:pointer;font-weight:600;padding:0">
+                        <i class="fas fa-check-double"></i> All
+                    </button>
+                    <button type="button" onclick="deselectAll('role-form-{{ $role->id }}')"
+                        style="font-size:.74rem;color:var(--muted);background:none;border:none;cursor:pointer;font-weight:600;padding:0">
+                        <i class="fas fa-xmark"></i> None
+                    </button>
+                </div>
+
+                <div id="role-form-{{ $role->id }}">
+                @foreach($permissions as $group => $groupPerms)
+                <div class="perm-group">
+                    <div class="perm-group-title">{{ $group }}</div>
+                    <div class="perm-grid">
+                        @foreach($groupPerms as $perm)
+                        @php $checked = $role->permissions->contains('name', $perm->name); @endphp
+                        <label class="perm-item {{ $checked ? 'checked' : '' }}" id="lbl-{{ $role->id }}-{{ $perm->id }}">
+                            <input type="checkbox"
+                                   name="permissions[]"
+                                   value="{{ $perm->name }}"
+                                   {{ $checked ? 'checked' : '' }}
+                                   onchange="toggleLabel(this, 'lbl-{{ $role->id }}-{{ $perm->id }}')">
+                            {{ $perm->display_name }}
+                        </label>
+                        @endforeach
+                    </div>
+                </div>
+                @endforeach
+                </div>
+
+                <div style="margin-top:1.1rem;padding-top:.9rem;border-top:1px solid var(--border)">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fas fa-save"></i> Save {{ $role->display_name }} Permissions
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    @endif
+    @endforeach
+</div>
+
+{{-- ══ TAB: USER ROLES ══ --}}
+<div id="tab-users" style="display:none">
+    @forelse($staff as $user)
+    <div class="user-row">
+        @if($user->avatar)
+            <img src="{{ Storage::url($user->avatar) }}" alt="{{ $user->name }}"
+                 style="width:34px;height:34px;border-radius:9px;object-fit:cover;flex-shrink:0">
+        @else
+            <div class="user-av">{{ strtoupper(substr($user->name,0,1)) }}</div>
+        @endif
+        <div style="flex:1;min-width:0">
+            <div style="font-weight:600;font-size:.85rem">{{ $user->name }}</div>
+            <div style="font-size:.72rem;color:var(--muted)">{{ $user->email }}</div>
+        </div>
+        <form method="POST" action="{{ route('admin.settings.user-roles', $user) }}"
+              style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap">
+            @csrf @method('PATCH')
+            @foreach($roles as $role)
+            @php $hasRole = $user->roles->contains('name', $role->name); @endphp
+            <label class="role-chk {{ $hasRole ? 'checked' : '' }}" id="ulbl-{{ $user->id }}-{{ $role->id }}">
+                <input type="checkbox"
+                       name="roles[]"
+                       value="{{ $role->name }}"
+                       {{ $hasRole ? 'checked' : '' }}
+                       onchange="toggleLabel(this, 'ulbl-{{ $user->id }}-{{ $role->id }}')">
+                {{ $role->display_name }}
+            </label>
+            @endforeach
+            <button type="submit" class="btn btn-outline btn-sm" style="margin-left:.25rem">
+                <i class="fas fa-save"></i>
+            </button>
+        </form>
+    </div>
+    @empty
+    <div class="empty-state">
+        <i class="fas fa-users"></i>
+        <p>No staff users found.</p>
+    </div>
+    @endforelse
+</div>
+
 @endsection
+
+@push('scripts')
+<script>
+// ── Tabs ──
+function showTab(id) {
+    ['tab-roles','tab-users'].forEach(t => {
+        document.getElementById(t).style.display = t === id ? 'block' : 'none';
+    });
+    ['btn-tab-roles','btn-tab-users'].forEach(b => {
+        document.getElementById(b).classList.toggle('ac-tab-active',
+            b === 'btn-' + id);
+    });
+}
+
+// ── Role accordion ──
+function toggleRole(id) {
+    const body = document.getElementById(id);
+    const chev = document.getElementById('chev-' + id);
+    const open = body.classList.contains('open');
+    body.classList.toggle('open', !open);
+    if (chev) chev.style.transform = open ? '' : 'rotate(180deg)';
+}
+
+// ── Checkbox label highlight ──
+function toggleLabel(checkbox, labelId) {
+    document.getElementById(labelId).classList.toggle('checked', checkbox.checked);
+}
+
+// ── Select / Deselect all in a role form ──
+function selectAll(formId) {
+    document.querySelectorAll('#' + formId + ' input[type=checkbox]').forEach(cb => {
+        cb.checked = true;
+        const lbl = cb.closest('label');
+        if (lbl) lbl.classList.add('checked');
+    });
+}
+function deselectAll(formId) {
+    document.querySelectorAll('#' + formId + ' input[type=checkbox]').forEach(cb => {
+        cb.checked = false;
+        const lbl = cb.closest('label');
+        if (lbl) lbl.classList.remove('checked');
+    });
+}
+</script>
+@endpush
