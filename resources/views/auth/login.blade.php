@@ -87,13 +87,25 @@
   font-size:10px; font-weight:700; color:rgba(255,255,255,.42);
   text-transform:uppercase; letter-spacing:.07em; margin-bottom:6px;
 }
-.lf-label a { color:#FF6FB0; text-decoration:none; text-transform:none; font-size:11px; font-weight:600; }
+.lf-label a {
+  color:#FF6FB0; text-decoration:none; text-transform:none;
+  font-size:11px; font-weight:600;
+  display:flex; align-items:center; gap:3px;
+  transition: color .2s;
+}
+.lf-label a:hover { color:#ff3d8e; }
 
 .lf-input-wrap { position:relative; margin-bottom:13px; }
+
+/* ── Input icons (email / lock) ── */
 .lf-input-wrap .lf-ico {
   position:absolute; left:13px; top:50%; transform:translateY(-50%);
-  width:14px; height:14px; opacity:.28; pointer-events:none;
+  width:15px; height:15px; pointer-events:none;
+  color: #FF6FB0;
+  opacity: .75;
+  transition: opacity .2s, color .2s;
 }
+
 .lf-input-wrap input {
   width:100%; padding:11px 12px 11px 40px;
   background:rgba(255,255,255,.06);
@@ -108,7 +120,37 @@
   background:rgba(255,10,108,.07);
   box-shadow:0 0 0 3px rgba(255,10,108,.1);
 }
+.lf-input-wrap input:focus ~ .lf-ico,
+.lf-input-wrap input:focus + .lf-ico {
+  opacity: 1;
+  color: #FF0A6C;
+}
 .lf-error { font-size:.7rem; color:#ff7070; margin-top:3px; display:block; }
+
+/* ── Eye toggle button ── */
+.lf-eye {
+  position:absolute; right:10px; top:50%; transform:translateY(-50%);
+  background: rgba(255,10,108,.12);
+  border: 1.5px solid rgba(255,10,108,.4);
+  border-radius: 8px;
+  padding: 5px 6px;
+  cursor:pointer;
+  color: #FF6FB0;
+  display:flex; align-items:center; justify-content:center;
+  transition: background .2s, color .2s, border-color .2s, transform .15s;
+  z-index: 2;
+}
+.lf-eye:hover {
+  background: rgba(255,10,108,.28);
+  border-color: #FF0A6C;
+  color: #fff;
+  transform: translateY(-50%) scale(1.08);
+}
+.lf-eye:active { transform: translateY(-50%) scale(.95); }
+.lf-eye svg { width:15px; height:15px; display:block; }
+
+/* shift input right padding so text doesn't sit under the eye */
+.lf-input-wrap.has-eye input { padding-right: 50px; }
 
 .lf-middle {
   display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;
@@ -209,12 +251,22 @@
       <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <div class="lf-label">
-          Email address
-          <a href="#">Use phone instead</a>
+        {{-- EMAIL / PHONE LABEL --}}
+        <div class="lf-label" id="input-label-row">
+          <span id="input-label-text">Email address</span>
+          <a href="#" id="toggle-mode-link" onclick="toggleInputMode(event)">
+            {{-- Phone icon (shown when in email mode — click to switch to phone) --}}
+            <svg id="toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.93a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/>
+            </svg>
+            <span id="toggle-mode-text">Use phone instead</span>
+          </a>
         </div>
-        <div class="lf-input-wrap">
-          <svg class="lf-ico" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+
+        {{-- EMAIL / PHONE INPUT --}}
+        <div class="lf-input-wrap" id="email-wrap">
+          {{-- Icon inside input — swaps between email & phone --}}
+          <svg class="lf-ico" id="input-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/>
           </svg>
           <input type="email" name="email" id="auth-email"
@@ -222,13 +274,30 @@
           @error('email')<span class="lf-error">{{ $message }}</span>@enderror
         </div>
 
+        {{-- PASSWORD --}}
         <div class="lf-label">Password</div>
-        <div class="lf-input-wrap">
-          <svg class="lf-ico" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+        <div class="lf-input-wrap has-eye">
+          <svg class="lf-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
           </svg>
           <input type="password" name="password" id="auth-pass"
             placeholder="••••••••" required>
+
+          {{-- Eye toggle — visible pink button --}}
+          <button type="button" class="lf-eye" id="eye-toggle" aria-label="Toggle password visibility">
+            {{-- Eye open (shown when password is hidden) --}}
+            <svg id="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            {{-- Eye closed (shown when password is visible) --}}
+            <svg id="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+
           @error('password')<span class="lf-error">{{ $message }}</span>@enderror
         </div>
 
@@ -301,9 +370,12 @@
 
 @push('scripts')
 <script>
+/* ── Quick fill ── */
 function quickFill(email) {
   var e = document.getElementById('auth-email');
   var p = document.getElementById('auth-pass');
+  // If currently in phone mode, switch back to email first
+  if (e.type === 'tel') toggleInputMode({ preventDefault: function(){} });
   e.value = email;
   p.value = 'password';
   [e, p].forEach(function(el) {
@@ -316,6 +388,72 @@ function quickFill(email) {
       el.style.background  = '';
     }, 1400);
   });
+}
+
+/* ── Password eye toggle ── */
+document.getElementById('eye-toggle').addEventListener('click', function () {
+  var input   = document.getElementById('auth-pass');
+  var isHidden = input.type === 'password';
+  input.type  = isHidden ? 'text' : 'password';
+  document.getElementById('eye-open').style.display   = isHidden ? 'none' : '';
+  document.getElementById('eye-closed').style.display = isHidden ? ''     : 'none';
+});
+
+/* ── Email ↔ Phone toggle ── */
+var _inputMode = 'email'; // track current mode
+
+function toggleInputMode(e) {
+  e.preventDefault();
+
+  var input      = document.getElementById('auth-email');
+  var fieldIcon  = document.getElementById('input-field-icon');
+  var labelText  = document.getElementById('input-label-text');
+  var toggleText = document.getElementById('toggle-mode-text');
+  var toggleIcon = document.getElementById('toggle-icon');
+
+  if (_inputMode === 'email') {
+    /* ── Switch TO phone ── */
+    _inputMode        = 'phone';
+    input.type        = 'tel';
+    input.name        = 'phone';
+    input.placeholder = '+254 7XX XXX XXX';
+    input.value       = '';
+
+    labelText.textContent  = 'Phone number';
+    toggleText.textContent = 'Use email instead';
+
+    /* Field icon → phone handset */
+    fieldIcon.innerHTML = '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.93a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/>';
+
+    /* Toggle icon → envelope */
+    toggleIcon.innerHTML = '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/>';
+
+  } else {
+    /* ── Switch TO email ── */
+    _inputMode        = 'email';
+    input.type        = 'email';
+    input.name        = 'email';
+    input.placeholder = 'you@example.com';
+    input.value       = '';
+
+    labelText.textContent  = 'Email address';
+    toggleText.textContent = 'Use phone instead';
+
+    /* Field icon → envelope */
+    fieldIcon.innerHTML = '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/>';
+
+    /* Toggle icon → phone handset */
+    toggleIcon.innerHTML = '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.93a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/>';
+  }
+
+  /* Briefly highlight the field to draw attention */
+  input.style.borderColor = '#FF0A6C';
+  input.style.boxShadow   = '0 0 0 3px rgba(255,10,108,.15)';
+  input.focus();
+  setTimeout(function() {
+    input.style.borderColor = '';
+    input.style.boxShadow   = '';
+  }, 900);
 }
 </script>
 @endpush
