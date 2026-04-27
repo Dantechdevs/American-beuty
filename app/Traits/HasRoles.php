@@ -65,7 +65,10 @@ trait HasRoles
             ->values();
     }
 
-    public function can(string $permission, mixed $arguments = []): bool
+    /**
+     * Override Laravel's can() — must match base signature (no strict types).
+     */
+    public function can($permission, $arguments = []): bool
     {
         // Super-admin bypasses all checks
         if ($this->hasRole('super-admin')) {
@@ -75,7 +78,7 @@ trait HasRoles
         return $this->getAllPermissions()->contains('name', $permission);
     }
 
-    public function cannot(string $permission, mixed $arguments = []): bool
+    public function cannot($permission, $arguments = []): bool
     {
         return ! $this->can($permission);
     }
