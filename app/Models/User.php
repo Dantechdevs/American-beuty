@@ -6,10 +6,12 @@ use App\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, LogsActivity;
 
     protected $fillable = [
         'name', 'email', 'phone', 'password',
@@ -23,7 +25,17 @@ class User extends Authenticatable
         'is_active'         => 'boolean',
     ];
 
-    // ── Legacy role checks (kept for backward compatibility) ───
+    // -- Spatie Activity Log -------------------------------------------
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'phone', 'role', 'is_active'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn(string $eventName) => "User was {$eventName}");
+    }
+
+    // -- Legacy role checks (kept for backward compatibility) ----------
     public function isAdmin(): bool       { return $this->role === 'admin'; }
     public function isManager(): bool     { return $this->role === 'manager'; }
     public function isPosOperator(): bool { return $this->role === 'pos_operator'; }
@@ -59,7 +71,7 @@ class User extends Authenticatable
         };
     }
 
-    // ── Relationships ──────────────────────────────────────────
+    // -- Relationships -------------------------------------------------
     public function employee()  { return $this->hasOne(Employee::class); }
     public function orders()    { return $this->hasMany(Order::class); }
     public function wishlist()  { return $this->hasMany(Wishlist::class); }

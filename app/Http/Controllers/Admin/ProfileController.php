@@ -6,13 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Activitylog\Models\Activity;
 
 class ProfileController extends Controller
 {
-    // ── Edit Profile ───────────────────────────────────────────
+    // -- Edit Profile --------------------------------------------------
     public function edit()
     {
         $user = Auth::user();
@@ -38,7 +37,6 @@ class ProfileController extends Controller
 
         // Handle avatar upload
         if ($request->hasFile('avatar')) {
-            // Delete old avatar if exists
             if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
                 Storage::disk('public')->delete($user->avatar);
             }
@@ -58,7 +56,7 @@ class ProfileController extends Controller
         return back()->with('success', 'Profile updated successfully.');
     }
 
-    // ── Change Password ────────────────────────────────────────
+    // -- Change Password -----------------------------------------------
     public function password()
     {
         return view('admin.profile.password');
@@ -81,22 +79,23 @@ class ProfileController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        // Manually log password change since it's not a tracked field
+        activity()
+            ->causedBy($user)
+            ->log('Changed password');
+
         return back()->with('success', 'Password changed successfully.');
     }
 
-    // ── Activity Log ───────────────────────────────────────────
+    // -- Activity Log --------------------------------------------------
     public function activity()
     {
         $user = Auth::user();
-        $logs = collect();
 
-        if (Schema::hasTable('activity_log')) {
-            $logs = DB::table('activity_log')
-                ->where('causer_id', $user->id)
-                ->where('causer_type', get_class($user))
-                ->orderByDesc('created_at')
-                ->paginate(30);
-        }
+        $logs = Activity::where('causer_id', $user->id)
+                    ->where('causer_type', get_class($user))
+                    ->orderByDesc('created_at')
+                    ->paginate(30);
 
         return view('admin.profile.activity', compact('logs'));
     }

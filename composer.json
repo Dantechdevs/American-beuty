@@ -17,6 +17,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
+        "spatie/laravel-activitylog": "^4.12",
         "spatie/laravel-medialibrary": "^11.0",
         "spatie/laravel-permission": "^6.0",
         "stripe/stripe-php": "^13.0",
