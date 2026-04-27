@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Purchase extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, LogsActivity;
 
     protected $fillable = [
         'invoice_no', 'supplier_id', 'created_by', 'purchase_date',
@@ -23,8 +25,17 @@ class Purchase extends Model
         'paid_amount'   => 'decimal:2',
     ];
 
-    // ── Relationships ──────────────────────────────────────────────
+    // -- Spatie Activity Log -------------------------------------------
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['invoice_no', 'supplier_id', 'payment_status', 'total_amount', 'paid_amount'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn(string $eventName) => "Purchase \"{$this->invoice_no}\" was {$eventName}");
+    }
 
+    // -- Relationships -------------------------------------------------
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
@@ -45,15 +56,13 @@ class Purchase extends Model
         return $this->hasMany(PurchaseReturn::class);
     }
 
-    // ── Accessors ──────────────────────────────────────────────────
-
+    // -- Accessors -----------------------------------------------------
     public function getBalanceAttribute(): float
     {
         return $this->total_amount - $this->paid_amount;
     }
 
-    // ── Static Helpers ─────────────────────────────────────────────
-
+    // -- Static Helpers ------------------------------------------------
     public static function generateInvoiceNo(): string
     {
         $year  = now()->format('Y');

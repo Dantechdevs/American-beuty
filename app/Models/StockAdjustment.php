@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class StockAdjustment extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'product_id',
         'created_by',
@@ -21,6 +25,16 @@ class StockAdjustment extends Model
         'reference_id',
     ];
 
+    // -- Spatie Activity Log -------------------------------------------
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['product_id', 'type', 'quantity', 'direction', 'stock_before', 'stock_after', 'note'])
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn(string $eventName) => "Stock adjustment ({$this->getTypeLabel()}: {$this->direction} {$this->quantity} units) was {$eventName}");
+    }
+
+    // -- Relationships -------------------------------------------------
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
@@ -36,6 +50,7 @@ class StockAdjustment extends Model
         return $this->morphTo();
     }
 
+    // -- Helpers -------------------------------------------------------
     public function getTypeLabel(): string
     {
         return match($this->type) {
@@ -78,6 +93,7 @@ class StockAdjustment extends Model
         };
     }
 
+    // -- Scopes --------------------------------------------------------
     public function scopeIn($query)
     {
         return $query->where('direction', 'in');

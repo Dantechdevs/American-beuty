@@ -5,15 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use App\Models\StockAlert;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Product extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'category_id','brand_id','name','slug','short_description','description',
         'price','sale_price','sku','stock_quantity','track_stock','thumbnail',
         'is_active','is_featured','is_new_arrival','is_best_seller',
         'weight','ingredients','skin_type','concern','meta_title','meta_description',
     ];
+
     protected $casts = [
         'is_active'      => 'boolean',
         'is_featured'    => 'boolean',
@@ -24,6 +29,17 @@ class Product extends Model
         'sale_price'     => 'decimal:2',
     ];
 
+    // -- Spatie Activity Log -------------------------------------------
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'price', 'sale_price', 'sku', 'stock_quantity', 'is_active', 'is_featured', 'category_id'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn(string $eventName) => "Product \"{$this->name}\" was {$eventName}");
+    }
+
+    // -- Relationships -------------------------------------------------
     public function category()   { return $this->belongsTo(Category::class); }
     public function brand()      { return $this->belongsTo(Brand::class); }
     public function images()     { return $this->hasMany(ProductImage::class)->orderBy('sort_order'); }
@@ -31,6 +47,7 @@ class Product extends Model
     public function wishlists()  { return $this->hasMany(Wishlist::class); }
     public function stockAlert() { return $this->hasOne(StockAlert::class); }
 
+    // -- Helpers -------------------------------------------------------
     public function getCurrentPrice(): float
     {
         return $this->sale_price ?? $this->price;

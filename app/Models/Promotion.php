@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Promotion extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'name',
         'description',
@@ -28,8 +32,17 @@ class Promotion extends Model
         'ends_at'       => 'datetime',
     ];
 
-    // ── Relationships ──────────────────────────────────────────
+    // -- Spatie Activity Log -------------------------------------------
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'type', 'value', 'applies_to', 'minimum_order', 'starts_at', 'ends_at', 'is_active'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn(string $eventName) => "Promotion \"{$this->name}\" was {$eventName}");
+    }
 
+    // -- Relationships -------------------------------------------------
     public function category()
     {
         return $this->belongsTo(Category::class, 'applies_to_id');
@@ -40,8 +53,7 @@ class Promotion extends Model
         return $this->belongsTo(Product::class, 'applies_to_id');
     }
 
-    // ── Status Helpers ─────────────────────────────────────────
-
+    // -- Status Helpers ------------------------------------------------
     public function isRunning(): bool
     {
         if (!$this->is_active) return false;
@@ -80,8 +92,7 @@ class Promotion extends Model
         };
     }
 
-    // ── Discount Calculator ────────────────────────────────────
-
+    // -- Discount Calculator -------------------------------------------
     public function calculateDiscount(float $price): float
     {
         if ($this->type === 'percent') {
@@ -90,8 +101,7 @@ class Promotion extends Model
         return min((float) $this->value, $price);
     }
 
-    // ── Scopes ────────────────────────────────────────────────
-
+    // -- Scopes --------------------------------------------------------
     public function scopeActive($query)
     {
         return $query->where('is_active', true);

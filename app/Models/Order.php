@@ -4,9 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Order extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'order_number','user_id','coupon_id','status',
         'source','served_by',
@@ -25,6 +29,17 @@ class Order extends Model
         'paid_at'   => 'datetime',
     ];
 
+    // -- Spatie Activity Log -------------------------------------------
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['status', 'payment_status', 'payment_method', 'total'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn(string $eventName) => "Order \"{$this->order_number}\" was {$eventName}");
+    }
+
+    // -- Relationships -------------------------------------------------
     public function user()         { return $this->belongsTo(User::class); }
     public function items()        { return $this->hasMany(OrderItem::class); }
     public function coupon()       { return $this->belongsTo(Coupon::class); }
@@ -32,6 +47,7 @@ class Order extends Model
     public function transactions() { return $this->hasMany(Transaction::class); }
     public function servedBy()     { return $this->belongsTo(User::class, 'served_by'); }
 
+    // -- Helpers -------------------------------------------------------
     public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
