@@ -19,7 +19,28 @@ trait HasRoles
     public function hasRole(string|array $roles): bool
     {
         $roles = (array) $roles;
-        return $this->roles->whereIn('name', $roles)->isNotEmpty();
+
+        // Check DB roles (roles table via pivot)
+        if ($this->roles->whereIn('name', $roles)->isNotEmpty()) {
+            return true;
+        }
+
+        // Fallback: check the legacy `role` string column
+        // Maps legacy role strings to role names used in the roles table
+        $legacyMap = [
+            'admin'        => ['admin', 'super-admin'],
+            'manager'      => ['manager'],
+            'pos_operator' => ['pos-operator'],
+        ];
+
+        $legacyRole = $this->role ?? null;
+        if ($legacyRole && isset($legacyMap[$legacyRole])) {
+            foreach ($legacyMap[$legacyRole] as $mapped) {
+                if (in_array($mapped, $roles)) return true;
+            }
+        }
+
+        return false;
     }
 
     public function hasAnyRole(array $roles): bool
@@ -66,12 +87,17 @@ trait HasRoles
     }
 
     /**
-     * Override Laravel's can() — must match base signature (no strict types).
+     * Override Laravel's can() — no strict types to match base signature.
      */
     public function can($permission, $arguments = []): bool
     {
-        // Super-admin bypasses all checks
+        // super-admin role bypasses all checks
         if ($this->hasRole('super-admin')) {
+            return true;
+        }
+
+        // admin role (legacy string column) gets full access too
+        if (($this->role ?? null) === 'admin') {
             return true;
         }
 
@@ -113,6 +139,7 @@ trait HasRoles
 
     public function isAdmin(): bool
     {
-        return $this->hasRole(['super-admin', 'admin']);
+        return $this->hasRole(['super-admin', 'admin'])
+            || in_array($this->role ?? null, ['admin']);
     }
 }
