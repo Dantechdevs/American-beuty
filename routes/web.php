@@ -206,7 +206,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     });
     Route::middleware('permission:settings.edit')->group(function () {
-        Route::post('/settings', [SettingsController::class, 'update'])->name('settings.update');
+        Route::post('/settings',                           [SettingsController::class, 'update'])              ->name('settings.update');
+        Route::patch('/settings/roles/{role}/permissions', [SettingsController::class, 'updateRolePermissions'])->name('settings.role-permissions');
+        Route::patch('/settings/users/{user}/roles',       [SettingsController::class, 'updateUserRoles'])     ->name('settings.user-roles');
     });
     Route::middleware('permission:settings.payment')->group(function () {
         Route::patch('/settings/gateways/{gateway}', [SettingsController::class, 'updateGateway'])->name('settings.gateway');
