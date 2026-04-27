@@ -3,27 +3,39 @@
 namespace App\Services;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 
 class ActivityLogService
 {
     public static function login(User $user): void
     {
-        Log::info('User logged in', [
-            'user_id' => $user->id,
-            'email'   => $user->email,
-            'ip'      => request()->ip(),
-            'at'      => now(),
-        ]);
+        activity()
+            ->causedBy($user)
+            ->withProperties([
+                'ip'         => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ])
+            ->log('Logged in');
     }
 
     public static function logout(User $user): void
     {
-        Log::info('User logged out', [
-            'user_id' => $user->id,
-            'email'   => $user->email,
-            'ip'      => request()->ip(),
-            'at'      => now(),
-        ]);
+        activity()
+            ->causedBy($user)
+            ->withProperties([
+                'ip'         => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ])
+            ->log('Logged out');
+    }
+
+    public static function register(User $user): void
+    {
+        activity()
+            ->causedBy($user)
+            ->withProperties([
+                'ip'         => request()->ip(),
+                'user_agent' => request()->userAgent(),
+            ])
+            ->log('Registered account');
     }
 }

@@ -29,7 +29,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $user = auth()->user();
 
-            // ── Block suspended accounts ───────────────────────
+            // -- Block suspended accounts ------------------------------
             if (!$user->is_active) {
                 Auth::logout();
                 return back()->withErrors(['email' => 'Your account has been suspended.']);
@@ -37,10 +37,10 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            // ── Log the login event ────────────────────────────
+            // -- Log the login event -----------------------------------
             ActivityLogService::login($user);
 
-            // ── Redirect based on role ─────────────────────────
+            // -- Redirect based on role --------------------------------
             return $this->redirectAfterLogin($user, $request);
         }
 
@@ -75,8 +75,8 @@ class AuthController extends Controller
         $request->session()->regenerate();
         app(CartService::class)->mergeSessionCart();
 
-        // ── Log registration ───────────────────────────────────
-        ActivityLogService::login($user);
+        // -- Log registration -----------------------------------------
+        ActivityLogService::register($user);
 
         return redirect()->route('home')
             ->with('success', 'Account created! Welcome to American Beauty.');
@@ -84,7 +84,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        // ── Log logout event ───────────────────────────────────
+        // -- Log logout event -----------------------------------------
         if (Auth::check()) {
             ActivityLogService::logout(Auth::user());
         }
@@ -102,7 +102,7 @@ class AuthController extends Controller
         return view('auth.forgot-password');
     }
 
-    // ── Role-based redirect ────────────────────────────────────
+    // -- Role-based redirect -------------------------------------------
     private function redirectAfterLogin(User $user, Request $request): \Illuminate\Http\RedirectResponse
     {
         return match($user->role) {
