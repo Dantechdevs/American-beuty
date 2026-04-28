@@ -62,24 +62,70 @@
                 <thead>
                     <tr>
                         <th>Action</th>
-                        <th>Description</th>
+                        <th>Description &amp; Changes</th>
                         <th>Date &amp; Time</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($logs as $log)
-                    <tr>
-                        <td>
-                            <span class="badge badge-purple">
-                                {{ ucfirst($log->event ?? $log->description) }}
+                    @php
+                        $newValues = $log->properties['attributes'] ?? [];
+                        $oldValues = $log->properties['old'] ?? [];
+                        $hasChanges = !empty($oldValues) && !empty($newValues);
+                    @endphp
+                    <tr style="vertical-align:top">
+
+                        {{-- Action badge --}}
+                        <td style="padding-top:1rem">
+                            @php
+                                $event = $log->event ?? 'action';
+                                $badgeClass = match($event) {
+                                    'created' => 'badge-success',
+                                    'updated' => 'badge-warning',
+                                    'deleted' => 'badge-danger',
+                                    default   => 'badge-purple',
+                                };
+                            @endphp
+                            <span class="badge {{ $badgeClass }}">
+                                {{ ucfirst($event) }}
                             </span>
                         </td>
-                        <td style="font-size:.84rem;color:var(--muted)">
-                            {{ $log->description ?? '—' }}
+
+                        {{-- Description + changed fields --}}
+                        <td style="font-size:.84rem">
+                            <div style="color:var(--text);font-weight:500;margin-bottom:.4rem">
+                                {{ $log->description ?? '—' }}
+                            </div>
+
+                            @if($hasChanges)
+                            <div style="display:flex;flex-direction:column;gap:.3rem;margin-top:.5rem">
+                                @foreach($newValues as $field => $newVal)
+                                    @if(isset($oldValues[$field]) && $oldValues[$field] !== $newVal)
+                                    <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;font-size:.76rem">
+                                        <span style="color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.04em;min-width:80px">
+                                            {{ str_replace('_', ' ', $field) }}
+                                        </span>
+                                        {{-- Old value --}}
+                                        <span style="background:rgba(239,68,68,.1);color:#ef4444;padding:.15rem .5rem;border-radius:5px;text-decoration:line-through">
+                                            {{ is_bool($oldValues[$field]) ? ($oldValues[$field] ? 'Yes' : 'No') : ($oldValues[$field] ?? '—') }}
+                                        </span>
+                                        <i class="fas fa-arrow-right" style="color:var(--muted);font-size:.65rem"></i>
+                                        {{-- New value --}}
+                                        <span style="background:rgba(34,197,94,.1);color:#22c55e;padding:.15rem .5rem;border-radius:5px">
+                                            {{ is_bool($newVal) ? ($newVal ? 'Yes' : 'No') : ($newVal ?? '—') }}
+                                        </span>
+                                    </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                            @endif
                         </td>
-                        <td style="font-size:.8rem;color:var(--muted);white-space:nowrap">
+
+                        {{-- Date & time --}}
+                        <td style="font-size:.8rem;color:var(--muted);white-space:nowrap;padding-top:1rem">
                             {{ \Carbon\Carbon::parse($log->created_at)->format('d M Y, H:i') }}
                         </td>
+
                     </tr>
                     @endforeach
                 </tbody>
@@ -92,12 +138,8 @@
             <i class="fas fa-clock-rotate-left"></i>
             <p>No activity recorded yet.</p>
             <div style="font-size:.78rem;color:var(--muted);max-width:340px;text-align:center;line-height:1.6">
-                Activity logging requires the
-                <code style="background:var(--purple-soft);padding:.1rem .4rem;border-radius:4px;color:var(--purple)">spatie/laravel-activitylog</code>
-                package. Install it to automatically track admin actions.
-            </div>
-            <div style="margin-top:1rem;background:#1a0a2e;color:#a78bfa;padding:.75rem 1.25rem;border-radius:10px;font-size:.8rem;font-family:monospace;letter-spacing:.02em">
-                composer require spatie/laravel-activitylog
+                Actions like logging in, editing products, updating orders, and changing settings
+                will appear here automatically.
             </div>
         </div>
         @endif
