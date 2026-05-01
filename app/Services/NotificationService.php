@@ -6,11 +6,11 @@ use App\Models\Notification;
 use App\Models\ScheduledNotification;
 use App\Models\User;
 use Illuminate\Support\Collection;
-use Twilio\Rest\Client as TwilioClient;
+use AfricasTalking\SDK\AfricasTalking;
 
 class NotificationService
 {
-    // ── Send to a single user ─────────────────────────────────
+    // -- Send to a single user ----------------------------------------
     public function send(
         int    $userId,
         string $title,
@@ -41,7 +41,7 @@ class NotificationService
         return $notification;
     }
 
-    // ── Send to multiple users ────────────────────────────────
+    // -- Send to multiple users ---------------------------------------
     public function sendToMany(
         Collection $users,
         string $title,
@@ -73,7 +73,7 @@ class NotificationService
         return $count;
     }
 
-    // ── Send to audience from scheduled notification ──────────
+    // -- Send to audience from scheduled notification -----------------
     public function dispatchScheduled(ScheduledNotification $scheduled): void
     {
         $users = $this->resolveAudience($scheduled->audience, $scheduled->specific_user_id);
@@ -90,7 +90,7 @@ class NotificationService
         $scheduled->update(['status' => 'sent', 'sent_at' => now()]);
     }
 
-    // ── Resolve audience to user collection ───────────────────
+    // -- Resolve audience to user collection --------------------------
     public function resolveAudience(string $audience, ?int $specificUserId = null): Collection
     {
         return match($audience) {
@@ -104,7 +104,7 @@ class NotificationService
         };
     }
 
-    // ── Auto-trigger: Order Placed ────────────────────────────
+    // -- Auto-trigger: Order Placed -----------------------------------
     public function notifyOrderPlaced(User $user, string $orderNumber, int $orderId): void
     {
         $this->send(
@@ -115,11 +115,11 @@ class NotificationService
             "/orders/{$orderId}",
             'App\Models\Order',
             $orderId,
-            false
+            true  // SMS enabled
         );
     }
 
-    // ── Auto-trigger: Payment Confirmed ──────────────────────
+    // -- Auto-trigger: Payment Confirmed ------------------------------
     public function notifyPaymentConfirmed(User $user, string $orderNumber, int $orderId, string $amount): void
     {
         $this->send(
@@ -130,11 +130,11 @@ class NotificationService
             "/orders/{$orderId}",
             'App\Models\Order',
             $orderId,
-            false
+            true  // SMS enabled
         );
     }
 
-    // ── Auto-trigger: Order Collected / Delivered ─────────────
+    // -- Auto-trigger: Order Collected / Delivered --------------------
     public function notifyOrderCollected(User $user, string $orderNumber, int $orderId): void
     {
         $this->send(
@@ -145,11 +145,11 @@ class NotificationService
             "/orders/{$orderId}",
             'App\Models\Order',
             $orderId,
-            false
+            true  // SMS enabled
         );
     }
 
-    // ── Auto-trigger: Thank You ───────────────────────────────
+    // -- Auto-trigger: Thank You --------------------------------------
     public function notifyThankYou(User $user, string $orderNumber): void
     {
         $this->send(
@@ -160,27 +160,28 @@ class NotificationService
             null,
             null,
             null,
-            false
+            true  // SMS enabled
         );
     }
 
-    // ── Twilio SMS ────────────────────────────────────────────
+    // -- Africa's Talking SMS -----------------------------------------
     public function sendSms(Notification $notification): void
     {
         $user = $notification->user;
 
         // Skip if user has no phone number
         if (!$user || !$user->phone) {
+            \Log::warning('AT SMS skipped — user has no phone number.');
             return;
         }
 
-        $sid   = config('services.twilio.sid');
-        $token = config('services.twilio.token');
-        $from  = config('services.twilio.from');
+        $username  = config('services.africastalking.username');
+        $apiKey    = config('services.africastalking.api_key');
+        $senderId  = config('services.africastalking.sender_id') ?: null;
 
-        // Skip if Twilio credentials are not set
-        if (!$sid || !$token || !$from) {
-            \Log::warning('Twilio SMS skipped — credentials not configured.');
+        // Skip if credentials are not set
+        if (!$username || !$apiKey) {
+            \Log::warning('AT SMS skipped — credentials not configured.');
             return;
         }
 
@@ -195,24 +196,78 @@ class NotificationService
         $smsBody = $notification->title . "\n" . $notification->body;
 
         try {
-            $client = new TwilioClient($sid, $token);
-            $message = $client->messages->create($phone, [
-                'from' => $from,
-                'body' => $smsBody,
-            ]);
+            $AT      = new AfricasTalking($username, $apiKey);
+            $sms     = $AT->sms();
 
-            // Optionally persist SMS delivery info if columns exist
-            if (\Schema::hasColumn('notifications', 'sms_sent')) {
-                $notification->update([
-                    'sms_sent' => true,
-                    'sms_sid'  => $message->sid,
-                ]);
+            $options = [
+                'to'      => $phone,
+                'message' => $smsBody,
+            ];
+
+            // Only set sender ID if configured (not needed in sandbox)
+            if ($senderId) {
+                $options['from'] = $senderId;
             }
 
-            \Log::info("SMS sent to {$phone} | SID: {$message->sid}");
+            $result = $sms->send($options);
+
+            // Log success
+            \Log::info('AT SMS sent to ' . $phone, [
+                'status'    => $result['status'] ?? 'unknown',
+                'messageId' => $result['SMSMessageData']['Recipients'][0]['messageId'] ?? null,
+            ]);
+
+            // Persist SMS delivery info if columns exist
+            if (\Schema::hasColumn('notifications', 'sms_sent')) {
+                $notification->update(['sms_sent' => true]);
+            }
 
         } catch (\Exception $e) {
-            \Log::error('Twilio SMS failed: ' . $e->getMessage());
+            \Log::error('AT SMS failed: ' . $e->getMessage());
+        }
+    }
+
+    // -- Send a raw SMS to any phone number ---------------------------
+    // Useful for appointments (client may not be a registered user)
+    public function sendRawSms(string $phone, string $message): void
+    {
+        $username = config('services.africastalking.username');
+        $apiKey   = config('services.africastalking.api_key');
+        $senderId = config('services.africastalking.sender_id') ?: null;
+
+        if (!$username || !$apiKey) {
+            \Log::warning('AT SMS skipped — credentials not configured.');
+            return;
+        }
+
+        // Normalise number
+        if (str_starts_with($phone, '0')) {
+            $phone = '+254' . substr($phone, 1);
+        } elseif (!str_starts_with($phone, '+')) {
+            $phone = '+254' . $phone;
+        }
+
+        try {
+            $AT  = new AfricasTalking($username, $apiKey);
+            $sms = $AT->sms();
+
+            $options = [
+                'to'      => $phone,
+                'message' => $message,
+            ];
+
+            if ($senderId) {
+                $options['from'] = $senderId;
+            }
+
+            $result = $sms->send($options);
+
+            \Log::info('AT raw SMS sent to ' . $phone, [
+                'status' => $result['status'] ?? 'unknown',
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('AT raw SMS failed: ' . $e->getMessage());
         }
     }
 }

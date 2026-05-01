@@ -26,11 +26,19 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    // ── Twilio SMS ────────────────────────────────────────────
+    // -- Twilio SMS (kept for reference) ------------------------------
     'twilio' => [
         'sid'   => env('TWILIO_SID'),
         'token' => env('TWILIO_TOKEN'),
         'from'  => env('TWILIO_FROM'),
+    ],
+
+    // -- Africa's Talking SMS -----------------------------------------
+    'africastalking' => [
+        'username'  => env('AT_USERNAME', 'sandbox'),
+        'api_key'   => env('AT_API_KEY'),
+        'sender_id' => env('AT_SENDER_ID'),
+        'env'       => env('AT_ENV', 'sandbox'),
     ],
 
 ];
