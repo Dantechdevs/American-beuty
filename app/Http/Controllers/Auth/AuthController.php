@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\ActivityLogService;
 use App\Services\CartService;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -77,6 +78,16 @@ class AuthController extends Controller
 
         // -- Log registration -----------------------------------------
         ActivityLogService::register($user);
+
+        // -- SMS: welcome message -------------------------------------
+        if ($user->phone) {
+            $message = "Hi {$user->name}! 💜 Welcome to American Beauty!\n"
+                . "Your account has been created successfully.\n"
+                . "Shop our products at americanbeauty.co.ke\n"
+                . "Love the skin you're in! 🌸";
+
+            app(NotificationService::class)->sendRawSms($user->phone, $message);
+        }
 
         return redirect()->route('home')
             ->with('success', 'Account created! Welcome to American Beauty.');

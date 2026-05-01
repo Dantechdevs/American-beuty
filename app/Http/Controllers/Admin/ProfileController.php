@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -79,10 +80,18 @@ class ProfileController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Manually log password change since it's not a tracked field
+        // -- Log password change ---------------------------------------
         activity()
             ->causedBy($user)
             ->log('Changed password');
+
+        // -- SMS: password change alert --------------------------------
+        if ($user->phone) {
+            $message = "Hi {$user->name}, your American Beauty account password was just changed.\n"
+                . "If this wasn't you, contact us immediately at americanbeauty.co.ke";
+
+            app(NotificationService::class)->sendRawSms($user->phone, $message);
+        }
 
         return back()->with('success', 'Password changed successfully.');
     }
