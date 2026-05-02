@@ -18,11 +18,13 @@
   --charcoal:  #1E1225;
   --gray:      #6B6478;
   --border:    rgba(123,47,190,.15);
+  --wa-green:  #25D366;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: var(--off-white); }
 
+/* ── HERO ── */
 .hero {
   min-height: 90vh;
   display: grid;
@@ -109,7 +111,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 }
 .btn-green:hover { transform: translateY(-2px); }
 
-/* Stats row — now includes the rating */
+/* Stats row */
 .hero-stats {
   display: flex; gap: 2rem; flex-wrap: wrap;
   padding-top: 2rem;
@@ -123,7 +125,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 }
 .hero-stat span { font-size: .78rem; color: var(--gray); margin-top: .1rem; }
 
-/* Rating pill inside stats row */
+/* Rating pill */
 .hero-stat-rating {
   display: flex; flex-direction: column; align-items: flex-start;
   background: #fff; border-radius: 14px;
@@ -203,6 +205,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .feature-icon { font-size: 1.8rem; margin-bottom: .8rem; color: #fff; }
 .feature h4 { font-weight: 600; margin-bottom: .3rem; font-size: .92rem; color: #fff; }
 .feature p { font-size: .8rem; color: rgba(255,255,255,.72); line-height: 1.5; }
+
 .section { max-width: 1280px; margin: 5rem auto; padding: 0 1.5rem; }
 .section-header { text-align: center; margin-bottom: 3rem; }
 .section-eyebrow {
@@ -214,6 +217,8 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   font-size: clamp(2rem,3.5vw,2.8rem); font-weight: 700; color: var(--charcoal);
 }
 .section-title span { color: var(--purple); }
+
+/* Categories */
 .cat-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(150px,1fr)); gap: 1rem; }
 .cat-card {
   background: #fff; border-radius: 20px; padding: 1.8rem 1rem;
@@ -231,6 +236,8 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .cat-icon { font-size: 2.2rem; margin-bottom: .8rem; position: relative; }
 .cat-name { font-size: .88rem; font-weight: 600; position: relative; }
 .cat-count { font-size: .75rem; color: var(--magenta); margin-top: .2rem; position: relative; font-weight: 500; }
+
+/* Products */
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 1.5rem; }
 .product-card {
   background: #fff; border-radius: 20px; overflow: hidden;
@@ -278,6 +285,8 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   color: #fff; font-weight: 600; box-shadow: 0 4px 14px rgba(123,47,190,.25);
 }
 .btn-add-cart:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(123,47,190,.35); }
+
+/* Tabs */
 .tabs {
   display: flex; gap: 0; justify-content: center;
   background: var(--purple-lt); border-radius: 50px; padding: .4rem;
@@ -290,6 +299,8 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 }
 .tab.active { background: linear-gradient(135deg, var(--purple), var(--magenta)); color: #fff; box-shadow: 0 4px 14px rgba(123,47,190,.3); }
 .tab:hover:not(.active) { background: rgba(123,47,190,.1); }
+
+/* Banner */
 .banner-strip {
   background: linear-gradient(135deg, var(--charcoal) 0%, #2D1050 50%, #1A0C35 100%);
   padding: 5rem 1.5rem; text-align: center; margin: 4rem 0;
@@ -315,6 +326,8 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 .banner-strip h2 em { color: var(--green); font-style: italic; }
 .banner-strip p { color: rgba(255,255,255,.65); margin-bottom: 2rem; font-size: .95rem; position: relative; z-index: 1; }
 .banner-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+
+/* Promo bar */
 .promo-bar {
   background: linear-gradient(135deg, var(--green), #28a035);
   padding: .7rem 1.5rem; text-align: center;
@@ -322,6 +335,85 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 }
 .promo-bar span { opacity: .8; margin: 0 1rem; }
 
+/* ── WHATSAPP FLOATING BUTTON ── */
+.wa-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .6rem;
+}
+
+/* Tooltip label */
+.wa-tooltip {
+  background: var(--charcoal);
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 600;
+  padding: .45rem .9rem;
+  border-radius: 20px;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0,0,0,.2);
+  opacity: 0;
+  transform: translateX(10px);
+  transition: opacity .25s, transform .25s;
+  pointer-events: none;
+}
+.wa-float:hover .wa-tooltip {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Main button */
+.wa-btn {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: var(--wa-green);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.65rem;
+  text-decoration: none;
+  box-shadow: 0 6px 24px rgba(37,211,102,.45);
+  transition: transform .25s, box-shadow .25s;
+  position: relative;
+}
+.wa-btn:hover {
+  transform: scale(1.12) translateY(-2px);
+  box-shadow: 0 12px 32px rgba(37,211,102,.60);
+  color: #fff;
+}
+
+/* Pulse ring animation */
+.wa-btn::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--wa-green);
+  opacity: 0;
+  animation: wa-pulse 2.5s ease-out infinite;
+}
+.wa-btn::after {
+  content: '';
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 2px solid var(--wa-green);
+  opacity: 0;
+  animation: wa-pulse 2.5s ease-out infinite .6s;
+}
+@keyframes wa-pulse {
+  0%   { opacity: .6; transform: scale(1); }
+  100% { opacity: 0;  transform: scale(1.5); }
+}
+
+/* ── RESPONSIVE ── */
 @media(max-width:768px){
   .hero { grid-template-columns: 1fr; min-height: auto; padding: 3rem 1.5rem; text-align: center; }
   .hero-image { display: none; }
@@ -329,6 +421,8 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   .hero-stats { justify-content: center; }
   .features { grid-template-columns: 1fr 1fr; }
   .feature { border-right: none; border-bottom: 1px solid rgba(255,255,255,.15); }
+  .wa-float { bottom: 20px; right: 16px; }
+  .wa-btn { width: 52px; height: 52px; font-size: 1.4rem; }
 }
 </style>
 @endpush
@@ -369,12 +463,11 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   {{-- Right: Video with booking overlay --}}
   <div class="hero-image">
     <div class="hero-img-ring">
-
       <video id="hero-video" autoplay muted playsinline>
         <source src="{{ asset('videos/american.mp4') }}" type="video/mp4">
       </video>
 
-      {{-- Booking overlay on video — only Book Appointment button --}}
+      {{-- Booking overlay --}}
       <div class="book-overlay">
         <div class="book-card">
           <p class="book-label">✦ Complimentary Session</p>
@@ -382,12 +475,10 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
           <a href="{{ route('book.index') }}" class="book-btn">📅 Book Appointment</a>
         </div>
       </div>
-
     </div>
 
     <div class="hero-badge2">🌿 100% Natural</div>
   </div>
-
 </section>
 
 <!-- FEATURES -->
@@ -464,10 +555,29 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   </div>
 </div>
 
+<!-- WHATSAPP FLOATING BUTTON -->
+{{--
+  Replace 254XXXXXXXXX with your actual WhatsApp Business number.
+  Example: 254712345678  (no +, no spaces, no dashes)
+  The pre-filled message helps customers start the conversation instantly.
+--}}
+<div class="wa-float">
+  <span class="wa-tooltip">💬 Chat with us</span>
+  <a class="wa-btn"
+     href="https://wa.me/254XXXXXXXXX?text=Hi%20American%20Beauty!%20%F0%9F%8C%B8%20I%27d%20like%20to%20enquire%20about%20your%20services."
+     target="_blank"
+     rel="noopener noreferrer"
+     title="Chat with us on WhatsApp"
+     aria-label="Chat with American Beauty on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+</div>
+
 @endsection
 
 @push('scripts')
 <script>
+// ── Tab switcher ──────────────────────────────────────────────────────────────
 function showTab(name, btn) {
   ['featured','new','best'].forEach(t => {
     document.getElementById('tab-'+t).style.display = 'none';
@@ -477,7 +587,7 @@ function showTab(name, btn) {
   btn.classList.add('active');
 }
 
-// Cycle between two videos when first ends
+// ── Hero video cycle (american.mp4 → americanB.MOV → loop) ───────────────────
 const videos = [
   '{{ asset("videos/american.mp4") }}',
   '{{ asset("videos/americanB.MOV") }}'
@@ -492,20 +602,28 @@ if (vid) {
   });
 }
 
+// ── Add to cart ───────────────────────────────────────────────────────────────
 document.querySelectorAll('.btn-add-cart').forEach(btn => {
   btn.addEventListener('click', function() {
     const id = this.dataset.id;
     fetch('{{ route("cart.add") }}', {
       method: 'POST',
-      headers: {'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
-      body: JSON.stringify({product_id: id, quantity: 1})
-    }).then(r=>r.json()).then(d=>{
-      if(d.success){
-        document.getElementById('cart-count').textContent = d.count;
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      },
+      body: JSON.stringify({ product_id: id, quantity: 1 })
+    })
+    .then(r => r.json())
+    .then(d => {
+      if (d.success) {
+        const counter = document.getElementById('cart-count');
+        if (counter) counter.textContent = d.count;
         this.textContent = '✓ Added!';
-        setTimeout(()=>{ this.textContent = 'Add to Cart'; }, 2000);
+        setTimeout(() => { this.textContent = 'Add to Cart'; }, 2000);
       }
-    });
+    })
+    .catch(err => console.error('Cart error:', err));
   });
 });
 </script>
