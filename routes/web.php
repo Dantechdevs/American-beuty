@@ -391,17 +391,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::post('/subscribers',                [SubscriberController::class, 'store'])       ->name('subscribers.store');
         Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])     ->name('subscribers.destroy');
     });
-
-    // ── Bookings & Appointments ───────────────────────────────
-    Route::middleware('permission:appointments.view')->group(function () {
-        Route::get('/bookings',                   [BookingController::class, 'index'])         ->name('bookings.index');
-        Route::get('/appointments',               [AdminAppointmentController::class, 'index'])->name('appointments.index');
-        Route::get('/appointments/{appointment}', [AdminAppointmentController::class, 'show']) ->name('appointments.show');
-    });
-    Route::middleware('permission:appointments.manage')->group(function () {
-        Route::patch('/appointments/{appointment}/status',  [AdminAppointmentController::class, 'status'])  ->name('appointments.status');
-        Route::patch('/appointments/{appointment}/payment', [AdminAppointmentController::class, 'payment']) ->name('appointments.payment');
-        Route::delete('/appointments/{appointment}',        [AdminAppointmentController::class, 'destroy']) ->name('appointments.destroy');
-    });
+Route::middleware('permission:appointments.view')->group(function () {
+    Route::get('/bookings',                   [BookingController::class, 'index'])         ->name('bookings.index');
+    Route::get('/appointments',               [AdminAppointmentController::class, 'index'])->name('appointments.index');
+    Route::get('/appointments/{appointment}', [AdminAppointmentController::class, 'show']) ->name('appointments.show');
+});
+Route::middleware('permission:appointments.manage')->group(function () {
+    Route::patch('/appointments/{appointment}/status',   [AdminAppointmentController::class, 'updateStatus'])    ->name('appointments.status');
+    Route::patch('/appointments/{appointment}/payment',  [AdminAppointmentController::class, 'payment'])         ->name('appointments.payment');
+    Route::post('/appointments/{appointment}/assign',    [AdminAppointmentController::class, 'assignEmployee'])  ->name('appointments.assign');      // ← ADD
+    Route::delete('/appointments/{appointment}/unassign',[AdminAppointmentController::class, 'unassignEmployee'])->name('appointments.unassign');    // ← ADD
+    Route::delete('/appointments/{appointment}',         [AdminAppointmentController::class, 'destroy'])         ->name('appointments.destroy');
+});
 
 });

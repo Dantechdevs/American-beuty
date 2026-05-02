@@ -136,31 +136,28 @@
                     </div>
                 @endif
 
-                <form action="{{ route('admin.appointments.assign', $appointment) }}" method="POST"
-                      style="display:flex;gap:.65rem;align-items:flex-end">
-                    @csrf
-                    <div style="flex:1">
-                        <label style="font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:.35rem">
-                            {{ $appointment->employee ? 'Reassign to' : 'Assign to' }}
-                        </label>
-                        <select name="employee_id" required
-                                style="width:100%;padding:.6rem .85rem;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:.84rem;font-family:inherit;outline:none">
-                            <option value="">— Select Beautician —</option>
-                            @foreach($employees as $emp)
-                                <option value="{{ $emp->id }}" {{ $appointment->employee_id == $emp->id ? 'selected':'' }}>
-                                    {{ $emp->name }} ({{ $emp->role_label }})
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-user-check"></i> Assign
-                    </button>
-                </form>
-            </div>
-        </div>
+                <form action="{{ route('admin.appointments.assign', $appointment) }}" method="POST">
+    @csrf
+    <select name="employee_id" required>
+        <option value="">— Select Beautician —</option>
+        @foreach($employees as $employee)
+            <option value="{{ $employee->id }}"
+                {{ $appointment->employee_id == $employee->id ? 'selected' : '' }}>
+                {{ $employee->name }} ({{ ucfirst($employee->role) }})
+            </option>
+        @endforeach
+    </select>
+    <button type="submit">Assign</button>
+</form>
 
-    </div>
+{{-- Unassign button (show only if already assigned) --}}
+@if($appointment->employee_id)
+<form action="{{ route('admin.appointments.unassign', $appointment) }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <button type="submit">Unassign</button>
+</form>
+@endif
 
     {{-- ── RIGHT COLUMN ── --}}
     <div>
