@@ -453,9 +453,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="tel:+254700000000">
+                        <a href="tel:+254722794265">
                             <i class="fas fa-phone" style="color:var(--pink-lt);font-size:.75rem;width:13px"></i>
-                            +254 700 000 000
+                            +2547227942650
                         </a>
                     </li>
                     <li>

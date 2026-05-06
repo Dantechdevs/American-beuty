@@ -564,7 +564,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 <div class="wa-float">
   <span class="wa-tooltip">💬 Chat with us</span>
   <a class="wa-btn"
-     href="https://wa.me/254XXXXXXXXX?text=Hi%20American%20Beauty!%20%F0%9F%8C%B8%20I%27d%20like%20to%20enquire%20about%20your%20services."
+     href="https://wa.me/254722794265?text=Hi%20American%20Beauty!%20%F0%9F%8C%B8%20I%27d%20like%20to%20enquire%20about%20your%20services."
      target="_blank"
      rel="noopener noreferrer"
      title="Chat with us on WhatsApp"
