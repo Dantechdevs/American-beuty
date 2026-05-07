@@ -245,6 +245,7 @@
             text-transform: uppercase; letter-spacing: .1em;
             margin-right: 2px; white-space: nowrap;
         }
+        .pay-pill-img { height: 22px; width: auto; border-radius: 4px; background: #fff; padding: 2px 6px; display:inline-flex; align-items:center; }
         .pay-pill {
             background: rgba(255,255,255,.12);
             border: 1px solid rgba(255,255,255,.25);
@@ -425,10 +426,15 @@
                     <a href="https://www.youtube.com/@americanbeuty" target="_blank" rel="noopener" title="YouTube"><i class="fab fa-youtube"></i></a>
                 </div>
                 <div class="pay-row">
-                    <span class="pay-label-inline">Pay via</span>
-                    <span class="pay-pill">M-PESA</span>
-                    <span class="pay-pill">Visa</span>
-                    <span class="pay-pill">Mastercard</span>
+                    <span class="pay-pill-img" title="M-PESA">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/120px-M-PESA_LOGO-01.svg.png" alt="M-PESA" style="height:18px;width:auto">
+                    </span>
+                    <span class="pay-pill-img" title="Visa">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/120px-Visa_Inc._logo.svg.png" alt="Visa" style="height:14px;width:auto">
+                    </span>
+                    <span class="pay-pill-img" title="Mastercard">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/120px-Mastercard-logo.svg.png" alt="Mastercard" style="height:18px;width:auto">
+                    </span>
                 </div>
             </div>
 
@@ -471,7 +477,7 @@
                     <li>
                         <a href="tel:+254722794265">
                             <i class="fas fa-phone" style="color:var(--pink-lt);font-size:.75rem;width:13px"></i>
-                            +2547227942650
+                            +254 722 794 265
                         </a>
                     </li>
                     <li>
