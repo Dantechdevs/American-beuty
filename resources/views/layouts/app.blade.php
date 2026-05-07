@@ -430,8 +430,10 @@
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/M-PESA_LOGO-01.svg/120px-M-PESA_LOGO-01.svg.png" alt="M-PESA" style="height:18px;width:auto">
                     </span>
                     <span class="pay-pill-img" title="Visa">
-                       <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Visa_Logo.png" alt="Visa" style="height:14px;width:auto">
-                   </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="14" viewBox="0 0 38 14">
+                            <text x="0" y="12" font-family="Arial Black,sans-serif" font-size="13" font-weight="900" fill="#1A1F71" letter-spacing="-0.5">VISA</text>
+                        </svg>
+                    </span>
                     <span class="pay-pill-img" title="Mastercard">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/120px-Mastercard-logo.svg.png" alt="Mastercard" style="height:18px;width:auto">
                     </span>
