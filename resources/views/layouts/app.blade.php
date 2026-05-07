@@ -285,6 +285,15 @@
             .newsletter-form { flex: 0 0 100%; width: 100%; }
         }
         @media(max-width:768px){
+            .nav-inner { padding: .7rem 1rem; gap: .5rem; }
+            .brand { font-size: 1.35rem; }
+            .nav-actions { gap: .6rem; }
+            .btn-nav-login { padding: .35rem .75rem; font-size: .78rem; }
+            .cart-icon-wrap { padding: 6px 9px; }
+            .topbar { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding: .45rem 1rem; gap: .8rem; scrollbar-width: none; }
+            .topbar::-webkit-scrollbar { display: none; }
+            .topbar-sep { display: none; }
+            .topbar-cart-btn { flex-shrink: 0; }
             .nav-links { display: none; }
             .hamburger-desktop { display: none; }
             .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: .5rem; }
