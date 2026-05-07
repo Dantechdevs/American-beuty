@@ -431,7 +431,9 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   .hero-btns { justify-content: center; flex-direction: column; align-items: center; }
   .hero-stats { justify-content: center; gap: 1rem; }
   .hero-image { order: -1; width: 100%; max-height: 35vh; overflow: hidden; }
-  .hero-img-ring { height: 35vh; width: 100%; }
+  .hero-img-ring { height: 50vh; width: 100%; }
+  .hero-img-ring iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  .book-overlay { display: none; }
 }
 
 </style>
