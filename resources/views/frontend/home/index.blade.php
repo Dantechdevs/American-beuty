@@ -425,32 +425,17 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   .wa-btn { width: 52px; height: 52px; font-size: 1.4rem; }
 }
 @media (max-width: 768px) {
-  .hero {
-    grid-template-columns: 1fr;
-    min-height: auto;
-    padding: 6rem 1.5rem 3rem;
-    gap: 2rem;
-    text-align: center;
-  }
-  .hero-title { font-size: clamp(2rem,8vw,2.8rem); }
-  .hero-sub { max-width: 100%; margin-left: auto; margin-right: auto; }
-  .hero-btns { justify-content: center; }
-  .hero-stats { justify-content: center; }
-  .hero-image { order: -1; }
-  .hero-img-ring { height: 45vh; }
-}
-@media (max-width: 768px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; padding: 6rem 1.5rem 3rem; gap: 2rem; text-align: center; }
-  .hero-title { font-size: clamp(2rem,8vw,2.8rem); }
-  .hero-sub { max-width: 100%; margin-left: auto; margin-right: auto; }
-  .hero-btns { justify-content: center; }
-  .hero-stats { justify-content: center; }
+  .hero { grid-template-columns: 1fr; min-height: auto; padding: 5rem 1.2rem 2rem; gap: 1.5rem; text-align: center; overflow-x: hidden; }
+  .hero-title { font-size: clamp(1.8rem,7vw,2.4rem); }
+  .hero-sub { max-width: 100%; margin-left: auto; margin-right: auto; font-size: .9rem; }
+  .hero-btns { justify-content: center; flex-direction: column; align-items: center; }
+  .hero-stats { justify-content: center; gap: 1rem; }
   .hero-image { order: -1; width: 100%; }
-  .hero-img-ring { height: 45vh; }
+  .hero-img-ring { height: 40vh; width: 100%; }
 }
+
 </style>
 @endpush
-
 @section('content')
 
 {{-- Promo bar --}}

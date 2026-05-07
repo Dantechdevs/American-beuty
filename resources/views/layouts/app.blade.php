@@ -23,7 +23,7 @@
             --green-dk: #16a34a;
         }
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:'DM Sans',sans-serif; background:var(--bg-deep); color:#fff; }
+        body { font-family:'DM Sans',sans-serif; background:var(--bg-deep); color:#fff; overflow-x: hidden; }
         a { text-decoration:none; color:inherit; }
 
         /* ── TOPBAR ── */
