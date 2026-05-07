@@ -258,6 +258,34 @@
         .notif-dropdown-footer a:hover{text-decoration:underline;}
 
         @media(max-width:900px){
+            /* Global grid fixes */
+            [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;}
+            [style*="grid-template-columns:repeat(3"]{grid-template-columns:repeat(2,1fr) !important;}
+            [style*="grid-template-columns:repeat(4"]{grid-template-columns:repeat(2,1fr) !important;}
+            [style*="grid-template-columns:repeat(5"]{grid-template-columns:repeat(2,1fr) !important;}
+            [style*="grid-template-columns:repeat(6"]{grid-template-columns:repeat(3,1fr) !important;}
+            /* Stat cards */
+            .stats-grid{grid-template-columns:repeat(3,1fr) !important;}
+            /* Tables - horizontal scroll */
+            .table-wrap,.table-responsive{overflow-x:auto !important;}
+            table{min-width:600px;}
+            /* Forms */
+            .form-row,[style*="display:grid"]{grid-template-columns:1fr !important;}
+            /* Reports */
+            .report-grid{grid-template-columns:1fr !important;}
+            /* Page header */
+            .page-header{flex-direction:column !important;align-items:flex-start !important;gap:.75rem !important;}
+        }
+        @media(max-width:500px){
+            .stats-grid{grid-template-columns:repeat(2,1fr) !important;}
+            [style*="grid-template-columns:repeat(3"]{grid-template-columns:1fr !important;}
+            .stat-card{padding:.75rem !important;}
+            .stat-val{font-size:1.2rem !important;}
+            .topbar{padding:0 1rem !important;}
+            .main{padding:1rem !important;}
+        }
+
+        @media(max-width:900px){
             .hamburger-btn{display:flex!important;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:36px;height:36px;background:none;border:none;cursor:pointer;padding:4px;}
             .hamburger-btn span{display:block;width:22px;height:2px;background:#f72585;border-radius:2px;transition:all 0.3s;}
             .sidebar.open{transform:translateX(0);}
