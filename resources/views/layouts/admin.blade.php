@@ -258,6 +258,9 @@
         .notif-dropdown-footer a:hover{text-decoration:underline;}
 
         @media(max-width:900px){
+            .hamburger-btn{display:flex!important;}
+            .sidebar.open{transform:translateX(0);}
+            .sb-overlay{display:block;}
             .sidebar{transform:translateX(-100%);}
             .main{margin-left:0;}
             .tb-search{display:none;}
@@ -266,6 +269,7 @@
     @stack('styles')
 </head>
 <body>
+<div class="sb-overlay" id="sbOverlay" onclick="toggleSidebar()"></div>
 
 {{-- ══════════════════════════════════ SIDEBAR ══════════════════════════════════ --}}
 <aside class="sidebar">
@@ -653,6 +657,9 @@
 
     <div class="topbar">
         <div class="topbar-left">
+            <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleSidebar()">
+                <span></span><span></span><span></span>
+            </button>
             <div class="topbar-page-icon"><i class="fas fa-gauge-high"></i></div>
             <div class="topbar-breadcrumb">
                 <div class="topbar-title">@yield('title','Dashboard')</div>
@@ -798,6 +805,10 @@
 @stack('scripts')
 <script>
 /* ── User dropdown ── */
+function toggleSidebar(){
+    document.querySelector('.sidebar').classList.toggle('open');
+    document.getElementById('sbOverlay').classList.toggle('open');
+}
 function toggleDrop(){
     const u=document.getElementById('tbUser');
     const d=document.getElementById('tbDrop');
