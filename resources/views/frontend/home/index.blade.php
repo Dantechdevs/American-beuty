@@ -472,9 +472,13 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   {{-- Right: Video with booking overlay --}}
   <div class="hero-image">
     <div class="hero-img-ring">
-      <video id="hero-video" autoplay muted playsinline>
-        <source src="{{ asset('videos/american.mp4') }}" type="video/mp4">
-      </video>
+      <iframe 
+        src="https://www.youtube.com/embed/Q63j1wi6eHo?autoplay=1&mute=1&loop=1&playlist=Q63j1wi6eHo&controls=0&showinfo=0&rel=0&modestbranding=1" 
+        frameborder="0" 
+        allow="autoplay; encrypted-media" 
+        allowfullscreen
+        style="width:100%; height:100%; position:absolute; top:0; left:0; object-fit:cover;">
+      </iframe>
 
       {{-- Booking overlay --}}
       <div class="book-overlay">
@@ -598,8 +602,7 @@ function showTab(name, btn) {
 
 // ── Hero video cycle (american.mp4 → americanB.MOV → loop) ───────────────────
 const videos = [
-  '{{ asset("videos/american.mp4") }}',
-  '{{ asset("videos/americanB.MOV") }}'
+  '{{ asset("videos/american.mp4") }}'
 ];
 let current = 0;
 const vid = document.getElementById('hero-video');
