@@ -418,10 +418,11 @@
                 <div class="footer-tagline">Glow Naturally</div>
                 <p class="footer-desc">Premium skincare & beauty delivered across Kenya. Authentic brands, real results.</p>
                 <div class="social-links">
-                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" title="TikTok"><i class="fab fa-tiktok"></i></a>
-                    <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://instagram.com/celebratewellnessspaworcester?igsh=MXc1YTZnajNib2w5dA==" target="_blank" rel="noopener" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://web.facebook.com/americanbeautysupplierskenya" target="_blank" rel="noopener" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://tiktok.com/@americanbeautyshop1" target="_blank" rel="noopener" title="TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://wa.me/254722794265" target="_blank" rel="noopener" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://www.youtube.com/@americanbeuty" target="_blank" rel="noopener" title="YouTube"><i class="fab fa-youtube"></i></a>
                 </div>
                 <div class="pay-row">
                     <span class="pay-label-inline">Pay via</span>
@@ -448,12 +449,12 @@
             <div>
                 <h4>Help</h4>
                 <ul>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Shipping Policy</a></li>
-                    <li><a href="#">Returns & Refunds</a></li>
-                    <li><a href="#">Track My Order</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Size Guide</a></li>
+                    <li><a href="{{ route('faqs') }}">FAQs</a></li>
+                    <li><a href="{{ route('shipping-policy') }}">Shipping Policy</a></li>
+                    <li><a href="{{ route('returns-refunds') }}">Returns &amp; Refunds</a></li>
+                    <li><a href="{{ route('track-order') }}">Track My Order</a></li>
+                    <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                    <li><a href="{{ route('size-guide') }}">Size Guide</a></li>
                 </ul>
             </div>
 
@@ -462,9 +463,9 @@
                 <h4>Contact</h4>
                 <ul>
                     <li>
-                        <a href="mailto:info@americanbeauty.com">
+                        <a href="mailto:americanbeautyshop1@gmail.com">
                             <i class="fas fa-envelope" style="color:var(--pink-lt);font-size:.75rem;width:13px"></i>
-                            info@americanbeauty.com
+                            americanbeautyshop1@gmail.com
                         </a>
                     </li>
                     <li>
@@ -474,9 +475,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            <i class="fas fa-location-dot" style="color:var(--pink-lt);font-size:.75rem;width:13px"></i>
-                            Nairobi, Kenya
+                        <a href="https://maps.app.goo.gl/zuS9GfSzqCzqEX139" target="_blank" rel="noopener">
+                        <i class="fas fa-location-dot" style="color:var(--pink-lt);font-size:.75rem;width:13px"></i>
+                        BAZAAR PLAZA MEZZANINE 1 RM 4, BIASHARA ST, Nairobi CBD
                         </a>
                     </li>
                 </ul>

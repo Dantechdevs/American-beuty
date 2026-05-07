@@ -407,3 +407,10 @@ Route::middleware('permission:appointments.manage')->group(function () {
 });
 
 });
+// Static info pages
+Route::get('/faqs',             fn() => view('pages.faqs'))            ->name('faqs');
+Route::get('/shipping-policy',  fn() => view('pages.shipping-policy')) ->name('shipping-policy');
+Route::get('/returns-refunds',  fn() => view('pages.returns-refunds')) ->name('returns-refunds');
+Route::get('/track-order',      fn() => view('pages.track-order'))     ->name('track-order');
+Route::get('/contact',          fn() => view('pages.contact'))         ->name('contact');
+Route::get('/size-guide',       fn() => view('pages.size-guide'))      ->name('size-guide');
