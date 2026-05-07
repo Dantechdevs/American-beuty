@@ -345,10 +345,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // ── Attendance ────────────────────────────────────────────
     Route::middleware('permission:attendance.view')->group(function () {
-        Route::get('/attendance',            [AttendanceController::class, 'index'])  ->name('attendance.index');
-        Route::get('/attendance/today',      [AttendanceController::class, 'today'])  ->name('attendance.today');
-        Route::get('/attendance/report',     [AttendanceController::class, 'report']) ->name('attendance.report');
-        Route::get('/attendance/{employee}', [AttendanceController::class, 'show'])   ->name('attendance.show');
+        Route::get('/attendance',        [AttendanceController::class, 'index'])  ->name('attendance.index');
+        Route::get('/attendance/today',  [AttendanceController::class, 'today'])  ->name('attendance.today');
+        Route::get('/attendance/report', [AttendanceController::class, 'report']) ->name('attendance.report');
     });
     Route::middleware('permission:attendance.terminal')->group(function () {
         Route::get('/attendance/terminal',   [AttendanceController::class, 'terminal']) ->name('attendance.terminal');
@@ -361,6 +360,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::post('/attendance/manual',               [AttendanceController::class, 'manual'])  ->name('attendance.manual');
         Route::put('/attendance/{attendance}/override', [AttendanceController::class, 'override'])->name('attendance.override');
         Route::delete('/attendance/{attendance}',       [AttendanceController::class, 'destroy']) ->name('attendance.destroy');
+    });
+    Route::middleware('permission:attendance.view')->group(function () {
+        Route::get('/attendance/{employee}', [AttendanceController::class, 'show'])->name('attendance.show');
     });
 
     // ── Reports ───────────────────────────────────────────────
