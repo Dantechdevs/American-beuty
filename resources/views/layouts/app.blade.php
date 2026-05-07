@@ -87,6 +87,7 @@
         }
         .brand span { color: var(--pink); }
         .nav-links { display: flex; gap: 2rem; font-size: .9rem; font-weight: 500; }
+        .hamburger { display: none; }
         .nav-links a { color: rgba(255,255,255,.7); transition: color .2s; }
         .nav-links a:hover { color: #fff; }
         .nav-actions { display: flex; align-items: center; gap: 1.2rem; }
@@ -285,6 +286,10 @@
         }
         @media(max-width:768px){
             .nav-links { display: none; }
+            .hamburger-desktop { display: none; }
+            .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: .5rem; }
+            .hamburger span { display: block; width: 24px; height: 2px; background: #fff; border-radius: 2px; transition: all .3s; }
+            .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-dark); padding: 1.5rem; gap: 1.2rem; border-top: 1px solid rgba(255,10,108,.18); z-index: 99; }
             .topbar { gap: .5rem; font-size: .74rem; }
             .footer-bottom { flex-direction: column; text-align: center; }
             .footer-bottom-links { justify-content: center; }
@@ -329,7 +334,8 @@
     <nav>
         <div class="nav-inner">
             <a href="{{ route('home') }}" class="brand">American<span>Beauty</span></a>
-            <div class="nav-links">
+            <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+            <div class="nav-links" id="nav-links">
                 <a href="{{ route('home') }}">Home</a>
                 <a href="{{ route('products.index') }}">Shop</a>
                 <a href="{{ route('products.index', ['category'=>'skincare']) }}">Skincare</a>
@@ -509,5 +515,6 @@
         }
     </script>
     @stack('scripts')
+<script>document.getElementById("hamburger").addEventListener("click",function(){document.getElementById("nav-links").classList.toggle("open");});</script>
 </body>
 </html>

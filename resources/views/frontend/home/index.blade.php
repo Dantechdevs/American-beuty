@@ -424,6 +424,30 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   .wa-float { bottom: 20px; right: 16px; }
   .wa-btn { width: 52px; height: 52px; font-size: 1.4rem; }
 }
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: 6rem 1.5rem 3rem;
+    gap: 2rem;
+    text-align: center;
+  }
+  .hero-title { font-size: clamp(2rem,8vw,2.8rem); }
+  .hero-sub { max-width: 100%; margin-left: auto; margin-right: auto; }
+  .hero-btns { justify-content: center; }
+  .hero-stats { justify-content: center; }
+  .hero-image { order: -1; }
+  .hero-img-ring { height: 45vh; }
+}
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; padding: 6rem 1.5rem 3rem; gap: 2rem; text-align: center; }
+  .hero-title { font-size: clamp(2rem,8vw,2.8rem); }
+  .hero-sub { max-width: 100%; margin-left: auto; margin-right: auto; }
+  .hero-btns { justify-content: center; }
+  .hero-stats { justify-content: center; }
+  .hero-image { order: -1; width: 100%; }
+  .hero-img-ring { height: 45vh; }
+}
 </style>
 @endpush
 
