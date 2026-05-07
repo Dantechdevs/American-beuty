@@ -528,7 +528,7 @@
         @endcan
 
         @can('roles.manage')
-        <a href="{{ route('settings.index') }}"
+        <a href="{{ route('admin.settings.index') }}"
            class="sb-link {{ request()->routeIs('settings.*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-shield-halved"></i></span>
             <span class="sb-txt">Roles &amp; Permissions</span>
