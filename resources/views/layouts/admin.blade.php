@@ -259,7 +259,7 @@
 
         @media(max-width:900px){
             .hamburger-btn{display:flex!important;flex-direction:column;justify-content:center;align-items:center;gap:5px;width:36px;height:36px;background:none;border:none;cursor:pointer;padding:4px;}
-            .hamburger-btn span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.3s;}
+            .hamburger-btn span{display:block;width:22px;height:2px;background:#f72585;border-radius:2px;transition:all 0.3s;}
             .sidebar.open{transform:translateX(0);}
             .sb-overlay{display:block;}
             .sidebar{transform:translateX(-100%);}
