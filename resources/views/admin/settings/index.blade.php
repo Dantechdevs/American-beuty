@@ -7,6 +7,10 @@
 @media(max-width:900px){
   .settings-top-grid{grid-template-columns:1fr !important;}
   .settings-top-grid .card{width:100% !important;}
+  .user-row{flex-wrap:wrap !important;gap:.5rem !important;}
+  .user-row form{width:100% !important;flex-wrap:wrap !important;gap:.4rem !important;}
+  .user-row form .role-chk{font-size:.76rem !important;padding:.28rem .55rem !important;}
+  .user-row form button[type=submit]{width:100% !important;margin-left:0 !important;justify-content:center;}
 }
 </style>
 @endpush
