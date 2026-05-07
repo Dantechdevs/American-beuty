@@ -412,5 +412,16 @@ Route::get('/faqs',             fn() => view('pages.faqs'))            ->name('f
 Route::get('/shipping-policy',  fn() => view('pages.shipping-policy')) ->name('shipping-policy');
 Route::get('/returns-refunds',  fn() => view('pages.returns-refunds')) ->name('returns-refunds');
 Route::get('/track-order',      fn() => view('pages.track-order'))     ->name('track-order');
-Route::get('/contact',          fn() => view('pages.contact'))         ->name('contact');
+Route::get('/contact',  fn() => view('pages.contact'))     ->name('contact');
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'send'])->name('contact.send');
 Route::get('/size-guide',       fn() => view('pages.size-guide'))      ->name('size-guide');
+
+// Policy pages
+Route::get('/privacy-policy',   fn() => view('pages.privacy-policy'))   ->name('privacy-policy');
+Route::get('/terms-of-service', fn() => view('pages.terms-of-service')) ->name('terms-of-service');
+Route::get('/cookie-policy',    fn() => view('pages.cookie-policy'))     ->name('cookie-policy');
+
+// Policy pages
+Route::get('/privacy-policy',   fn() => view('pages.privacy-policy'))   ->name('privacy-policy');
+Route::get('/terms-of-service', fn() => view('pages.terms-of-service')) ->name('terms-of-service');
+Route::get('/cookie-policy',    fn() => view('pages.cookie-policy'))     ->name('cookie-policy');
