@@ -416,7 +416,6 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 /* ── RESPONSIVE ── */
 @media(max-width:768px){
   .hero { grid-template-columns: 1fr; min-height: auto; padding: 3rem 1.5rem; text-align: center; }
-  .hero-image { display: none; }
   .hero-btns { justify-content: center; }
   .hero-stats { justify-content: center; }
   .features { grid-template-columns: 1fr 1fr; }
@@ -430,7 +429,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   .hero-sub { max-width: 100%; margin-left: auto; margin-right: auto; font-size: .9rem; }
   .hero-btns { justify-content: center; flex-direction: column; align-items: center; }
   .hero-stats { justify-content: center; gap: 1rem; }
-  .hero-image { order: -1; width: 100%; max-height: 35vh; overflow: hidden; }
+  .hero-image { order: -1; width: 100%; }
   .hero-img-ring { height: 50vh; width: 100%; }
   .hero-img-ring iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
   .book-overlay { display: none; }
