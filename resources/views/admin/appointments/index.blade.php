@@ -2,6 +2,22 @@
 @section('title', 'Appointments')
 
 @section('content')
+@push('styles')
+<style>
+@media(max-width:900px){
+  .stats-grid{grid-template-columns:repeat(3,1fr) !important;}
+  .filter-card .d-flex{flex-direction:column !important;gap:.75rem !important;}
+  .filter-card select,.filter-card input{width:100% !important;}
+}
+@media(max-width:500px){
+  .stats-grid{grid-template-columns:repeat(2,1fr) !important;}
+  .stat-card{padding:.75rem !important;}
+  .stat-val{font-size:1.2rem !important;}
+}
+</style>
+@endpush
+
+
 <div class="page-header" style="margin-bottom:1.5rem">
     <div>
         <div class="page-title">
@@ -15,7 +31,7 @@
 </div>
 
 {{-- Stats --}}
-<div class="stats-grid" style="grid-template-columns:repeat(6,1fr);margin-bottom:1.5rem">
+<div class="stats-grid" style="grid-template-columns:repeat(6,1fr);margin-bottom:1.5rem;overflow-x:auto">
     <div class="stat-card">
         <div class="stat-icon purple"><i class="fas fa-calendar"></i></div>
         <div><div class="stat-value">{{ $stats['total'] }}</div><div class="stat-label">Total</div></div>

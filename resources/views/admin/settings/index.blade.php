@@ -2,9 +2,19 @@
 @section('title','Settings')
 
 @section('content')
+@push('styles')
+<style>
+@media(max-width:900px){
+  .settings-top-grid{grid-template-columns:1fr !important;}
+  .settings-top-grid .card{width:100% !important;}
+}
+</style>
+@endpush
+
+
 <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:1.5rem">Store Settings</h2>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start" class="settings-top-grid">
     <!-- GENERAL SETTINGS -->
     <div class="card">
         <div class="card-header"><h3>General Settings</h3></div>
