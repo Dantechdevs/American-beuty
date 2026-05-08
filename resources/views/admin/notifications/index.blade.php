@@ -200,7 +200,7 @@
                     <div class="sms-toggle">
                         <input type="checkbox" name="send_sms" id="sendSms" value="1" disabled>
                         <label for="sendSms" style="text-transform:none;font-size:.83rem;font-weight:500;color:var(--muted)">
-                            Also send SMS via Twilio
+                            Also send SMS via Africa's Talking
                             <span style="font-size:.7rem;background:#f3f4f6;padding:.1rem .4rem;border-radius:8px;margin-left:.3rem">Coming soon</span>
                         </label>
                     </div>

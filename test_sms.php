@@ -1,0 +1,1 @@
+<?php app(App\Services\NotificationService::class)->sendRawSms("0722794265", "Test SMS from American Beauty");
