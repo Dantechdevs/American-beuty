@@ -558,7 +558,7 @@
                 setTimeout(function(){btn.textContent="Subscribe";btn.style.background="";btn.disabled=false;},3000);
             });
             return false;
-
+        }
         async function handleWhatsapp(e) {
             e.preventDefault();
             const phone = document.getElementById('whatsapp-phone').value.trim();
@@ -583,7 +583,7 @@
                 alert('Error. Please try again.');
             }
         }
-        }
+        window.onerror = function(msg, src, line, col, err) { alert("JS ERROR: " + msg + " (line " + line + ")"); };
     </script>
     @stack('scripts')
 <script>document.getElementById("hamburger").addEventListener("click",function(){document.getElementById("nav-links").classList.toggle("open");});</script>
