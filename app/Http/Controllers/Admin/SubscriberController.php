@@ -132,6 +132,6 @@ class SubscriberController extends Controller
         ]
     );
 
-    return back()->with('subscribed', true);
+    return response()->json(['success' => true, 'message' => 'Subscribed successfully']);
 }
 }
