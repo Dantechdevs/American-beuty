@@ -134,4 +134,23 @@ class SubscriberController extends Controller
 
     return response()->json(['success' => true, 'message' => 'Subscribed successfully']);
 }
+
+    public function publicWhatsappSubscribe(Request $request)
+    {
+        $request->validate([
+            'phone' => 'required|string|max:20',
+        ]);
+
+        Subscriber::firstOrCreate(
+            ['phone' => $request->phone],
+            [
+                'type'          => 'whatsapp',
+                'source'        => 'footer_form',
+                'is_active'     => true,
+                'subscribed_at' => now(),
+            ]
+        );
+
+        return response()->json(['success' => true, 'message' => 'WhatsApp subscription saved']);
+    }
 }

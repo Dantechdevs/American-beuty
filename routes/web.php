@@ -56,6 +56,7 @@ Route::get('/book/success/{appointment}', [AppointmentController::class, 'succes
 
 // Newsletter (public)
 Route::post('/subscribe', [SubscriberController::class, 'publicSubscribe'])->name('subscribers.subscribe');
+Route::post('/subscribers/whatsapp', [SubscriberController::class, 'publicWhatsappSubscribe'])->name('subscribers.whatsapp');
 
 // Checkout (auth required)
 Route::middleware('auth')->group(function () {

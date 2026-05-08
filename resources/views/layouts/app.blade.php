@@ -411,6 +411,19 @@
         </form>
     </div>
 </div>
+<div class="footer-newsletter-strip" style="border-top:1px solid rgba(180,100,255,.15);">
+    <div class="footer-newsletter-inner">
+        <div class="newsletter-text-group">
+            <div class="newsletter-label" style="color:#25D366;">&#128242; WhatsApp Updates</div>
+            <p class="newsletter-sub">Get deals & beauty tips on WhatsApp.</p>
+        </div>
+        <form class="newsletter-form" id="whatsapp-form" onsubmit="handleWhatsapp(event)">
+            @csrf
+            <input type="tel" name="phone" id="whatsapp-phone" placeholder="07XXXXXXXX" maxlength="10" required>
+            <button type="submit" style="background:#25D366;">Join</button>
+        </form>
+    </div>
+</div>
 
         {{-- Main columns --}}
         <div class="footer-grid">
@@ -545,6 +558,31 @@
                 setTimeout(function(){btn.textContent="Subscribe";btn.style.background="";btn.disabled=false;},3000);
             });
             return false;
+
+        async function handleWhatsapp(e) {
+            e.preventDefault();
+            const phone = document.getElementById('whatsapp-phone').value.trim();
+
+            try {
+                const res = await fetch('/subscribers/whatsapp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                    },
+                    body: JSON.stringify({ phone })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('whatsapp-form').reset();
+                    window.open('https://wa.me/254722794265?text=Hi!%20I%20just%20subscribed%20for%20updates.', '_blank');
+                } else {
+                    alert(data.message || 'Something went wrong.');
+                }
+            } catch(err) {
+                alert('Error. Please try again.');
+            }
+        }
         }
     </script>
     @stack('scripts')
