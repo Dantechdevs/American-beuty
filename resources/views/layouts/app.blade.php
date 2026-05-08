@@ -406,7 +406,7 @@
         </div>
         <form action="{{ route('subscribers.subscribe') }}" method="POST" class="newsletter-form" onsubmit="handleNewsletter(event)">
             @csrf
-            <input type="email" name="newsletter_email" placeholder="your@email.com" required>
+            <input type="email" name="email" placeholder="your@email.com" required>
             <button type="submit">Subscribe</button>
         </form>
     </div>
@@ -524,14 +524,27 @@
 
         function handleNewsletter(e) {
             e.preventDefault();
-            var btn = e.target.querySelector('button');
-            btn.textContent = '✓ Subscribed!';
-            btn.style.background = '#16a34a';
-            e.target.querySelector('input').value = '';
-            setTimeout(function() {
-                btn.textContent = 'Subscribe';
-                btn.style.background = '';
-            }, 3000);
+            var form = e.target;
+            var btn = form.querySelector("button");
+            var email = form.querySelector("input[name='email']").value;
+            btn.disabled = true;
+            btn.textContent = "Subscribing...";
+            fetch(form.action, {
+                method: "POST",
+                headers: {"Content-Type":"application/json","X-CSRF-TOKEN":form.querySelector("[name=_token]").value,"Accept":"application/json"},
+                body: JSON.stringify({email: email})
+            }).then(function(r){return r.json();})
+            .then(function(d){
+                btn.textContent = "✓ Subscribed!";
+                btn.style.background = "#16a34a";
+                form.querySelector("input[name='email']").value = "";
+                setTimeout(function(){btn.textContent="Subscribe";btn.style.background="";btn.disabled=false;},3000);
+            }).catch(function(){
+                btn.textContent = "Error. Try again.";
+                btn.style.background = "#dc2626";
+                setTimeout(function(){btn.textContent="Subscribe";btn.style.background="";btn.disabled=false;},3000);
+            });
+            return false;
         }
     </script>
     @stack('scripts')
