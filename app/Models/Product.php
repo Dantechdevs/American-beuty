@@ -16,7 +16,7 @@ class Product extends Model
         'category_id','brand_id','name','slug','short_description','description',
         'price','sale_price','sku','stock_quantity','track_stock','thumbnail',
         'is_active','is_featured','is_new_arrival','is_best_seller',
-        'weight','ingredients','skin_type','concern','meta_title','meta_description',
+        'weight','unit','ingredients','skin_type','concern','meta_title','meta_description',
     ];
 
     protected $casts = [

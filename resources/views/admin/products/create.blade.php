@@ -91,8 +91,21 @@
                             <input type="number" name="stock_quantity" value="{{ old('stock_quantity',0) }}" required min="0">
                         </div>
                         <div class="form-group">
-                            <label>Weight (g)</label>
-                            <input type="number" name="weight" value="{{ old('weight') }}" min="0" step="0.01">
+                            <label>Weight / Volume</label>
+                            <div style="display:flex;gap:.5rem;">
+                                <input type="number" name="weight" value="{{ old('weight') }}" min="0" step="0.01" placeholder="e.g. 250" style="flex:1;">
+                                <select name="unit" style="width:90px;">
+                                    <option value="">Unit</option>
+                                    <option value="ml" {{ old('unit')=='ml'?'selected':'' }}>ml</option>
+                                    <option value="L" {{ old('unit')=='L'?'selected':'' }}>L</option>
+                                    <option value="g" {{ old('unit')=='g'?'selected':'' }}>g</option>
+                                    <option value="kg" {{ old('unit')=='kg'?'selected':'' }}>kg</option>
+                                    <option value="oz" {{ old('unit')=='oz'?'selected':'' }}>oz</option>
+                                    <option value="fl oz" {{ old('unit')=='fl oz'?'selected':'' }}>fl oz</option>
+                                    <option value="pcs" {{ old('unit')=='pcs'?'selected':'' }}>pcs</option>
+                                    <option value="set" {{ old('unit')=='set'?'selected':'' }}>set</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
