@@ -537,9 +537,12 @@
                 </div>
                 <div class="em-field">
                     <label class="em-label">PIN (4 digits) <span>*</span></label>
-                    <input type="text" name="pin" class="em-input"
-                           placeholder="e.g. 1234" maxlength="10"
-                           pattern="\d{4,10}" required>
+                    <div style="display:flex;gap:.5rem;">
+                        <input type="text" name="pin" id="create-pin" class="em-input"
+                               placeholder="Auto-generated" maxlength="10"
+                               pattern="\d{4,10}" required>
+                        <button type="button" onclick="generatePin()" style="background:var(--purple,#6d28d9);color:#fff;border:none;border-radius:8px;padding:.45rem .9rem;font-size:.8rem;font-weight:700;cursor:pointer;white-space:nowrap;">&#8635; New</button>
+                    </div>
                 </div>
             </div>
 
@@ -668,7 +671,12 @@
 @push('scripts')
 <script>
 /* ── Create modal ── */
+function generatePin() {
+    var digits = Math.floor(1000 + Math.random() * 9000).toString();
+    document.getElementById('create-pin').value = digits;
+}
 function openCreateModal() {
+    generatePin();
     document.getElementById('createModal').classList.add('show');
 }
 function closeCreateModal() {
