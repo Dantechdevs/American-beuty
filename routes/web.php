@@ -30,6 +30,7 @@ use App\Http\Controllers\Admin\SalesReportController;
 use App\Http\Controllers\Admin\ProductsReportController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
@@ -129,6 +130,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::middleware('permission:products.create')->group(function () {
         Route::get('/products/create', [AdminProductController::class, 'create'])->name('products.create');
         Route::post('/products',       [AdminProductController::class, 'store']) ->name('products.store');
+        Route::post('/brands/quick-add', [BrandController::class, 'store'])->name('brands.quick-add');
     });
     Route::middleware('permission:products.edit')->group(function () {
         Route::get('/products/{product}/edit',     [AdminProductController::class, 'edit'])        ->name('products.edit');

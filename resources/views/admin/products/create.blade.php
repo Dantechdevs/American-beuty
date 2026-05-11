@@ -31,13 +31,54 @@
                         </div>
                         <div class="form-group">
                             <label>Brand</label>
-                            <select name="brand_id">
-                                <option value="">No brand</option>
-                                @foreach($brands as $brand)
-                                    <option value="{{ $brand->id }}" {{ old('brand_id')==$brand->id?'selected':'' }}>{{ $brand->name }}</option>
-                                @endforeach
-                            </select>
+                            <div style="display:flex;gap:.5rem;align-items:center;">
+                                <select name="brand_id" id="brand_id" style="flex:1;">
+                                    <option value="">No brand</option>
+                                    @foreach($brands as $brand)
+                                        <option value="{{ $brand->id }}" {{ old('brand_id')==$brand->id?'selected':'' }}>{{ $brand->name }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="button" onclick="document.getElementById('brand-modal').style.display='flex'" style="background:var(--pink,#FF0A6C);color:#fff;border:none;border-radius:8px;padding:.45rem .9rem;font-size:.8rem;font-weight:700;cursor:pointer;white-space:nowrap;">+ Brand</button>
+                            </div>
                         </div>
+
+{{-- Quick Add Brand Modal --}}
+<div id="brand-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;align-items:center;justify-content:center;">
+    <div style="background:#fff;border-radius:14px;padding:2rem;width:100%;max-width:400px;box-shadow:0 8px 32px rgba(0,0,0,.2);">
+        <h3 style="margin:0 0 1rem;font-size:1.1rem;">Add New Brand</h3>
+        <input type="text" id="new-brand-name" placeholder="Brand name" style="width:100%;padding:.6rem .9rem;border:1px solid #ddd;border-radius:8px;font-size:.9rem;margin-bottom:.8rem;box-sizing:border-box;">
+        <p id="brand-modal-msg" style="font-size:.8rem;min-height:1rem;margin-bottom:.5rem;"></p>
+        <div style="display:flex;gap:.7rem;justify-content:flex-end;">
+            <button type="button" onclick="document.getElementById('brand-modal').style.display='none'" style="padding:.5rem 1.2rem;border:1px solid #ddd;border-radius:8px;background:#fff;cursor:pointer;">Cancel</button>
+            <button type="button" onclick="quickAddBrand()" style="padding:.5rem 1.2rem;border:none;border-radius:8px;background:var(--pink,#FF0A6C);color:#fff;font-weight:700;cursor:pointer;">Save Brand</button>
+        </div>
+    </div>
+</div>
+<script>
+function quickAddBrand() {
+    var name = document.getElementById('new-brand-name').value.trim();
+    var msg  = document.getElementById('brand-modal-msg');
+    fetch('{{ route('admin.brands.quick-add') }}', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}','Accept':'application/json'},
+        body: JSON.stringify({name: name})
+    }).then(function(r){ return r.json(); }).then(function(d) {
+        if (d.id) {
+            var select = document.getElementById('brand_id');
+            var option = new Option(d.name, d.id, true, true);
+            select.add(option);
+            document.getElementById('brand-modal').style.display = 'none';
+            document.getElementById('new-brand-name').value = '';
+            msg.textContent = '';
+        } else {
+            msg.style.color='#dc2626';
+            msg.textContent = d.message || 'Error saving brand.';
+        }
+    }).catch(function() {
+        msg.style.color='#dc2626'; msg.textContent='Network error.';
+    });
+}
+</script>
                     </div>
                     <div class="form-group">
                         <label>Short Description</label>
