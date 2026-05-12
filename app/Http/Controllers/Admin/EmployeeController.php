@@ -233,4 +233,16 @@ class EmployeeController extends Controller
         $employee->delete();
         return back()->with('success', $employee->name . ' removed.');
     }
+
+    // ── Reset PIN ─────────────────────────────────────────────
+    public function resetPin(Employee $employee)
+    {
+        do {
+            $pin = (string) random_int(1000, 9999);
+        } while (\App\Models\Employee::where('pin', $pin)->where('id', '!=', $employee->id)->exists());
+
+        $employee->update(['pin' => $pin]);
+
+        return response()->json(['success' => true, 'pin' => $pin, 'name' => $employee->name]);
+    }
 }

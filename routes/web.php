@@ -329,6 +329,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::post('/employees/{employee}/assign-user',    [EmployeeController::class, 'assignUser'])    ->name('employees.assign-user');
         Route::post('/employees/{employee}/unlink-user',    [EmployeeController::class, 'unlinkUser'])    ->name('employees.unlink-user');
         Route::post('/employees/{employee}/create-account', [EmployeeController::class, 'createAccount']) ->name('employees.create-account');
+        Route::patch('/employees/{employee}/reset-pin',       [EmployeeController::class, 'resetPin'])      ->name('employees.reset-pin');
     });
     Route::middleware('permission:employees.delete')->group(function () {
         Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])->name('employees.destroy');

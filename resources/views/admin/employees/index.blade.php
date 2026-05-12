@@ -556,6 +556,10 @@
                                 </button>
                             </form>
 
+                            <button type="button" class="tbl-btn" title="Reset PIN"
+                                    onclick="resetPin({{ $emp->id }}, '{{ addslashes($emp->name) }}')">
+                                <i class="fas fa-key"></i>
+                            </button>
                             <form method="POST"
                                   action="{{ route('admin.employees.destroy', $emp->id) }}"
                                   onsubmit="return confirm('Delete {{ addslashes($emp->name) }}? This cannot be undone.')"
@@ -982,6 +986,17 @@ function switchAccountTab(tab) {
 }
 
 /* ── Copy PIN ── */
+function resetPin(id, name) {
+    if (!confirm('Reset PIN for ' + name + '? A new PIN will be generated.')) return;
+    fetch('/admin/employees/' + id + '/reset-pin', {
+        method: 'PATCH',
+        headers: {'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content, 'Accept': 'application/json'}
+    }).then(r => r.json()).then(d => {
+        if (d.success) alert(name + " new PIN: " + d.pin);
+        else alert('Error resetting PIN.');
+        location.reload();
+    }).catch(() => alert('Network error.'));
+}
 function copyPin(pin, el) {
     navigator.clipboard.writeText(pin).then(() => {
         const orig = el.innerHTML;
