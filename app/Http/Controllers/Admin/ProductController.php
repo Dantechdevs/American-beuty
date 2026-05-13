@@ -43,10 +43,12 @@ class ProductController extends Controller
             'stock_quantity'    => 'required|integer|min:0',
             'short_description' => 'nullable|string',
             'description'       => 'nullable|string',
-            'ingredients'       => 'nullable|string',   // ← ADDED
+            'ingredients'       => 'nullable|string',
             'skin_type'         => 'nullable|string',
             'concern'           => 'nullable|string',
             'sku'               => 'nullable|string|unique:products,sku',
+            'weight'            => 'nullable|numeric|min:0',  // ← ADDED
+            'unit'              => 'nullable|string|max:20',  // ← ADDED
             'is_active'         => 'boolean',
             'is_featured'       => 'boolean',
             'is_new_arrival'    => 'boolean',
@@ -54,9 +56,9 @@ class ProductController extends Controller
             'thumbnail'         => 'nullable|image|max:2048',
         ]);
 
-        $data['slug']        = Str::slug($data['name']);
-        $data['is_active']   = $request->boolean('is_active', true);
-        $data['is_featured'] = $request->boolean('is_featured');
+        $data['slug']           = Str::slug($data['name']);
+        $data['is_active']      = $request->boolean('is_active', true);
+        $data['is_featured']    = $request->boolean('is_featured');
         $data['is_new_arrival'] = $request->boolean('is_new_arrival');
         $data['is_best_seller'] = $request->boolean('is_best_seller');
 
@@ -86,10 +88,12 @@ class ProductController extends Controller
             'stock_quantity'    => 'required|integer|min:0',
             'short_description' => 'nullable|string',
             'description'       => 'nullable|string',
-            'ingredients'       => 'nullable|string',   // ← ADDED
+            'ingredients'       => 'nullable|string',
             'skin_type'         => 'nullable|string',
             'concern'           => 'nullable|string',
             'sku'               => 'nullable|string|unique:products,sku,' . $product->id,
+            'weight'            => 'nullable|numeric|min:0',  // ← ADDED
+            'unit'              => 'nullable|string|max:20',  // ← ADDED
         ]);
 
         $data['is_active']      = $request->boolean('is_active');
