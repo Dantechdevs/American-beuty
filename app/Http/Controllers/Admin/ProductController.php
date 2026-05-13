@@ -43,6 +43,7 @@ class ProductController extends Controller
             'stock_quantity'    => 'required|integer|min:0',
             'short_description' => 'nullable|string',
             'description'       => 'nullable|string',
+            'ingredients'       => 'nullable|string',   // ← ADDED
             'skin_type'         => 'nullable|string',
             'concern'           => 'nullable|string',
             'sku'               => 'nullable|string|unique:products,sku',
@@ -85,6 +86,7 @@ class ProductController extends Controller
             'stock_quantity'    => 'required|integer|min:0',
             'short_description' => 'nullable|string',
             'description'       => 'nullable|string',
+            'ingredients'       => 'nullable|string',   // ← ADDED
             'skin_type'         => 'nullable|string',
             'concern'           => 'nullable|string',
             'sku'               => 'nullable|string|unique:products,sku,' . $product->id,
