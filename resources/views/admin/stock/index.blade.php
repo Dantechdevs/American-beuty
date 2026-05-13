@@ -331,7 +331,7 @@
                 @forelse($products as $product)
                 @php
                     $qty       = $product->stock_quantity;
-                    $threshold = $product->stockAlert?->low_stock_threshold ?? 10;
+                    $threshold = $product->stockAlert?->low_stock_threshold ?? 5;
                     $pct       = $qty <= 0 ? 0 : min(100, ($qty / max($threshold * 3, 1)) * 100);
                     $status    = $qty <= 0 ? 'out' : ($qty <= $threshold ? 'low' : 'ok');
                 @endphp
@@ -461,7 +461,7 @@
                     Alert Threshold
                 </label>
                 <input type="number" name="low_stock_threshold" id="alertThreshold"
-                       min="1" value="10"
+                       min="1" value="5"
                        style="width:100%;padding:.62rem .9rem;border:1.5px solid var(--border);border-radius:var(--r-sm);font-size:.87rem;font-family:inherit;outline:none;transition:border-color .18s"
                        onfocus="this.style.borderColor='var(--purple)'"
                        onblur="this.style.borderColor='var(--border)'">

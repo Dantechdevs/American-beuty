@@ -123,7 +123,7 @@
             <tbody>
                 @foreach($lowStock as $product)
                 @php
-                    $threshold = $product->low_stock_threshold ?? 10;
+                    $threshold = $product->low_stock_threshold ?? 5;
                     $pct = $threshold > 0 ? min(100, ($product->stock_quantity / $threshold) * 100) : 0;
                 @endphp
                 <tr>
