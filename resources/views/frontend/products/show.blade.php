@@ -135,6 +135,7 @@
                 @if($product->skin_type) <span><strong>Skin Type:</strong> {{ $product->skin_type }}</span> @endif
                 @if($product->concern) <span><strong>Concern:</strong> {{ $product->concern }}</span> @endif
                 @if($product->sku) <span><strong>SKU:</strong> {{ $product->sku }}</span> @endif
+                @if($product->weight) <span><strong>Weight / Volume:</strong> {{ $product->weight }}{{ $product->unit }}</span> @endif
             </div>
 
             <div class="stock-badge {{ $product->isInStock() ? 'in-stock' : 'out-stock' }}">
