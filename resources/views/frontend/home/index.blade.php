@@ -430,9 +430,9 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   .hero-btns { justify-content: center; flex-direction: column; align-items: center; }
   .hero-stats { justify-content: center; gap: 1rem; }
   .hero-image { order: -1; width: 100%; }
-  .hero-img-ring { height: 50vh; width: 100%; }
+  .hero-img-ring { height: 420px; width: 100%; }
   .hero-img-ring iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-  .book-overlay { display: flex; position: static; background: transparent; padding: .8rem 1rem 1rem; justify-content: center; }
+  .book-overlay { display: flex; position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(180,30,120,.88) 0%, rgba(200,53,157,.55) 55%, transparent 100%); padding: 2.8rem 1.8rem 2rem; align-items: flex-end; justify-content: center; z-index: 2; }
 }
 
 </style>
