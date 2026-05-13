@@ -441,7 +441,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 
 {{-- Promo bar --}}
 <div class="promo-bar">
-  🌿 Free delivery on orders over KSh 3,000 &nbsp;<span>|</span>&nbsp; 100% Authentic Products &nbsp;<span>|</span>&nbsp; Pay with M-PESA ✦
+  🌿 Free delivery on orders over KSh 20,000 &nbsp;<span>|</span>&nbsp; 100% Authentic Products &nbsp;<span>|</span>&nbsp; Pay with M-PESA ✦
 </div>
 
 <!-- HERO -->
@@ -497,7 +497,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 
 <!-- FEATURES -->
 <div class="features">
-  <div class="feature"><div class="feature-icon"><i class="fas fa-truck"></i></div><h4>Free Delivery</h4><p>On orders over KSh 3,000 across Kenya</p></div>
+  <div class="feature"><div class="feature-icon"><i class="fas fa-truck"></i></div><h4>Free Delivery</h4><p>On orders over KSh 20,000 across Kenya</p></div>
   <div class="feature"><div class="feature-icon"><i class="fas fa-mobile-alt"></i></div><h4>Pay with M-PESA</h4><p>Seamless STK Push payment at checkout</p></div>
   <div class="feature"><div class="feature-icon"><i class="fas fa-certificate"></i></div><h4>100% Authentic</h4><p>All products are genuine & verified</p></div>
   <div class="feature"><div class="feature-icon"><i class="fas fa-undo"></i></div><h4>Easy Returns</h4><p>7-day hassle-free return policy</p></div>
