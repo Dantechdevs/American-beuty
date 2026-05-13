@@ -179,6 +179,11 @@
     </div>
 
     <div id="tab-desc" class="tab-content active">
+        @if($product->weight)
+            <p style="margin-bottom:1rem;padding:.6rem 1rem;background:var(--sand);border-radius:8px;font-size:.9rem;">
+                <strong>Weight / Volume:</strong> {{ $product->weight }}{{ $product->unit }}
+            </p>
+        @endif
         {!! nl2br(e($product->description ?? $product->short_description)) !!}
     </div>
     <div id="tab-ingredients" class="tab-content">
