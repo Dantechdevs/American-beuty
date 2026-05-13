@@ -441,7 +441,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
 
 {{-- Promo bar --}}
 <div class="promo-bar">
-  🌿 Free delivery on orders over KSh 20,000 &nbsp;<span>|</span>&nbsp; 100% Authentic Products &nbsp;<span>|</span>&nbsp; Pay with M-PESA ✦
+  🌿 Free delivery on orders over KSh 20,000 within Nairobi CBD &nbsp;<span>|</span>&nbsp; 100% Authentic Products &nbsp;<span>|</span>&nbsp; Pay with M-PESA ✦
 </div>
 
 <!-- HERO -->

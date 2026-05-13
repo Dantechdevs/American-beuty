@@ -318,7 +318,7 @@
     <div class="topbar">
         <span class="topbar-item">
             <i class="fas fa-truck-fast"></i>
-            Free delivery on orders over KSh 20,000
+            Free delivery on orders over KSh 20,000 within Nairobi CBD
         </span>
         <span class="topbar-sep">|</span>
         <span class="topbar-item">

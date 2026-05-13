@@ -163,7 +163,7 @@
             @endif
 
             <div style="font-size:.82rem;color:#888;display:flex;flex-direction:column;gap:.3rem">
-                <span>🚚 Free delivery on orders over KSh 20,000</span>
+                <span>🚚 Free delivery on orders over KSh 20,000 within Nairobi CBD</span>
                 <span>📱 Pay easily with M-PESA STK Push</span>
                 <span>↩️ 7-day hassle-free returns</span>
             </div>
