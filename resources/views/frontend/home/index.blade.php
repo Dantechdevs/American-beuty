@@ -486,7 +486,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
         <div class="book-card">
           <p class="book-label">✦ Complimentary Session</p>
           <p class="book-sub">Free Skin Consultation</p>
-          <a href="{{ route('book.index') }}" class="book-btn">📅 Book Appointment</a>
+          <a href="{{ route('services') }}" class="book-btn">📅 Book Appointment</a>
         </div>
       </div>
     </div>
@@ -563,7 +563,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   <h2>Ready for Your <em>Glow-Up?</em></h2>
   <p>Book a service or shop our bestselling serums, moisturizers & SPF — starting from KSh 1,500</p>
   <div class="banner-btns">
-    <a href="{{ route('book.index') }}" class="btn-primary">📅 Book Appointment</a>
+    <a href="{{ route('services') }}" class="btn-primary">📅 Book Appointment</a>
     <a href="{{ route('products.index', ['category'=>'skincare']) }}" class="btn-outline" style="border-color:#fff;color:#fff">Shop Skincare</a>
     <a href="{{ route('products.index') }}" class="btn-green">View All Products</a>
   </div>
