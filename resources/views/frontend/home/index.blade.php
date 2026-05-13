@@ -432,7 +432,7 @@ body { font-family: 'Poppins', sans-serif; color: var(--charcoal); background: v
   .hero-image { order: -1; width: 100%; }
   .hero-img-ring { height: 50vh; width: 100%; }
   .hero-img-ring iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-  .book-overlay { display: none; }
+  .book-overlay { display: flex; position: static; background: transparent; padding: .8rem 1rem 1rem; justify-content: center; }
 }
 
 </style>
