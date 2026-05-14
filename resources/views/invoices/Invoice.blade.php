@@ -517,7 +517,7 @@
             </div>
             <div class="meta-cell">
                 <div class="meta-label">Payment</div>
-                <div class="meta-value">{{ ucfirst(str_replace('_', ' ', $order->payment_method ?? 'N/A')) }}</div>
+                <div class="meta-value">{{ ($order->payment_method === 'cod' ? 'Cash on Delivery' : ($order->payment_method === 'mpesa' ? 'M-Pesa' : ($order->payment_method === 'bank_transfer' ? 'Bank Transfer' : ucfirst($order->payment_method ?? 'N/A')))) }}</div>
             </div>
             <div class="meta-cell">
                 <div class="meta-label">Status</div>
