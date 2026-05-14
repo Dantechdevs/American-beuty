@@ -35,6 +35,7 @@ use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\InvoiceController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -56,18 +57,18 @@ Route::post('/book',                      [AppointmentController::class, 'store'
 Route::get('/book/success/{appointment}', [AppointmentController::class, 'success'])->name('book.success');
 
 // Newsletter (public)
-Route::post('/subscribe', [SubscriberController::class, 'publicSubscribe'])->name('subscribers.subscribe');
+Route::post('/subscribe',            [SubscriberController::class, 'publicSubscribe'])       ->name('subscribers.subscribe');
 Route::post('/subscribers/whatsapp', [SubscriberController::class, 'publicWhatsappSubscribe'])->name('subscribers.whatsapp');
 
 // Checkout (auth required)
 Route::middleware('auth')->group(function () {
-    Route::get('/checkout',                    [CheckoutController::class, 'index'])      ->name('checkout');
-    Route::post('/checkout/coupon',            [CheckoutController::class, 'applyCoupon'])->name('checkout.coupon.apply');
+    Route::get('/checkout',                    [CheckoutController::class, 'index'])       ->name('checkout');
+    Route::post('/checkout/coupon',            [CheckoutController::class, 'applyCoupon']) ->name('checkout.coupon.apply');
     Route::delete('/checkout/coupon',          [CheckoutController::class, 'removeCoupon'])->name('checkout.coupon.remove');
-    Route::post('/checkout/place-order',       [CheckoutController::class, 'placeOrder']) ->name('checkout.place-order');
-    Route::get('/checkout/mpesa/wait/{order}', [CheckoutController::class, 'mpesaWait'])  ->name('checkout.mpesa.wait');
-    Route::get('/checkout/mpesa/status',       [CheckoutController::class, 'mpesaStatus'])->name('checkout.mpesa.status');
-    Route::get('/order/success/{orderNumber}', [CheckoutController::class, 'success'])    ->name('order.success');
+    Route::post('/checkout/place-order',       [CheckoutController::class, 'placeOrder'])  ->name('checkout.place-order');
+    Route::get('/checkout/mpesa/wait/{order}', [CheckoutController::class, 'mpesaWait'])   ->name('checkout.mpesa.wait');
+    Route::get('/checkout/mpesa/status',       [CheckoutController::class, 'mpesaStatus']) ->name('checkout.mpesa.status');
+    Route::get('/order/success/{orderNumber}', [CheckoutController::class, 'success'])     ->name('order.success');
 });
 
 // M-PESA Callback (no CSRF)
@@ -77,9 +78,9 @@ Route::post('/mpesa/callback', [MpesaCallbackController::class, 'handle'])
 
 // ─── Auth ────────────────────────────────────────────────────
 Route::middleware('guest')->group(function () {
-    Route::get('/login',           [AuthController::class, 'showLogin'])        ->name('login');
+    Route::get('/login',           [AuthController::class, 'showLogin'])         ->name('login');
     Route::post('/login',          [AuthController::class, 'login']);
-    Route::get('/register',        [AuthController::class, 'showRegister'])     ->name('register');
+    Route::get('/register',        [AuthController::class, 'showRegister'])      ->name('register');
     Route::post('/register',       [AuthController::class, 'register']);
     Route::get('/forgot-password', [AuthController::class, 'showForgotPassword'])->name('password.request');
 });
@@ -91,6 +92,10 @@ Route::middleware(['auth'])->name('customer.')->group(function () {
     Route::get('/orders/{order}/return',    [CustomerReturnOrderController::class, 'create'])->name('return-orders.create');
     Route::post('/my-returns',              [CustomerReturnOrderController::class, 'store']) ->name('return-orders.store');
     Route::get('/my-returns/{returnOrder}', [CustomerReturnOrderController::class, 'show'])  ->name('return-orders.show');
+
+    // ── Customer invoice routes ───────────────────────────────
+    Route::get('/orders/{orderNumber}/invoice',     [InvoiceController::class, 'customerView'])->name('invoice');
+    Route::get('/orders/{orderNumber}/invoice/pdf', [InvoiceController::class, 'customerPdf']) ->name('invoice.pdf');
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -128,9 +133,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/products', [AdminProductController::class, 'index'])->name('products.index');
     });
     Route::middleware('permission:products.create')->group(function () {
-        Route::get('/products/create', [AdminProductController::class, 'create'])->name('products.create');
-        Route::post('/products',       [AdminProductController::class, 'store']) ->name('products.store');
-        Route::post('/brands/quick-add', [BrandController::class, 'store'])->name('brands.quick-add');
+        Route::get('/products/create',   [AdminProductController::class, 'create'])->name('products.create');
+        Route::post('/products',         [AdminProductController::class, 'store']) ->name('products.store');
+        Route::post('/brands/quick-add', [BrandController::class, 'store'])        ->name('brands.quick-add');
     });
     Route::middleware('permission:products.edit')->group(function () {
         Route::get('/products/{product}/edit',     [AdminProductController::class, 'edit'])        ->name('products.edit');
@@ -143,11 +148,18 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // ── Orders ────────────────────────────────────────────────
     Route::middleware('permission:orders.view')->group(function () {
-        Route::get('/orders',         [OrderController::class, 'index'])->name('orders.index');
-        Route::get('/orders/{order}', [OrderController::class, 'show']) ->name('orders.show');
+        Route::get('/orders',             [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}',     [OrderController::class, 'show']) ->name('orders.show');
     });
     Route::middleware('permission:orders.manage')->group(function () {
         Route::patch('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.status');
+    });
+
+    // ── Invoices ──────────────────────────────────────────────
+    Route::middleware('permission:orders.view')->group(function () {
+        Route::get('/invoices',                   [InvoiceController::class, 'index'])    ->name('invoices.index');
+        Route::get('/orders/{order}/invoice',     [InvoiceController::class, 'adminView'])->name('orders.invoice');
+        Route::get('/orders/{order}/invoice/pdf', [InvoiceController::class, 'adminPdf']) ->name('orders.invoice.pdf');
     });
 
     // ── Return Orders ─────────────────────────────────────────
@@ -209,9 +221,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     });
     Route::middleware('permission:settings.edit')->group(function () {
-        Route::post('/settings',                           [SettingsController::class, 'update'])              ->name('settings.update');
+        Route::post('/settings',                           [SettingsController::class, 'update'])               ->name('settings.update');
         Route::patch('/settings/roles/{role}/permissions', [SettingsController::class, 'updateRolePermissions'])->name('settings.role-permissions');
-        Route::patch('/settings/users/{user}/roles',       [SettingsController::class, 'updateUserRoles'])     ->name('settings.user-roles');
+        Route::patch('/settings/users/{user}/roles',       [SettingsController::class, 'updateUserRoles'])      ->name('settings.user-roles');
     });
     Route::middleware('permission:settings.payment')->group(function () {
         Route::patch('/settings/gateways/{gateway}', [SettingsController::class, 'updateGateway'])->name('settings.gateway');
@@ -329,7 +341,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::post('/employees/{employee}/assign-user',    [EmployeeController::class, 'assignUser'])    ->name('employees.assign-user');
         Route::post('/employees/{employee}/unlink-user',    [EmployeeController::class, 'unlinkUser'])    ->name('employees.unlink-user');
         Route::post('/employees/{employee}/create-account', [EmployeeController::class, 'createAccount']) ->name('employees.create-account');
-        Route::patch('/employees/{employee}/reset-pin',       [EmployeeController::class, 'resetPin'])      ->name('employees.reset-pin');
+        Route::patch('/employees/{employee}/reset-pin',     [EmployeeController::class, 'resetPin'])      ->name('employees.reset-pin');
     });
     Route::middleware('permission:employees.delete')->group(function () {
         Route::delete('/employees/{employee}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
@@ -397,36 +409,34 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::post('/subscribers',                [SubscriberController::class, 'store'])       ->name('subscribers.store');
         Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])     ->name('subscribers.destroy');
     });
-Route::middleware('permission:appointments.view')->group(function () {
-    Route::get('/bookings',                   [BookingController::class, 'index'])         ->name('bookings.index');
-    Route::get('/appointments',               [AdminAppointmentController::class, 'index'])->name('appointments.index');
-    Route::get('/appointments/{appointment}', [AdminAppointmentController::class, 'show']) ->name('appointments.show');
-});
-Route::middleware('permission:appointments.manage')->group(function () {
-    Route::patch('/appointments/{appointment}/status',   [AdminAppointmentController::class, 'updateStatus'])    ->name('appointments.status');
-    Route::patch('/appointments/{appointment}/payment',  [AdminAppointmentController::class, 'payment'])         ->name('appointments.payment');
-    Route::post('/appointments/{appointment}/assign',    [AdminAppointmentController::class, 'assignEmployee'])  ->name('appointments.assign');      // ← ADD
-    Route::delete('/appointments/{appointment}/unassign',[AdminAppointmentController::class, 'unassignEmployee'])->name('appointments.unassign');    // ← ADD
-    Route::delete('/appointments/{appointment}',         [AdminAppointmentController::class, 'destroy'])         ->name('appointments.destroy');
-});
+
+    // ── Appointments & Bookings ───────────────────────────────
+    Route::middleware('permission:appointments.view')->group(function () {
+        Route::get('/bookings',                   [BookingController::class, 'index'])         ->name('bookings.index');
+        Route::get('/appointments',               [AdminAppointmentController::class, 'index'])->name('appointments.index');
+        Route::get('/appointments/{appointment}', [AdminAppointmentController::class, 'show']) ->name('appointments.show');
+    });
+    Route::middleware('permission:appointments.manage')->group(function () {
+        Route::patch('/appointments/{appointment}/status',    [AdminAppointmentController::class, 'updateStatus'])    ->name('appointments.status');
+        Route::patch('/appointments/{appointment}/payment',   [AdminAppointmentController::class, 'payment'])         ->name('appointments.payment');
+        Route::post('/appointments/{appointment}/assign',     [AdminAppointmentController::class, 'assignEmployee'])  ->name('appointments.assign');
+        Route::delete('/appointments/{appointment}/unassign', [AdminAppointmentController::class, 'unassignEmployee'])->name('appointments.unassign');
+        Route::delete('/appointments/{appointment}',          [AdminAppointmentController::class, 'destroy'])         ->name('appointments.destroy');
+    });
 
 });
-// Static info pages
-Route::get('/faqs',             fn() => view('pages.faqs'))            ->name('faqs');
-Route::get('/services',          fn() => view('pages.services'))        ->name('services');
-Route::get('/shipping-policy',  fn() => view('pages.shipping-policy')) ->name('shipping-policy');
-Route::get('/returns-refunds',  fn() => view('pages.returns-refunds')) ->name('returns-refunds');
-Route::get('/track-order',      fn() => view('pages.track-order'))     ->name('track-order');
-Route::get('/contact',  fn() => view('pages.contact'))     ->name('contact');
+
+// ─── Static info pages ───────────────────────────────────────
+Route::get('/faqs',            fn() => view('pages.faqs'))            ->name('faqs');
+Route::get('/services',        fn() => view('pages.services'))        ->name('services');
+Route::get('/shipping-policy', fn() => view('pages.shipping-policy')) ->name('shipping-policy');
+Route::get('/returns-refunds', fn() => view('pages.returns-refunds')) ->name('returns-refunds');
+Route::get('/track-order',     fn() => view('pages.track-order'))     ->name('track-order');
+Route::get('/contact',         fn() => view('pages.contact'))         ->name('contact');
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'send'])->name('contact.send');
-Route::get('/size-guide',       fn() => view('pages.size-guide'))      ->name('size-guide');
+Route::get('/size-guide',      fn() => view('pages.size-guide'))      ->name('size-guide');
 
-// Policy pages
+// ─── Policy pages ────────────────────────────────────────────
 Route::get('/privacy-policy',   fn() => view('pages.privacy-policy'))   ->name('privacy-policy');
 Route::get('/terms-of-service', fn() => view('pages.terms-of-service')) ->name('terms-of-service');
-Route::get('/cookie-policy',    fn() => view('pages.cookie-policy'))     ->name('cookie-policy');
-
-// Policy pages
-Route::get('/privacy-policy',   fn() => view('pages.privacy-policy'))   ->name('privacy-policy');
-Route::get('/terms-of-service', fn() => view('pages.terms-of-service')) ->name('terms-of-service');
-Route::get('/cookie-policy',    fn() => view('pages.cookie-policy'))     ->name('cookie-policy');
+Route::get('/cookie-policy',    fn() => view('pages.cookie-policy'))    ->name('cookie-policy');

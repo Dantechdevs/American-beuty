@@ -7,7 +7,11 @@
         <h2 style="font-size:1.3rem;font-weight:700">Order {{ $order->order_number }}</h2>
         <p style="color:#888;font-size:.82rem;margin-top:.2rem">Placed {{ $order->created_at->format('d M Y, H:i') }}</p>
     </div>
-    <a href="{{ route('admin.orders.index') }}" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back</a>
+    <div style="display:flex;gap:.6rem;align-items:center">
+        <a href="{{ route('admin.orders.index') }}" class="btn btn-outline"><i class="fas fa-arrow-left"></i> Back</a>
+        <a href="{{ route('admin.orders.invoice', $order) }}" target="_blank" class="btn btn-outline" style="border-color:#1a1a2e;color:#1a1a2e"><i class="fas fa-file-invoice"></i> View Invoice</a>
+        <a href="{{ route('admin.orders.invoice.pdf', $order) }}" class="btn btn-primary" style="background:#c8102e;border-color:#c8102e"><i class="fas fa-file-pdf"></i> Download PDF</a>
+    </div>
 </div>
 
 <div style="display:grid;grid-template-columns:1fr 320px;gap:1.5rem;align-items:start">
