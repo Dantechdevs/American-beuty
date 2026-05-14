@@ -958,5 +958,3 @@ setInterval(updateCount, 60000);
 </script>
 </body>
 </html>
-
-// Note: This is a Blade template for the admin layout of the American Beauty store. It includes a sidebar with navigation links, a topbar with user info and notifications, and a main content area where different pages will be loaded. The template also handles responsive design and includes JavaScript for interactivity such as toggling the sidebar and loading notifications.
