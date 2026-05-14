@@ -409,7 +409,7 @@
         </a>
 
         {{-- ── Invoices (new) ── --}}
-        <a href="{{ route('admin.invoices.index') }}"
+        <a href="{{ route('admin.orders.index') }}"
            class="sb-link {{ request()->routeIs('admin.invoices.*') || request()->routeIs('admin.orders.invoice*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-file-invoice"></i></span>
             <span class="sb-txt">Invoices</span>

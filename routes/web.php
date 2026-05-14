@@ -94,8 +94,8 @@ Route::middleware(['auth'])->name('customer.')->group(function () {
     Route::get('/my-returns/{returnOrder}', [CustomerReturnOrderController::class, 'show'])  ->name('return-orders.show');
 
     // ── Customer invoice routes ───────────────────────────────
-    Route::get('/orders/{orderNumber}/invoice',     [InvoiceController::class, 'customerView'])->name('invoice');
-    Route::get('/orders/{orderNumber}/invoice/pdf', [InvoiceController::class, 'customerPdf']) ->name('invoice.pdf');
+    Route::get('/orders/{orderNumber}/invoice',     [InvoiceController::class, 'adminView'])->name('invoice');
+    Route::get('/orders/{orderNumber}/invoice/pdf', [InvoiceController::class, 'adminPdf']) ->name('invoice.pdf');
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -157,7 +157,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // ── Invoices ──────────────────────────────────────────────
     Route::middleware('permission:orders.view')->group(function () {
-        Route::get('/invoices',                   [InvoiceController::class, 'index'])    ->name('invoices.index');
         Route::get('/orders/{order}/invoice',     [InvoiceController::class, 'adminView'])->name('orders.invoice');
         Route::get('/orders/{order}/invoice/pdf', [InvoiceController::class, 'adminPdf']) ->name('orders.invoice.pdf');
     });

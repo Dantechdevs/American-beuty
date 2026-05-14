@@ -11,18 +11,18 @@ class InvoiceController extends Controller
     {
         $order->load(['items.product', 'user']);
 
-        return view('invoices.Invoice', [
+        return view('invoices.invoice', [
             'order'   => $order,
             'backUrl' => route('admin.orders.show', $order->id),
             'pdfUrl'  => route('admin.orders.invoice.pdf', $order->id),
         ]);
     }
 
-    public function downloadPdf(Order $order)
+    public function adminPdf(Order $order)
     {
         $order->load(['items.product', 'user']);
 
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoices.Invoice', [
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoices.invoice', [
             'order'   => $order,
             'backUrl' => '#',
             'pdfUrl'  => '#',
