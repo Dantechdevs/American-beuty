@@ -365,11 +365,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/attendance/report', [AttendanceController::class, 'report']) ->name('attendance.report');
     });
     Route::middleware('permission:attendance.terminal')->group(function () {
-        Route::get('/attendance/terminal',   [AttendanceController::class, 'terminal']) ->name('attendance.terminal');
-        Route::get('/attendance/pin/lookup', [AttendanceController::class, 'pinLookup'])->name('attendance.pin.lookup');
-        Route::post('/attendance/clock-in',  [AttendanceController::class, 'clockIn'])  ->name('attendance.clock-in');
-        Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut']) ->name('attendance.clock-out');
+        Route::get('/attendance/terminal', [AttendanceController::class, 'terminal'])->name('attendance.terminal');
     });
+
+    // PIN-based — no permission needed, authenticated by PIN
+    Route::get('/attendance/pin/lookup', [AttendanceController::class, 'pinLookup'])->name('attendance.pin.lookup');
+    Route::post('/attendance/clock-in',  [AttendanceController::class, 'clockIn'])  ->name('attendance.clock-in');
+    Route::post('/attendance/clock-out', [AttendanceController::class, 'clockOut']) ->name('attendance.clock-out');
     Route::middleware('permission:attendance.manage')->group(function () {
         Route::get('/attendance/export',                [AttendanceController::class, 'export'])  ->name('attendance.export');
         Route::post('/attendance/manual',               [AttendanceController::class, 'manual'])  ->name('attendance.manual');
