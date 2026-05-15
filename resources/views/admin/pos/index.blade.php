@@ -706,8 +706,12 @@ function renderCart() {
         return;
     }
     empty.style.display = 'none';
-    container.innerHTML = cart.map(item => `
-        <div class="pos-cart-item">
+    container.innerHTML = '';
+    container.appendChild(empty);
+    cart.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'pos-cart-item';
+        div.innerHTML = `
             <div class="pos-cart-item-name">${escHtml(item.name)}</div>
             <div class="pos-qty-control">
                 <button class="pos-qty-btn" onclick="changeQty(${item.id},-1)">−</button>
@@ -718,8 +722,9 @@ function renderCart() {
             <button class="pos-cart-item-remove" onclick="removeFromCart(${item.id})">
                 <i class="fas fa-times"></i>
             </button>
-        </div>
-    `).join('');
+        `;
+        container.appendChild(div);
+    });
     recalculate();
 }
 
