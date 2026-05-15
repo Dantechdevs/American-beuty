@@ -116,9 +116,11 @@
 }
 .pos-product-card.out-of-stock { opacity: .5; cursor: not-allowed; pointer-events: none; }
 .pos-product-img {
-    width: 100%; aspect-ratio: 1;
+    width: 100%; aspect-ratio: 1/1;
+    height: 130px;
     border-radius: 9px; object-fit: cover;
     background: var(--purple-soft);
+    display: block;
 }
 .pos-product-img-placeholder {
     width: 100%; aspect-ratio: 1;
