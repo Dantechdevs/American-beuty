@@ -9,7 +9,7 @@
    ═══════════════════════════════════════════════════════════ */
 .pos-wrap {
     display: grid;
-    grid-template-columns: 1fr 400px;
+    grid-template-columns: 1fr 340px;
     gap: 1.25rem;
     height: calc(100vh - var(--bar-h) - 3rem);
     min-height: 600px;
@@ -91,7 +91,7 @@
     flex: 1;
     overflow-y: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: .75rem;
     align-content: start;
     padding-right: .25rem;
