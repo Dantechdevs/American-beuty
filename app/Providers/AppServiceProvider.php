@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // ── Pagination view ─────────────────────────────────────────────────
-        Paginator::defaultView('vendor.pagination.bootstrap-5');
+        Paginator::useBootstrapFive();
 
         // ── Register Gate so @can / @canany work in Blade ──────────────────
         Gate::before(function (User $user, string $ability) {
