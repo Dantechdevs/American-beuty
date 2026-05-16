@@ -14,6 +14,19 @@
     height: calc(100vh - var(--bar-h) - 3rem);
     min-height: 600px;
 }
+@media (max-width: 768px) {
+    .pos-wrap {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: unset;
+    }
+    .pos-right {
+        order: -1;
+    }
+    .pos-left {
+        min-height: 60vh;
+    }
+}
 
 /* ── Left panel ── */
 .pos-left {
