@@ -129,7 +129,7 @@
 }
 .pos-product-card.out-of-stock { opacity: .5; cursor: not-allowed; pointer-events: none; }
 .pos-product-img {
-    width: 100%; height: 150px;
+    width: 100%; height: 180px;
     border-radius: 9px; object-fit: contain;
     background: var(--purple-soft);
     display: block;
