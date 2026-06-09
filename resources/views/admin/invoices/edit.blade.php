@@ -121,6 +121,15 @@
                             <option value="sent"  {{ old('status',$invoice->status)==='sent'  ? 'selected':'' }}>Sent</option>
                             <option value="paid"  {{ old('status',$invoice->status)==='paid'  ? 'selected':'' }}>Paid</option>
                         </select>
+                    <div class="form-group" style="margin:0">
+                        <label>Served By</label>
+                        <select name="served_by" class="form-control">
+                            <option value="">Select staff…</option>
+                            @foreach(\App\Models\Employee::where("is_active",true)->orderBy("name")->get() as $emp)
+                            <option value="{{ $emp->id }}" {{ old("served_by",$invoice->served_by)==$emp->id?"selected":"" }}>{{ $emp->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     </div>
                 </div>
             </div>
