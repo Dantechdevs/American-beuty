@@ -111,6 +111,7 @@ class PosController extends Controller
             'amount_paid'    => 'required|numeric|min:0',
             'discount'       => 'nullable|numeric|min:0|max:999999',
             'mpesa_code'     => 'required_if:payment_method,mpesa|nullable|string|max:20',
+            'sale_date'      => 'nullable|date',
         ], [
             'customer_phone.required_if' => 'Customer phone number is required for M-Pesa payment.',
             'mpesa_code.required_if'     => 'M-Pesa transaction code is required.',
@@ -246,6 +247,7 @@ class PosController extends Controller
                 'payment_status' => $paymentStatus,
                 'status'         => 'delivered',
                 'notes'          => 'POS Sale — served by ' . Auth::user()->name,
+                'sale_date'      => $request->sale_date ?: now()->toDateString(),
                 'paid_at'        => $paymentStatus === 'paid' ? now() : null,
             ]);
 

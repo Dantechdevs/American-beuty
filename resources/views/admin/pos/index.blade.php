@@ -512,6 +512,18 @@
             </div>
         </div>
 
+        {{-- Sale Date (Backdate) --}}
+        <div class="pos-customer" style="margin-top:.5rem">
+            <div class="pos-customer-row" style="align-items:center;gap:.5rem">
+                <div style="display:flex;align-items:center;gap:.4rem;flex:1;background:#f8f7ff;border:1.5px solid var(--border);border-radius:9px;padding:.45rem .75rem">
+                    <i class="fas fa-calendar-day" style="color:var(--purple);font-size:.85rem"></i>
+                    <input type="date" id="saleDate" class="pos-input"
+                        style="border:none;background:transparent;padding:0;font-size:.85rem;color:var(--text);width:100%;outline:none"
+                        value="{{ date('Y-m-d') }}">
+                </div>
+                <span style="font-size:.72rem;color:var(--muted);white-space:nowrap">Sale Date</span>
+            </div>
+        </div>
         {{-- Cart items --}}
         <div class="pos-cart-items" id="cartItems">
             <div class="pos-cart-empty" id="cartEmpty">
@@ -829,6 +841,7 @@ function processSale() {
             amount_paid:    paid,
             discount:       parseFloat(document.getElementById('discountInput').value) || 0,
             mpesa_code:     document.getElementById('mpesaCode').value,
+            sale_date:      document.getElementById('saleDate').value,
             _token:         CSRF,
         }),
     })
