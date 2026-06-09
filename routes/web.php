@@ -38,6 +38,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Models\Invoice;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\AppointmentReportController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -388,6 +389,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::middleware('permission:reports.sales')->group(function () {
         Route::get('/reports/sales',        [SalesReportController::class, 'index'])  ->name('reports.sales');
         Route::get('/reports/sales/export', [SalesReportController::class, 'export']) ->name('reports.sales.export');
+    });
+    Route::middleware('permission:reports.appointments')->group(function () {
+        Route::get('/reports/appointments',        [AppointmentReportController::class, 'index']) ->name('reports.appointments');
+        Route::get('/reports/appointments/export', [AppointmentReportController::class, 'export'])->name('reports.appointments.export');
     });
     Route::middleware('permission:reports.products')->group(function () {
         Route::get('/reports/products', [ProductsReportController::class, 'index'])->name('reports.products');

@@ -550,7 +550,7 @@
         @endcanany
 
         {{-- ══ ACCOUNTS & REPORTS ══ --}}
-        @canany(['transactions.view','reports.sales','reports.products'])
+        @canany(['transactions.view','reports.sales','reports.products','reports.appointments'])
         <div class="sb-section">Accounts &amp; Reports</div>
 
         @can('transactions.view')
@@ -577,6 +577,13 @@
         </a>
         @endcan
 
+        @can('reports.appointments')
+        <a href="{{ route('admin.reports.appointments') }}"
+           class="sb-link {{ request()->routeIs('admin.reports.appointments*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-spa"></i></span>
+            <span class="sb-txt">Appointments Report</span>
+        </a>
+        @endcan
         @endcanany
 
         {{-- ══ LOGS ══ --}}
