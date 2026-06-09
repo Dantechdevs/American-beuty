@@ -85,7 +85,6 @@ table.it tbody td:last-child{border-right:none;text-align:right;font-weight:600}
             <div class="cust-left-body">
                 <div><span class="fl">Name:</span><strong>{{ $invoice->client_name }}</strong></div>
                 @if($invoice->client_phone)<div><span class="fl">Tel:</span>{{ $invoice->client_phone }}</div>@endif
-                @if($invoice->client_email)<div><span class="fl">Email:</span>{{ $invoice->client_email }}</div>@endif
                 @if($invoice->client_address)<div><span class="fl">Address:</span>{{ $invoice->client_address }}</div>@endif
             </div>
         </div>
@@ -95,6 +94,7 @@ table.it tbody td:last-child{border-right:none;text-align:right;font-weight:600}
             <div class="mc"><div class="ml">Payment</div><div class="mv">{{ ucfirst(str_replace('_',' ',$invoice->payment_method??'N/A')) }}</div></div>
             <div class="mc"><div class="ml">Status</div><div class="mv"><span class="{{ $invoice->status==='paid'?'badge-paid':'badge-draft' }}">{{ $invoice->status }}</span></div></div>
             @if($invoice->due_date)<div class="mc"><div class="ml">Due</div><div class="mv">{{ $invoice->due_date->format('d M Y') }}</div></div>@endif
+            @if($invoice->servedBy)<div class="mc"><div class="ml">Served By</div><div class="mv">{{ $invoice->servedBy->name }}</div></div>@endif
         </div>
     </div>
 

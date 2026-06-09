@@ -12,7 +12,7 @@ class Invoice extends Model
         'client_name','client_phone','client_email','client_address',
         'subtotal','discount','tax','total',
         'status','payment_method','notes',
-        'invoice_date','due_date','paid_at','created_by',
+        'invoice_date','due_date','paid_at','created_by','served_by',
     ];
 
     protected $casts = [
@@ -29,6 +29,7 @@ class Invoice extends Model
     public function order()    { return $this->belongsTo(Order::class); }
     public function user()     { return $this->belongsTo(User::class); }
     public function creator()  { return $this->belongsTo(User::class, 'created_by'); }
+    public function servedBy() { return $this->belongsTo(\App\Models\Employee::class, 'served_by'); }
 
     public function getStatusBadgeAttribute(): string
     {

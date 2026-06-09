@@ -76,7 +76,6 @@ class InvoiceController extends Controller
         $request->validate([
             'client_name'    => 'required|string|max:150',
             'client_phone'   => 'nullable|string|max:20',
-            'client_email'   => 'nullable|email|max:150',
             'client_address' => 'nullable|string|max:255',
             'invoice_date'   => 'required|date',
             'due_date'       => 'nullable|date',
@@ -85,6 +84,7 @@ class InvoiceController extends Controller
             'notes'          => 'nullable|string',
             'discount'       => 'nullable|numeric|min:0',
             'tax'            => 'nullable|numeric|min:0',
+            'served_by'      => 'nullable|exists:employees,id',
             'items'          => 'required|array|min:1',
             'items.*.description' => 'required|string|max:255',
             'items.*.quantity'    => 'required|numeric|min:0.01',
@@ -104,7 +104,6 @@ class InvoiceController extends Controller
             $invoice = Invoice::create([
                 'client_name'    => $request->client_name,
                 'client_phone'   => $request->client_phone,
-                'client_email'   => $request->client_email,
                 'client_address' => $request->client_address,
                 'invoice_date'   => $request->invoice_date,
                 'due_date'       => $request->due_date,
@@ -117,6 +116,7 @@ class InvoiceController extends Controller
                 'total'          => $total,
                 'paid_at'        => $request->status === 'paid' ? now() : null,
                 'created_by'     => Auth::id(),
+                'served_by'      => $request->served_by ?: null,
             ]);
 
             foreach ($request->items as $i => $item) {
@@ -155,7 +155,6 @@ class InvoiceController extends Controller
         $request->validate([
             'client_name'    => 'required|string|max:150',
             'client_phone'   => 'nullable|string|max:20',
-            'client_email'   => 'nullable|email|max:150',
             'client_address' => 'nullable|string|max:255',
             'invoice_date'   => 'required|date',
             'due_date'       => 'nullable|date',
@@ -183,7 +182,6 @@ class InvoiceController extends Controller
             $invoice->update([
                 'client_name'    => $request->client_name,
                 'client_phone'   => $request->client_phone,
-                'client_email'   => $request->client_email,
                 'client_address' => $request->client_address,
                 'invoice_date'   => $request->invoice_date,
                 'due_date'       => $request->due_date,

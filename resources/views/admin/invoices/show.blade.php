@@ -39,7 +39,6 @@
                     <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.5rem">Bill To</div>
                     <div style="font-weight:700;font-size:1rem;color:var(--text);margin-bottom:.2rem">{{ $invoice->client_name }}</div>
                     @if($invoice->client_phone)<div style="font-size:.85rem;color:var(--muted)"><i class="fas fa-phone" style="width:14px;color:var(--purple)"></i> {{ $invoice->client_phone }}</div>@endif
-                    @if($invoice->client_email)<div style="font-size:.85rem;color:var(--muted)"><i class="fas fa-envelope" style="width:14px;color:var(--purple)"></i> {{ $invoice->client_email }}</div>@endif
                     @if($invoice->client_address)<div style="font-size:.85rem;color:var(--muted)"><i class="fas fa-location-dot" style="width:14px;color:var(--purple)"></i> {{ $invoice->client_address }}</div>@endif
                 </div>
                 <div>

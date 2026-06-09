@@ -40,10 +40,6 @@
                         <label>Phone</label>
                         <input type="text" name="client_phone" class="form-control" value="{{ old('client_phone', $invoice->client_phone) }}" placeholder="07…">
                     </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="client_email" class="form-control" value="{{ old('client_email', $invoice->client_email) }}" placeholder="email@example.com">
-                    </div>
                     <div class="form-group" style="grid-column:span 2">
                         <label>Address</label>
                         <input type="text" name="client_address" class="form-control" value="{{ old('client_address', $invoice->client_address) }}" placeholder="Nairobi, Kenya">
