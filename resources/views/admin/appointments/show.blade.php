@@ -261,6 +261,46 @@
                         {{ $appointment->isPaid() ? 'Paid' : 'Unpaid' }}
                     </span>
                 </div>
+                {{-- Payment Form --}}
+                <div style="margin-top:1rem;padding-top:1rem;border-top:1.5px solid var(--border)">
+                    <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.75rem">
+                        <i class="fas fa-credit-card" style="color:var(--purple);margin-right:.3rem"></i>Update Payment
+                    </div>
+                    <form action="{{ route('admin.appointments.payment', $appointment) }}" method="POST">
+                        @csrf @method('PATCH')
+                        <div style="display:flex;flex-direction:column;gap:.6rem">
+                            <div>
+                                <label style="font-size:.75rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.25rem">Payment Method</label>
+                                <select name="payment_method" class="form-control" style="font-size:.83rem" id="show_payment_method" onchange="toggleShowMpesa(this.value)">
+                                    <option value="">Select…</option>
+                                    <option value="cash"          {{ $appointment->payment_method==='cash'          ?'selected':'' }}>Cash</option>
+                                    <option value="mpesa"         {{ $appointment->payment_method==='mpesa'         ?'selected':'' }}>M-Pesa</option>
+                                    <option value="card"          {{ $appointment->payment_method==='card'          ?'selected':'' }}>Card</option>
+                                    <option value="bank_transfer" {{ $appointment->payment_method==='bank_transfer' ?'selected':'' }}>Bank Transfer</option>
+                                </select>
+                            </div>
+                            <div id="show_mpesa_wrap" style="display:{{ $appointment->payment_method==='mpesa'?'block':'none' }}">
+                                <label style="font-size:.75rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.25rem">M-Pesa Code</label>
+                                <input type="text" name="mpesa_code" id="show_mpesa_code" class="form-control" style="font-size:.83rem;text-transform:uppercase" value="{{ $appointment->mpesa_code }}" placeholder="e.g. QGH7XXXXXX">
+                            </div>
+                            <div>
+                                <label style="font-size:.75rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.25rem">Amount Paid (KSh)</label>
+                                <input type="number" name="amount_paid" class="form-control" style="font-size:.83rem" value="{{ $appointment->amount_paid }}" min="0" step="0.01">
+                            </div>
+                            <div>
+                                <label style="font-size:.75rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.25rem">Payment Status</label>
+                                <select name="payment_status" class="form-control" style="font-size:.83rem">
+                                    <option value="unpaid"  {{ $appointment->payment_status==='unpaid'  ?'selected':'' }}>Unpaid</option>
+                                    <option value="deposit" {{ $appointment->payment_status==='deposit' ?'selected':'' }}>Deposit Paid</option>
+                                    <option value="paid"    {{ $appointment->payment_status==='paid'    ?'selected':'' }}>Fully Paid</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:.25rem">
+                                <i class="fas fa-save"></i> Save Payment
+                            </button>
+                        </div>
+                    </form>
+                </div>
 
                 {{-- WhatsApp quick message --}}
                 <div style="margin-top:1rem;padding-top:1rem;border-top:1.5px solid var(--border)">
@@ -278,6 +318,12 @@
 
 @push('scripts')
 <script>
+function toggleShowMpesa(val) {
+    const wrap = document.getElementById('show_mpesa_wrap');
+    const code = document.getElementById('show_mpesa_code');
+    if (val === 'mpesa') { wrap.style.display = 'block'; code.required = true; }
+    else { wrap.style.display = 'none'; code.required = false; }
+}
 document.querySelector('select[name="status"]').addEventListener('change', function () {
     const wrap = document.getElementById('cancel-reason-wrap');
     wrap.style.display = this.value === 'cancelled' ? 'block' : 'none';

@@ -27,7 +27,7 @@ class Appointment extends Model
         'status',
         'deposit_amount',
         'mpesa_code',
-        'payment_status',
+        'payment_status','payment_method',
         'confirmed_at',
         'completed_at',
         'cancelled_at',

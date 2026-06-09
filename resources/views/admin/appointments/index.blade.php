@@ -349,6 +349,20 @@
                     <div class="form-group">
                         <label>Amount Paid (KSh)</label>
                         <input type="number" name="amount_paid" class="form-control" placeholder="0" min="0" step="0.01" value="0">
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select name="payment_method" class="form-control" id="walkin_payment_method" onchange="toggleWalkinMpesa(this.value)">
+                            <option value="">Select…</option>
+                            <option value="cash">Cash</option>
+                            <option value="mpesa">M-Pesa</option>
+                            <option value="card">Card</option>
+                            <option value="bank_transfer">Bank Transfer</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="walkin_mpesa_wrap" style="display:none;grid-column:span 2">
+                        <label>M-Pesa Transaction Code</label>
+                        <input type="text" name="mpesa_code" id="walkin_mpesa_code" class="form-control" placeholder="e.g. QGH7XXXXXX" style="text-transform:uppercase">
+                    </div>
                     </div>
                     <div class="form-group">
                         <label>Payment Status <span style="color:var(--pink)">*</span></label>
@@ -383,6 +397,12 @@
 
 @push('scripts')
 <script>
+function toggleWalkinMpesa(val) {
+    const wrap = document.getElementById('walkin_mpesa_wrap');
+    const code = document.getElementById('walkin_mpesa_code');
+    if (val === 'mpesa') { wrap.style.display = 'block'; code.required = true; }
+    else { wrap.style.display = 'none'; code.required = false; code.value = ''; }
+}
 function openModal(id) { const m=document.getElementById(id); m.style.display='flex'; document.body.style.overflow='hidden'; }
 function closeModal(id) { const m=document.getElementById(id); m.style.display='none'; document.body.style.overflow=''; }
 document.getElementById('walkinModal').addEventListener('click', function(e){ if(e.target===this) closeModal('walkinModal'); });

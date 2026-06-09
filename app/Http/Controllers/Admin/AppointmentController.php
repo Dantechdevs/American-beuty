@@ -77,6 +77,8 @@ class AppointmentController extends Controller
             "payment_status"   => $request->payment_status,
             "status"           => $request->status,
             "served_by"        => $request->served_by,
+            "payment_method"   => $request->payment_method,
+            "mpesa_code"       => $request->payment_method === "mpesa" ? strtoupper(trim($request->mpesa_code ?? "")) : null,
             "notes"            => $request->notes,
             "confirmed_at"     => in_array($request->status, ["confirmed","completed"]) ? now() : null,
             "completed_at"     => $request->status === "completed" ? now() : null,
@@ -139,6 +141,27 @@ class AppointmentController extends Controller
         }
 
         return back()->with('success', 'Appointment status updated to ' . ucfirst($request->status) . '.');
+    }
+
+
+    // -- Update payment ----------------------------------------------
+    public function payment(Request $request, Appointment $appointment)
+    {
+        $request->validate([
+            "payment_method" => "required|in:cash,mpesa,card,bank_transfer",
+            "payment_status" => "required|in:unpaid,deposit,paid",
+            "amount_paid"    => "nullable|numeric|min:0",
+            "mpesa_code"     => "nullable|string|max:20",
+        ]);
+
+        $appointment->update([
+            "payment_method" => $request->payment_method,
+            "payment_status" => $request->payment_status,
+            "amount_paid"    => $request->amount_paid ?? 0,
+            "mpesa_code"     => $request->payment_method === "mpesa" ? strtoupper(trim($request->mpesa_code ?? "")) : $appointment->mpesa_code,
+        ]);
+
+        return back()->with("success", "Payment updated successfully.");
     }
 
     // -- Assign employee ----------------------------------------------
