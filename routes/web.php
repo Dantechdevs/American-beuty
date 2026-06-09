@@ -455,6 +455,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::get('/appointments/{appointment}', [AdminAppointmentController::class, 'show']) ->name('appointments.show');
     });
     Route::middleware('permission:appointments.manage')->group(function () {
+        Route::post('/appointments',                      [AdminAppointmentController::class, 'store'])          ->name('appointments.store');
         Route::patch('/appointments/{appointment}/status',    [AdminAppointmentController::class, 'updateStatus'])    ->name('appointments.status');
         Route::patch('/appointments/{appointment}/payment',   [AdminAppointmentController::class, 'payment'])         ->name('appointments.payment');
         Route::post('/appointments/{appointment}/assign',     [AdminAppointmentController::class, 'assignEmployee'])  ->name('appointments.assign');

@@ -257,4 +257,132 @@
     </div>
     <div class="pagination-wrap">{{ $appointments->withQueryString()->links() }}</div>
 </div>
+
+{{-- ══════════════════════════════════════
+     WALK-IN MODAL
+══════════════════════════════════════ --}}
+<div id="walkinModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center">
+    <div style="background:#fff;border-radius:16px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.18);margin:1rem">
+        <form action="{{ route('admin.appointments.store') }}" method="POST">
+            @csrf
+            {{-- Header --}}
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1.5px solid var(--border);background:linear-gradient(120deg,#fff,var(--pink-soft))">
+                <div style="display:flex;align-items:center;gap:.75rem">
+                    <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--pink));display:flex;align-items:center;justify-content:center">
+                        <i class="fas fa-person-walking-arrow-right" style="color:#fff;font-size:.85rem"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight:700;font-size:.95rem;color:var(--text)">Add Walk-in Client</div>
+                        <div style="font-size:.75rem;color:var(--muted)">Record a manual visit or appointment</div>
+                    </div>
+                </div>
+                <button type="button" onclick="closeModal('walkinModal')" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--muted)">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            {{-- Body --}}
+            <div style="padding:1.5rem">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                    <div class="form-group" style="grid-column:span 2">
+                        <label>Client Name <span style="color:var(--pink)">*</span></label>
+                        <input type="text" name="client_name" class="form-control" placeholder="e.g. Jane Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" name="client_phone" class="form-control" placeholder="07…">
+                    </div>
+                    <div class="form-group">
+                        <label>Served By</label>
+                        <select name="served_by" class="form-control">
+                            <option value="">Select staff…</option>
+                            @foreach(\App\Models\Employee::where("is_active",true)->orderBy("name")->get() as $emp)
+                            <option value="{{ $emp->id }}">{{ $emp->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    {{-- Divider --}}
+                    <div style="grid-column:span 2;display:flex;align-items:center;gap:.75rem;margin:.1rem 0">
+                        <div style="height:1px;flex:1;background:linear-gradient(to right,var(--border),transparent)"></div>
+                        <span style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--purple)"><i class="fas fa-spa" style="margin-right:.3rem"></i>Service</span>
+                        <div style="height:1px;flex:1;background:linear-gradient(to left,var(--border),transparent)"></div>
+                    </div>
+                    <div class="form-group" style="grid-column:span 2">
+                        <label>Service Name <span style="color:var(--pink)">*</span></label>
+                        <input type="text" name="service_name" class="form-control" placeholder="e.g. Express HydraFacial" required list="servicesList">
+                        <datalist id="servicesList">
+                            @foreach(\App\Models\Service::where("is_active",true)->orderBy("name")->get() as $svc)
+                            <option value="{{ $svc->name }}">
+                            @endforeach
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <input type="text" name="service_category" class="form-control" placeholder="e.g. HydraFacials">
+                    </div>
+                    <div class="form-group">
+                        <label>Service Price (KSh)</label>
+                        <input type="number" name="service_price" class="form-control" placeholder="6000" min="0" step="0.01">
+                    </div>
+                    {{-- Divider --}}
+                    <div style="grid-column:span 2;display:flex;align-items:center;gap:.75rem;margin:.1rem 0">
+                        <div style="height:1px;flex:1;background:linear-gradient(to right,var(--border),transparent)"></div>
+                        <span style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--purple)"><i class="fas fa-calendar" style="margin-right:.3rem"></i>Date & Time</span>
+                        <div style="height:1px;flex:1;background:linear-gradient(to left,var(--border),transparent)"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Date <span style="color:var(--pink)">*</span></label>
+                        <input type="date" name="appointment_date" class="form-control" value="{{ date('Y-m-d') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Time <span style="color:var(--pink)">*</span></label>
+                        <input type="time" name="appointment_time" class="form-control" value="{{ date('H:i') }}" required>
+                    </div>
+                    {{-- Divider --}}
+                    <div style="grid-column:span 2;display:flex;align-items:center;gap:.75rem;margin:.1rem 0">
+                        <div style="height:1px;flex:1;background:linear-gradient(to right,var(--border),transparent)"></div>
+                        <span style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--purple)"><i class="fas fa-money-bill" style="margin-right:.3rem"></i>Payment</span>
+                        <div style="height:1px;flex:1;background:linear-gradient(to left,var(--border),transparent)"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Amount Paid (KSh)</label>
+                        <input type="number" name="amount_paid" class="form-control" placeholder="0" min="0" step="0.01" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Status <span style="color:var(--pink)">*</span></label>
+                        <select name="payment_status" class="form-control" required>
+                            <option value="unpaid">Unpaid</option>
+                            <option value="deposit">Deposit Paid</option>
+                            <option value="paid">Fully Paid</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Status <span style="color:var(--pink)">*</span></label>
+                        <select name="status" class="form-control" required>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="completed">Completed</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea name="notes" class="form-control" rows="2" placeholder="Any additional notes…"></textarea>
+                    </div>
+                </div>
+            </div>
+            {{-- Footer --}}
+            <div style="display:flex;justify-content:flex-end;gap:.75rem;padding:1rem 1.5rem;border-top:1.5px solid var(--border);background:#fafafa;border-radius:0 0 16px 16px">
+                <button type="button" onclick="closeModal('walkinModal')" class="btn btn-outline">Cancel</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save" style="margin-right:.35rem"></i> Save Walk-in</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+function openModal(id) { const m=document.getElementById(id); m.style.display='flex'; document.body.style.overflow='hidden'; }
+function closeModal(id) { const m=document.getElementById(id); m.style.display='none'; document.body.style.overflow=''; }
+document.getElementById('walkinModal').addEventListener('click', function(e){ if(e.target===this) closeModal('walkinModal'); });
+</script>
+@endpush
 @endsection

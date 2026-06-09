@@ -12,7 +12,7 @@ class Appointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'employee_id',
+        'source','amount_paid','served_by','employee_id',
         'assigned_by',
         'client_name',
         'client_phone',

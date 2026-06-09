@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Invoice;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -28,7 +29,8 @@ class SalesReportController extends Controller
 
         // ── Stats ─────────────────────────────────────────────────
         $stats = [
-            'total_revenue'  => (clone $paidInRange)->sum('total'),
+            'invoice_revenue'  => Invoice::whereBetween('invoice_date', [$from->toDateString(), $to->toDateString()])->where('status','paid')->sum('total'),
+            'total_revenue'  => (clone $paidInRange)->sum('total') + Invoice::whereBetween('invoice_date', [$from->toDateString(), $to->toDateString()])->where('status','paid')->sum('total'),
             'total_orders'   => (clone $ordersInRange)->count(),
             'paid_orders'    => (clone $paidInRange)->count(),
             'avg_order'      => (clone $paidInRange)->avg('total') ?? 0,

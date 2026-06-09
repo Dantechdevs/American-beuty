@@ -44,6 +44,49 @@ class AppointmentController extends Controller
         return view('admin.appointments.index', compact('appointments', 'stats', 'categories', 'employees'));
     }
 
+
+    // -- Store walk-in / manual appointment --------------------------
+    public function store(Request $request)
+    {
+        $request->validate([
+            "client_name"       => "required|string|max:150",
+            "client_phone"      => "nullable|string|max:20",
+            "service_name"      => "required|string|max:150",
+            "service_category"  => "nullable|string|max:100",
+            "service_price"     => "nullable|numeric|min:0",
+            "amount_paid"       => "nullable|numeric|min:0",
+            "appointment_date"  => "required|date",
+            "appointment_time"  => "required",
+            "payment_status"    => "required|in:unpaid,deposit,paid",
+            "status"            => "required|in:pending,confirmed,completed,cancelled",
+            "served_by"         => "nullable|exists:employees,id",
+            "notes"             => "nullable|string",
+        ]);
+
+        $appointment = Appointment::create([
+            "source"           => "walkin",
+            "client_name"      => $request->client_name,
+            "client_phone"     => $request->client_phone,
+            "client_email"     => null,
+            "service_name"     => $request->service_name,
+            "service_category" => $request->service_category,
+            "service_price"    => $request->service_price,
+            "amount_paid"      => $request->amount_paid ?? 0,
+            "appointment_date" => $request->appointment_date,
+            "appointment_time" => $request->appointment_time,
+            "payment_status"   => $request->payment_status,
+            "status"           => $request->status,
+            "served_by"        => $request->served_by,
+            "notes"            => $request->notes,
+            "confirmed_at"     => in_array($request->status, ["confirmed","completed"]) ? now() : null,
+            "completed_at"     => $request->status === "completed" ? now() : null,
+            "assigned_by"      => auth()->id(),
+        ]);
+
+        return redirect()->route("admin.appointments.show", $appointment)
+                         ->with("success", "Walk-in appointment recorded successfully.");
+    }
+
     // -- View single appointment --------------------------------------
     public function show(Appointment $appointment)
     {
