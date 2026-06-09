@@ -845,12 +845,15 @@ function processSale() {
             _token:         CSRF,
         }),
     })
-    .then(r => r.json())
-    .then(data => {
-        if (data.success) {
+    .then(r => r.json().then(data => ({ ok: r.ok, status: r.status, data })))
+    .then(({ ok, status, data }) => {
+        if (ok && data.success) {
             showSuccessModal(data);
         } else {
-            flashMsg(data.message || 'Sale failed', 'danger');
+            const msg = data.message || data.errors
+                ? (data.message || Object.values(data.errors)[0][0])
+                : 'Sale failed. Please try again.';
+            flashMsg(msg, 'danger');
             btn.disabled = false;
             btn.innerHTML = `<i class="fas fa-cash-register"></i> <span>Charge &nbsp;—&nbsp; <span id="chargeBtnTotal">KSh ${fmt(total)}</span></span>`;
         }
