@@ -250,6 +250,12 @@ class PosController extends Controller
                 'sale_date'      => $request->sale_date ?: now()->toDateString(),
                 'paid_at'        => $paymentStatus === 'paid' ? now() : null,
             ]);
+            // Apply backdate to created_at so reports reflect the correct date
+            if ($request->sale_date && $request->sale_date !== now()->toDateString()) {
+                $order->created_at = $request->sale_date . ' ' . now()->format('H:i:s');
+                $order->updated_at = $request->sale_date . ' ' . now()->format('H:i:s');
+                $order->saveQuietly();
+            }
 
             // ── Step 9: Attach order items ───────────────────────────────
             foreach ($orderItems as $item) {
