@@ -333,6 +333,13 @@
             <span class="sb-ico"><i class="fas fa-layer-group"></i></span>
             <span class="sb-txt">Categories</span>
         </a>
+        @can("categories.view")
+        <a href="{{ route('admin.services.index') }}"
+           class="sb-link {{ request()->routeIs('admin.services.*') ? 'active':'' }}">
+            <span class="sb-ico"><i class="fas fa-spa"></i></span>
+            <span class="sb-txt">Services</span>
+        </a>
+        @endcan
         @endcan
 
         @can('purchases.view')

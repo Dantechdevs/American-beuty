@@ -36,6 +36,7 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\InvoiceController;
+use App\Http\Controllers\Admin\ServiceController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -411,6 +412,26 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])     ->name('subscribers.destroy');
     });
 
+
+    // ── Services ──────────────────────────────────────────────
+    Route::middleware("permission:products.view")->group(function () {
+        Route::get("/services",                          [ServiceController::class, "index"])          ->name("services.index");
+        Route::get("/service-categories",                [ServiceController::class, "categories"])     ->name("services.categories");
+    });
+    Route::middleware("permission:products.create")->group(function () {
+        Route::post("/services",                         [ServiceController::class, "store"])          ->name("services.store");
+        Route::post("/service-categories",               [ServiceController::class, "categoryStore"])  ->name("services.categories.store");
+    });
+    Route::middleware("permission:products.edit")->group(function () {
+        Route::get("/services/{service}/edit",           [ServiceController::class, "edit"])           ->name("services.edit");
+        Route::put("/services/{service}",                [ServiceController::class, "update"])         ->name("services.update");
+        Route::put("/service-categories/{category}",    [ServiceController::class, "categoryUpdate"]) ->name("services.categories.update");
+    });
+    Route::middleware("permission:products.delete")->group(function () {
+        Route::delete("/services/{service}",             [ServiceController::class, "destroy"])        ->name("services.destroy");
+        Route::delete("/service-categories/{category}", [ServiceController::class, "categoryDestroy"])->name("services.categories.destroy");
+    });
+
     // ── Appointments & Bookings ───────────────────────────────
     Route::middleware('permission:appointments.view')->group(function () {
         Route::get('/bookings',                   [BookingController::class, 'index'])         ->name('bookings.index');
@@ -429,7 +450,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 // ─── Static info pages ───────────────────────────────────────
 Route::get('/faqs',            fn() => view('pages.faqs'))            ->name('faqs');
-Route::get('/services',        fn() => view('pages.services'))        ->name('services');
+Route::get('/services', [ServiceController::class, 'frontend'])->name('services');
 Route::get('/shipping-policy', fn() => view('pages.shipping-policy')) ->name('shipping-policy');
 Route::get('/returns-refunds', fn() => view('pages.returns-refunds')) ->name('returns-refunds');
 Route::get('/track-order',     fn() => view('pages.track-order'))     ->name('track-order');

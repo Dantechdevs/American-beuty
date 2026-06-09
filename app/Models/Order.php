@@ -18,6 +18,7 @@ class Order extends Model
         'address_line_1','address_line_2','city','county','country',
         'subtotal','shipping','discount','tax','total',
         'payment_method','payment_status','notes','paid_at',
+        'sale_date',
     ];
 
     protected $casts = [
@@ -27,9 +28,9 @@ class Order extends Model
         'tax'       => 'decimal:2',
         'total'     => 'decimal:2',
         'paid_at'   => 'datetime',
+        'sale_date' => 'date',
     ];
 
-    // -- Spatie Activity Log -------------------------------------------
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -39,7 +40,6 @@ class Order extends Model
             ->setDescriptionForEvent(fn(string $eventName) => "Order \"{$this->order_number}\" was {$eventName}");
     }
 
-    // -- Relationships -------------------------------------------------
     public function user()         { return $this->belongsTo(User::class); }
     public function items()        { return $this->hasMany(OrderItem::class); }
     public function coupon()       { return $this->belongsTo(Coupon::class); }
@@ -47,7 +47,6 @@ class Order extends Model
     public function transactions() { return $this->hasMany(Transaction::class); }
     public function servedBy()     { return $this->belongsTo(User::class, 'served_by'); }
 
-    // -- Helpers -------------------------------------------------------
     public function getFullNameAttribute(): string
     {
         return "{$this->first_name} {$this->last_name}";
@@ -71,6 +70,10 @@ class Order extends Model
         static::creating(function ($model) {
             if (empty($model->order_number)) {
                 $model->order_number = 'AB-' . strtoupper(Str::random(8));
+            }
+            // Default sale_date to today if not set
+            if (empty($model->sale_date)) {
+                $model->sale_date = now()->toDateString();
             }
         });
     }
