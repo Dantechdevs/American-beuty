@@ -112,6 +112,20 @@
             <div class="stat-label">POS Sales Today</div>
         </div>
     </div>
+    <div class="stat-card">
+        <div class="stat-icon green"><i class="fas fa-spa"></i></div>
+        <div>
+            <div class="stat-value">KSh {{ number_format($stats["appointment_revenue_today"] ?? 0, 0) }}</div>
+            <div class="stat-label">Services Today</div>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon purple"><i class="fas fa-file-invoice"></i></div>
+        <div>
+            <div class="stat-value">{{ $stats["appointments_today"] ?? 0 }}</div>
+            <div class="stat-label">Appointments Today</div>
+        </div>
+    </div>
 </div>
 
 {{-- ── Quick Actions ───────────────────────────────────────── --}}
@@ -127,6 +141,9 @@
     </a>
     <a href="{{ route('admin.products.create') }}" class="btn btn-outline">
         <i class="fas fa-plus"></i> &nbsp;Add Product
+    </a>
+    <a href="{{ route('admin.services.index') }}" class="btn btn-outline">
+        <i class="fas fa-spa"></i> &nbsp;Add Service
     </a>
 </div>
 

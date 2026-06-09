@@ -39,6 +39,12 @@ class DashboardController extends Controller
             'pos_orders_today' => Order::where('source', 'pos')
                                        ->whereDate('created_at', today())
                                        ->count(),
+            // ── Appointment Stats (today) ────────────────────────
+            'appointment_revenue_today' => Appointment::whereDate('appointment_date', today())
+                                               ->where('payment_status', 'paid')
+                                               ->sum('service_price'),
+            'appointments_today'        => Appointment::whereDate('appointment_date', today())
+                                               ->count(),
         ];
 
         // ── Recent Orders ────────────────────────────────────────
