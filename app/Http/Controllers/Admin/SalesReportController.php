@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Invoice;
+use App\Models\Appointment;
 use App\Models\OrderItem;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -29,8 +30,11 @@ class SalesReportController extends Controller
 
         // ── Stats ─────────────────────────────────────────────────
         $stats = [
-            'invoice_revenue'  => Invoice::whereBetween('invoice_date', [$from->toDateString(), $to->toDateString()])->where('status','paid')->sum('total'),
-            'total_revenue'  => (clone $paidInRange)->sum('total') + Invoice::whereBetween('invoice_date', [$from->toDateString(), $to->toDateString()])->where('status','paid')->sum('total'),
+            'invoice_revenue'     => Invoice::whereBetween('invoice_date', [$from->toDateString(), $to->toDateString()])->where('status','paid')->sum('total'),
+            'appointment_revenue' => Appointment::whereBetween('appointment_date', [$from->toDateString(), $to->toDateString()])->where('payment_status','paid')->sum('service_price'),
+            'total_revenue'       => (clone $paidInRange)->sum('total')
+                                   + Invoice::whereBetween('invoice_date', [$from->toDateString(), $to->toDateString()])->where('status','paid')->sum('total')
+                                   + Appointment::whereBetween('appointment_date', [$from->toDateString(), $to->toDateString()])->where('payment_status','paid')->sum('service_price'),
             'total_orders'   => (clone $ordersInRange)->count(),
             'paid_orders'    => (clone $paidInRange)->count(),
             'avg_order'      => (clone $paidInRange)->avg('total') ?? 0,

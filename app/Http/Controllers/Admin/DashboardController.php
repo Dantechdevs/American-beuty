@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\MpesaTransaction;
+use App\Models\Invoice;
+use App\Models\Appointment;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -16,7 +18,9 @@ class DashboardController extends Controller
         // ── Core Stats (your original columns preserved) ─────────
         $stats = [
             'total_orders'     => Order::count(),
-            'total_revenue'    => Order::where('payment_status', 'paid')->sum('total'),
+            'total_revenue'    => Order::where('payment_status', 'paid')->sum('total')
+                                   + Invoice::where('status', 'paid')->sum('total')
+                                   + Appointment::where('payment_status', 'paid')->sum('service_price'),
             'total_customers'  => User::where('role', 'customer')->count(),
             'total_products'   => Product::where('is_active', true)->count(),
             'pending_orders'   => Order::where('status', 'pending')->count(),
@@ -28,7 +32,10 @@ class DashboardController extends Controller
             'pos_revenue'      => Order::where('source', 'pos')
                                        ->whereDate('created_at', today())
                                        ->where('payment_status', 'paid')
-                                       ->sum('total'),
+                                       ->sum('total')
+                                   + Appointment::whereDate('appointment_date', today())
+                                       ->where('payment_status', 'paid')
+                                       ->sum('service_price'),
             'pos_orders_today' => Order::where('source', 'pos')
                                        ->whereDate('created_at', today())
                                        ->count(),
