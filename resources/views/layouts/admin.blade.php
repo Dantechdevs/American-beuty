@@ -416,11 +416,11 @@
         </a>
 
         {{-- ── Invoices (new) ── --}}
-        <a href="{{ route('admin.orders.index') }}"
+        <a href="{{ route('admin.invoices.index') }}"
            class="sb-link {{ request()->routeIs('admin.invoices.*') || request()->routeIs('admin.orders.invoice*') ? 'active':'' }}">
             <span class="sb-ico"><i class="fas fa-file-invoice"></i></span>
             <span class="sb-txt">Invoices</span>
-            @php $invoiceCount = \App\Models\Order::count(); @endphp
+            @php $invoiceCount = \App\Models\Invoice::count(); @endphp
             @if($invoiceCount > 0)
                 <span class="sb-badge">{{ $invoiceCount }}</span>
             @endif

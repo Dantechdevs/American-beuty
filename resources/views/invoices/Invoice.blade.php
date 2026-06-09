@@ -445,6 +445,7 @@
 @if(!isset($isPdf))
 <div class="print-bar no-print">
     <a href="{{ $backUrl }}" class="btn-back">&#8592; Back</a>
+    <a href="{{ route('admin.orders.show', $order->id) }}" class="btn-back" style="background:#e8f0fe;color:#1a56db;border-color:#c7d7f9">&#9998; Edit Order</a>
     <button class="btn-print" onclick="window.print()">&#128438; Print</button>
     <a href="{{ $pdfUrl }}" class="btn-print" style="background:#c8102e">&#8659; Download PDF</a>
 </div>

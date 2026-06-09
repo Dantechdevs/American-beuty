@@ -36,6 +36,7 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\AppointmentController as AdminAppointmentController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\InvoiceController;
+use App\Models\Invoice;
 use App\Http\Controllers\Admin\ServiceController;
 
 use Illuminate\Support\Facades\Route;
@@ -430,6 +431,21 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::middleware("permission:products.delete")->group(function () {
         Route::delete("/services/{service}",             [ServiceController::class, "destroy"])        ->name("services.destroy");
         Route::delete("/service-categories/{category}", [ServiceController::class, "categoryDestroy"])->name("services.categories.destroy");
+    });
+
+
+    // ── Standalone Invoices ───────────────────────────────────
+    Route::middleware("permission:orders.view")->group(function () {
+        Route::get("/invoices",                    [InvoiceController::class, "index"])   ->name("invoices.index");
+        Route::get("/invoices/create",             [InvoiceController::class, "create"])  ->name("invoices.create");
+        Route::post("/invoices",                   [InvoiceController::class, "store"])   ->name("invoices.store");
+        Route::get("/invoices/{invoice}",          [InvoiceController::class, "show"])    ->name("invoices.show");
+        Route::get("/invoices/{invoice}/edit",     [InvoiceController::class, "edit"])    ->name("invoices.edit");
+        Route::put("/invoices/{invoice}",          [InvoiceController::class, "update"])  ->name("invoices.update");
+        Route::delete("/invoices/{invoice}",       [InvoiceController::class, "destroy"]) ->name("invoices.destroy");
+        Route::get("/invoices/{invoice}/print",    [InvoiceController::class, "print"])   ->name("invoices.print");
+        Route::get("/invoices/{invoice}/pdf",      [InvoiceController::class, "pdf"])     ->name("invoices.pdf");
+        Route::patch("/invoices/{invoice}/paid",   [InvoiceController::class, "markPaid"])->name("invoices.paid");
     });
 
     // ── Appointments & Bookings ───────────────────────────────
