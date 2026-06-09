@@ -17,7 +17,7 @@ class Order extends Model
         'first_name','last_name','email','phone',
         'address_line_1','address_line_2','city','county','country',
         'subtotal','shipping','discount','tax','total',
-        'payment_method','payment_status','notes','paid_at',
+        'payment_method','payment_status','notes','paid_at','employee_id',
         'sale_date',
     ];
 

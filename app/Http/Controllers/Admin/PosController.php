@@ -234,7 +234,8 @@ class PosController extends Controller
             $order = Order::create([
                 'user_id'        => $userId,
                 'source'         => 'pos',
-                'served_by'      => $request->served_by ?: null,
+                'served_by'      => Auth::id(),
+                'employee_id'    => $request->served_by ?: null,
                 'first_name'     => $firstName,
                 'last_name'      => $lastName,
                 'phone'          => $rawPhone ?: null,
