@@ -28,6 +28,9 @@
     <a href="{{ route('book.index') }}" target="_blank" class="btn btn-outline btn-sm">
         <i class="fas fa-arrow-up-right-from-square"></i> View Booking Page
     </a>
+    <button onclick="openModal('walkinModal')" class="btn btn-primary btn-sm">
+        <i class="fas fa-person-walking-arrow-right"></i> Add Walk-in
+    </button>
 </div>
 
 {{-- Stats --}}
