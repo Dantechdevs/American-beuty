@@ -112,6 +112,7 @@ class PosController extends Controller
             'discount'       => 'nullable|numeric|min:0|max:999999',
             'mpesa_code'     => 'required_if:payment_method,mpesa|nullable|string|max:20',
             'sale_date'      => 'nullable|date',
+            'served_by'      => 'nullable|exists:employees,id',
         ], [
             'customer_phone.required_if' => 'Customer phone number is required for M-Pesa payment.',
             'mpesa_code.required_if'     => 'M-Pesa transaction code is required.',
@@ -233,7 +234,7 @@ class PosController extends Controller
             $order = Order::create([
                 'user_id'        => $userId,
                 'source'         => 'pos',
-                'served_by'      => Auth::id(),
+                'served_by'      => $request->served_by ?: null,
                 'first_name'     => $firstName,
                 'last_name'      => $lastName,
                 'phone'          => $rawPhone ?: null,

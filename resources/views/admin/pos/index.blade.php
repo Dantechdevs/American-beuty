@@ -524,6 +524,21 @@
                 <span style="font-size:.72rem;color:var(--muted);white-space:nowrap">Sale Date</span>
             </div>
         </div>
+        {{-- Served By --}}
+        <div class="pos-customer" style="margin-top:.5rem">
+            <div class="pos-customer-row" style="align-items:center;gap:.5rem">
+                <div style="display:flex;align-items:center;gap:.4rem;flex:1;background:#f8f7ff;border:1.5px solid var(--border);border-radius:9px;padding:.45rem .75rem">
+                    <i class="fas fa-user-tie" style="color:var(--purple);font-size:.85rem"></i>
+                    <select id="servedBy" class="pos-input" style="border:none;background:transparent;padding:0;font-size:.85rem;color:var(--text);width:100%;outline:none">
+                        <option value="">Served by…</option>
+                        @foreach(\App\Models\Employee::where("is_active",true)->orderBy("name")->get() as $emp)
+                        <option value="{{ $emp->id }}">{{ $emp->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <span style="font-size:.72rem;color:var(--muted);white-space:nowrap">Staff</span>
+            </div>
+        </div>
         {{-- Cart items --}}
         <div class="pos-cart-items" id="cartItems">
             <div class="pos-cart-empty" id="cartEmpty">
@@ -842,6 +857,7 @@ function processSale() {
             discount:       parseFloat(document.getElementById('discountInput').value) || 0,
             mpesa_code:     document.getElementById('mpesaCode').value,
             sale_date:      document.getElementById('saleDate').value,
+            served_by:      document.getElementById('servedBy').value,
             _token:         CSRF,
         }),
     })

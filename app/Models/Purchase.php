@@ -14,7 +14,7 @@ class Purchase extends Model
     use SoftDeletes, LogsActivity;
 
     protected $fillable = [
-        'invoice_no', 'supplier_id', 'created_by', 'purchase_date',
+        'invoice_no', 'supplier_id', 'created_by', 'served_by', 'purchase_date',
         'payment_time', 'payment_status', 'total_amount', 'paid_amount', 'notes',
     ];
 
@@ -36,6 +36,7 @@ class Purchase extends Model
     }
 
     // -- Relationships -------------------------------------------------
+    public function servedBy() { return $this->belongsTo(\App\Models\Employee::class, 'served_by'); }
     public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
