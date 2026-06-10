@@ -105,15 +105,15 @@
         <table>
             <thead>
                 <tr>
-                    <th>#ID</th>
+                    <th>#</th>
                     <th>Customer</th>
-                    <th>Order</th>
-                    <th>Gateway</th>
-                    <th>Transaction Ref</th>
+                    <th>Reference</th>
+                    <th>Source</th>
+                    <th>Method</th>
+                    <th>M-PESA Code</th>
                     <th>Amount</th>
                     <th>Status</th>
                     <th>Date</th>
-                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
