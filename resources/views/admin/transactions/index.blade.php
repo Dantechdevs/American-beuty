@@ -90,7 +90,7 @@
             <button type="submit" class="btn btn-outline btn-sm">
                 <i class="fas fa-search"></i> Filter
             </button>
-            @if(request()->hasAny(['search','gateway','status','date_from','date_to']))
+            @if(request()->hasAny(['search','source','method_filter','status','date_from','date_to']))
                 <a href="{{ route('admin.transactions.index') }}" class="btn btn-outline btn-sm">
                     <i class="fas fa-xmark"></i> Clear
                 </a>
@@ -117,50 +117,51 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($transactions as $transaction)
+                @forelse($transactions as $txn)
                 <tr>
-                    <td style="font-size:.82rem;color:var(--muted);font-weight:600">
-                        #{{ $transaction->id }}
+                    <td style="font-size:.8rem;color:var(--muted);font-weight:600">{{ $txn->id }}</td>
+                    <td>
+                        <div style="font-weight:600;font-size:.87rem">{{ $txn->customer_name }}</div>
+                        <div style="font-size:.75rem;color:var(--muted)">{{ $txn->customer_phone !== "—" ? $txn->customer_phone : $txn->customer_email }}</div>
                     </td>
                     <td>
-                        @php $user = optional($transaction->order)->user @endphp
-                        @if($user)
-                            <div style="font-weight:600;font-size:.87rem">{{ $user->name }}</div>
-                            <div style="font-size:.76rem;color:var(--muted)">{{ $user->email }}</div>
+                        @if($txn->reference_link)
+                            <a href="{{ $txn->reference_link }}" style="color:var(--purple);font-weight:600;font-size:.83rem;text-decoration:none">{{ $txn->reference }}</a>
                         @else
-                            <span style="color:var(--muted);font-size:.84rem">—</span>
-                        @endif
-                    </td>
-                    <td>
-                        @if($transaction->order)
-                            <a href="{{ route('admin.orders.show', $transaction->order) }}"
-                               style="font-size:.83rem;color:var(--purple);font-weight:600;text-decoration:none">
-                                #{{ $transaction->order->order_number ?? $transaction->order_id }}
-                            </a>
-                        @else
-                            <span style="color:var(--muted);font-size:.83rem">—</span>
+                            <span style="font-size:.83rem">{{ $txn->reference }}</span>
                         @endif
                     </td>
                     <td>
                         @php
-                            $gatewayMap = [
-                                'mpesa'            => ['icon' => 'fa-mobile-screen-button', 'color' => 'var(--green)',  'label' => 'M-Pesa'],
-                                'card'             => ['icon' => 'fa-credit-card',           'color' => 'var(--purple)', 'label' => 'Card'],
-                                'cash_on_delivery' => ['icon' => 'fa-money-bill',            'color' => 'var(--tango)', 'label' => 'Cash on Delivery'],
+                            $srcMap = [
+                                "gateway"     => ["icon"=>"fa-globe",       "color"=>"var(--purple)", "label"=>"Gateway"],
+                                "order"       => ["icon"=>"fa-shopping-bag","color"=>"#2563eb",       "label"=>"Order"],
+                                "appointment" => ["icon"=>"fa-spa",         "color"=>"#db2777",       "label"=>"Appointment"],
                             ];
-                            $gw = $gatewayMap[$transaction->gateway] ?? ['icon' => 'fa-circle-question', 'color' => 'var(--muted)', 'label' => ucfirst($transaction->gateway)];
+                            $src = $srcMap[$txn->row_type] ?? ["icon"=>"fa-circle","color"=>"var(--muted)","label"=>ucfirst($txn->row_type)];
                         @endphp
-                        <span style="display:flex;align-items:center;gap:.4rem;font-size:.84rem;font-weight:600;color:{{ $gw['color'] }}">
-                            <i class="fas {{ $gw['icon'] }}"></i> {{ $gw['label'] }}
+                        <span style="display:flex;align-items:center;gap:.35rem;font-size:.82rem;font-weight:600;color:{{ $src['color'] }}">
+                            <i class="fas {{ $src['icon'] }}"></i> {{ $src['label'] }}
                         </span>
                     </td>
                     <td>
-                        @if($transaction->transaction_id)
+                        @php
+                            $methodMap = [
+                                "mpesa"            => ["icon"=>"fa-mobile-screen-button","color"=>"var(--green)", "label"=>"M-PESA"],
+                                "cash"             => ["icon"=>"fa-money-bill",          "color"=>"var(--tango)","label"=>"Cash"],
+                                "cash_on_delivery" => ["icon"=>"fa-money-bill",          "color"=>"var(--tango)","label"=>"Cash on Delivery"],
+                            ];
+                            $mt = $methodMap[$txn->method] ?? ["icon"=>"fa-circle-question","color"=>"var(--muted)","label"=>ucfirst($txn->method ?? "")];
+                        @endphp
+                        <span style="display:flex;align-items:center;gap:.35rem;font-size:.82rem;font-weight:600;color:{{ $mt['color'] }}">
+                            <i class="fas {{ $mt['icon'] }}"></i> {{ $mt['label'] }}
+                        </span>
+                    </td>
+                    <td>
+                        @if($txn->txn_code)
                             <div style="display:flex;align-items:center;gap:.4rem">
-                                <span style="font-family:monospace;font-size:.82rem;color:var(--text);background:var(--purple-soft);padding:.2rem .55rem;border-radius:5px">
-                                    {{ $transaction->transaction_id }}
-                                </span>
-                                <button onclick="navigator.clipboard.writeText('{{ $transaction->transaction_id }}').then(()=>showToast('Copied!'))"
+                                <span style="font-family:monospace;font-size:.82rem;background:var(--purple-soft);padding:.2rem .55rem;border-radius:5px">{{ $txn->txn_code }}</span>
+                                <button onclick="navigator.clipboard.writeText('{{ $txn->txn_code }}').then(()=>showToast('Copied!'))"
                                     class="btn btn-outline btn-sm" style="padding:.2rem .45rem" title="Copy">
                                     <i class="fas fa-copy" style="font-size:.68rem"></i>
                                 </button>
@@ -169,38 +170,14 @@
                             <span style="color:var(--muted);font-size:.83rem">—</span>
                         @endif
                     </td>
-                    <td style="font-weight:700;color:var(--green);font-size:.9rem">
-                        {{ $transaction->currency }} {{ number_format($transaction->amount, 2) }}
-                    </td>
+                    <td style="font-weight:700;color:var(--green);font-size:.9rem">KSh {{ number_format($txn->amount, 0) }}</td>
                     <td>
-                        @php
-                            $statusMap = [
-                                'success' => 'badge-success',
-                                'pending' => 'badge-warning',
-                                'failed'  => 'badge-danger',
-                            ];
-                        @endphp
-                        <span class="badge {{ $statusMap[$transaction->status] ?? 'badge-info' }}">
-                            {{ ucfirst($transaction->status) }}
-                        </span>
+                        @php $statusMap = ["success"=>"badge-success","pending"=>"badge-warning","failed"=>"badge-danger"]; @endphp
+                        <span class="badge {{ $statusMap[$txn->status] ?? 'badge-info' }}">{{ ucfirst($txn->status) }}</span>
                     </td>
                     <td style="font-size:.82rem;color:var(--muted)">
-                        {{ $transaction->created_at->format('d M Y') }}<br>
-                        <span style="font-size:.76rem">{{ $transaction->created_at->format('H:i') }}</span>
-                    </td>
-                    <td>
-                        <div style="display:flex;gap:.4rem;align-items:center">
-                            {{-- View --}}
-                            <button onclick="viewTransaction({{ $transaction->id }})"
-                                class="btn btn-outline btn-sm" title="View details">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            {{-- Status Update --}}
-                            <button onclick="openStatusModal({{ $transaction->id }}, '{{ $transaction->status }}')"
-                                class="btn btn-outline btn-sm" title="Update status">
-                                <i class="fas fa-pen"></i>
-                            </button>
-                        </div>
+                        {{ $txn->date?->format("d M Y") }}<br>
+                        <span style="font-size:.76rem">{{ $txn->date?->format("H:i") }}</span>
                     </td>
                 </tr>
                 @empty
