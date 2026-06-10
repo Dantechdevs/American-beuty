@@ -147,6 +147,68 @@
     </a>
 </div>
 
+{{-- ── Appointments Summary ──────────────────────────────────── --}}
+<div class="card" style="margin-bottom:1.5rem">
+    <div class="card-header" style="flex-wrap:wrap;gap:.5rem">
+        <h3><i class="fas fa-spa" style="color:var(--purple)"></i> Appointments</h3>
+        <div style="display:flex;gap:.4rem;flex-wrap:wrap;align-items:center">
+            @foreach(['today'=>'Today','weekly'=>'This Week','monthly'=>'This Month','yearly'=>'This Year'] as $val=>$label)
+                <a href="{{ route('admin.reports.appointments', ['period'=>$val]) }}"
+                   style="padding:.3rem .75rem;border:1.5px solid var(--border);border-radius:20px;font-size:.75rem;font-weight:600;text-decoration:none;color:var(--muted);background:#fff;transition:all .15s"
+                   onmouseover="this.style.background='var(--purple)';this.style.color='#fff'"
+                   onmouseout="this.style.background='#fff';this.style.color='var(--muted)'">{{ $label }}</a>
+            @endforeach
+            <a href="{{ route('admin.reports.appointments') }}" class="btn btn-outline btn-sm">Full Report</a>
+        </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;padding:1.25rem">
+        <div style="text-align:center;padding:.75rem;background:#faf7ff;border-radius:var(--r)">
+            <div style="font-size:1.6rem;font-weight:800;color:var(--purple)">{{ $appointmentStats['total'] }}</div>
+            <div style="font-size:.75rem;color:var(--muted);font-weight:600">Total</div>
+        </div>
+        <div style="text-align:center;padding:.75rem;background:#f0fdf4;border-radius:var(--r)">
+            <div style="font-size:1.6rem;font-weight:800;color:#16a34a">{{ $appointmentStats['confirmed'] }}</div>
+            <div style="font-size:.75rem;color:var(--muted);font-weight:600">Confirmed</div>
+        </div>
+        <div style="text-align:center;padding:.75rem;background:#fef3c7;border-radius:var(--r)">
+            <div style="font-size:1.6rem;font-weight:800;color:#d97706">{{ $appointmentStats['pending'] }}</div>
+            <div style="font-size:.75rem;color:var(--muted);font-weight:600">Pending</div>
+        </div>
+        <div style="text-align:center;padding:.75rem;background:#eff6ff;border-radius:var(--r)">
+            <div style="font-size:1.6rem;font-weight:800;color:#2563eb">KSh {{ number_format($appointmentStats['revenue'], 0) }}</div>
+            <div style="font-size:.75rem;color:var(--muted);font-weight:600">Revenue</div>
+        </div>
+    </div>
+    @if($recentAppointments->count())
+    <div style="padding:0 1.25rem 1.25rem">
+        <table style="width:100%;border-collapse:collapse;font-size:.82rem">
+            <thead>
+                <tr style="background:#faf7ff;border-bottom:1.5px solid var(--border)">
+                    <th style="padding:.5rem 1rem;text-align:left;font-size:.69rem;color:var(--muted);text-transform:uppercase">Client</th>
+                    <th style="padding:.5rem 1rem;text-align:left;font-size:.69rem;color:var(--muted);text-transform:uppercase">Service</th>
+                    <th style="padding:.5rem 1rem;text-align:left;font-size:.69rem;color:var(--muted);text-transform:uppercase">Date</th>
+                    <th style="padding:.5rem 1rem;text-align:left;font-size:.69rem;color:var(--muted);text-transform:uppercase">Price</th>
+                    <th style="padding:.5rem 1rem;text-align:left;font-size:.69rem;color:var(--muted);text-transform:uppercase">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach($recentAppointments as $a)
+            <tr style="border-bottom:1px solid #f3eeff">
+                <td style="padding:.65rem 1rem;font-weight:600">{{ $a->client_name }}<br><small style="color:var(--muted);font-weight:400">{{ $a->client_phone }}</small></td>
+                <td style="padding:.65rem 1rem">{{ $a->service_name }}</td>
+                <td style="padding:.65rem 1rem">{{ $a->appointment_date->format('M d, Y') }}<br><small style="color:var(--muted)">{{ $a->appointment_time }}</small></td>
+                <td style="padding:.65rem 1rem">KSh {{ number_format($a->service_price, 0) }}</td>
+                <td style="padding:.65rem 1rem">
+                    @php $cls = match($a->status){'confirmed'=>'background:#d1fae5;color:#065f46','completed'=>'background:var(--purple-soft);color:var(--purple)','cancelled'=>'background:#fee2e2;color:#991b1b',default=>'background:#fef3c7;color:#92400e'}; @endphp
+                    <span style="padding:.2rem .6rem;border-radius:20px;font-size:.72rem;font-weight:700;{{ $cls }}">{{ ucfirst($a->status) }}</span>
+                </td>
+            </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+    @endif
+</div>
 {{-- ── Main Content Grid ───────────────────────────────────── --}}
 <div style="display:grid;grid-template-columns:1fr 340px;gap:1.5rem;align-items:start">
 

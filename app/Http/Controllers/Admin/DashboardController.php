@@ -47,6 +47,14 @@ class DashboardController extends Controller
                                                ->count(),
         ];
 
+        // ── Appointment Summary ──────────────────────────────────
+        $appointmentStats = [
+            'total'     => \App\Models\Appointment::count(),
+            'confirmed' => \App\Models\Appointment::where('status', 'confirmed')->count(),
+            'pending'   => \App\Models\Appointment::where('status', 'pending')->count(),
+            'revenue'   => \App\Models\Appointment::where('payment_status', 'paid')->sum('service_price'),
+        ];
+        $recentAppointments = \App\Models\Appointment::orderByDesc('appointment_date')->orderByDesc('appointment_time')->limit(5)->get();
         // ── Recent Orders ────────────────────────────────────────
         $recentOrders = Order::with('user')->latest()->take(10)->get();
 
@@ -84,7 +92,9 @@ class DashboardController extends Controller
             'monthlySales',
             'recentMpesa',
             'recentPosOrders',
-            'lowStockProducts'
+            'lowStockProducts',
+            'appointmentStats',
+            'recentAppointments'
         ));
     }
 }
